@@ -24,7 +24,7 @@ public class ConnectionPool {
     private static String password;
     private static int poolStartSize;
     private static int poolMaxSize;
-    private static final BlockingQueue<Connection> connections = new ArrayBlockingQueue<>(poolMaxSize);
+    private static BlockingQueue<Connection> connections = null;
 
     private ConnectionPool() {
 
@@ -42,6 +42,7 @@ public class ConnectionPool {
         password = props.getProperty("jdbc.password");
         poolStartSize = Integer.parseInt(props.getProperty("pool.start.size"));
         poolMaxSize = Integer.parseInt(props.getProperty("pool.max.size"));
+        connections = new ArrayBlockingQueue<>(poolMaxSize);
 
         logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);

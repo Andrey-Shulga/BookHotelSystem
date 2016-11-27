@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebListener;
 public class ConnectionPoolListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+
         ConnectionPool.getInstance();
     }
 
