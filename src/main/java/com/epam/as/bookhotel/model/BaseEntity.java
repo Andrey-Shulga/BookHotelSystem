@@ -2,9 +2,14 @@ package com.epam.as.bookhotel.model;
 
 
 public class BaseEntity {
+
     private Integer id;
 
-    public BaseEntity() {
+    BaseEntity() {
+    }
+
+    BaseEntity(Integer id) {
+        this.id = id;
     }
 
     public Integer getId() {

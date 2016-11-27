@@ -43,7 +43,6 @@ public class ConnectionPool {
         poolStartSize = Integer.parseInt(props.getProperty("pool.start.size"));
         poolMaxSize = Integer.parseInt(props.getProperty("pool.max.size"));
 
-
         logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
