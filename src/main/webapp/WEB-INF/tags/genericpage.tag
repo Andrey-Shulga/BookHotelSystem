@@ -8,6 +8,7 @@
 <head>
     <title>
         <jsp:invoke fragment="title"/>
+        EPAM Hotel Deluxe & SPA
     </title>
 
     <style>
@@ -62,6 +63,7 @@
 
 <div id="header">
     <jsp:invoke fragment="header"/>
+    <h1>Welcome to EPAM Hotel!</h1>
 </div>
 
 <div id="sidebar">
@@ -74,8 +76,8 @@
 
 <div id="footer">
     <jsp:invoke fragment="footer"/>
+    <p id="copyright">&copy; Copyright 2016-2017. Andrey Shulga.</p>
 </div>
-
 
 </body>
 </html>
