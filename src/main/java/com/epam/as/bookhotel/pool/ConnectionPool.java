@@ -35,8 +35,13 @@ public class ConnectionPool {
             logger.error("Can't open file {} for reading properties of database.", e.getMessage());
         }
 
+
         String drivers = props.getProperty("jdbc.drivers");
-        if (drivers != null) System.setProperty("jdbc.drivers", drivers);
+        try {
+            Class.forName(drivers);
+        } catch (ClassNotFoundException e) {
+            logger.error("Could not load class of JDBC driver!", e.getMessage());
+        }
         url = props.getProperty("jdbc.url");
         username = props.getProperty("jdbc.username");
         password = props.getProperty("jdbc.password");
