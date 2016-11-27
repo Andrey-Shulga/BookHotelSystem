@@ -1,0 +1,32 @@
+ALTER TABLE "User" DROP CONSTRAINT IF EXISTS "User_fk0";
+
+ALTER TABLE "Order" DROP CONSTRAINT IF EXISTS "Order_fk0";
+
+ALTER TABLE "Room" DROP CONSTRAINT IF EXISTS "Room_fk0";
+
+ALTER TABLE "Room" DROP CONSTRAINT IF EXISTS "Room_fk1";
+
+ALTER TABLE "Room_photo" DROP CONSTRAINT IF EXISTS "Room_photo_fk0";
+
+ALTER TABLE "Room_photo" DROP CONSTRAINT IF EXISTS "Room_photo_fk1";
+
+ALTER TABLE "Confirmation_order" DROP CONSTRAINT IF EXISTS "Confirmation_order_fk0";
+
+ALTER TABLE "Confirmation_order" DROP CONSTRAINT IF EXISTS "Confirmation_order_fk1";
+
+DROP TABLE IF EXISTS "User_role";
+
+DROP TABLE IF EXISTS "User";
+
+DROP TABLE IF EXISTS "Order";
+
+DROP TABLE IF EXISTS "Room";
+
+DROP TABLE IF EXISTS "Room_type";
+
+DROP TABLE IF EXISTS "Room_bed";
+
+DROP TABLE IF EXISTS "Room_photo";
+
+DROP TABLE IF EXISTS "Confirmation_order";
+

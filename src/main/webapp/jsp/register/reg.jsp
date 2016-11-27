@@ -15,7 +15,7 @@
     <jsp:attribute name="footer"/>
 
     <jsp:body>
-        <p>Please register. After registration you can make a book order.</p>
+        <p>Dear Guest, please register. After registration you can make a book order.</p>
         <p>Registration form:</p>
         <form action="" method="post">
             <label><b>Username:</b></label>
