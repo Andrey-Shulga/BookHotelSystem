@@ -17,7 +17,7 @@
     <jsp:body>
         <p>Dear Guest, please register. After registration you can make a book order.</p>
         <p>Registration form:</p>
-        <form action="" method="post">
+        <form action="/do/register" method="post">
             <label><b>Username:</b></label>
             <input type="text" id="username" placeholder="Enter username" value="" required> (in range 3-12 symbols)<br><br>
             <label><b>Password:</b></label>

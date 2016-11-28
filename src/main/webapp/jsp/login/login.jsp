@@ -17,7 +17,7 @@
     <jsp:body>
         <p>Please login:</p>
 
-        <form action="" method="post">
+        <form action="/do/login" method="post">
             <label><b>Username:</b></label>
             <input type="text" id="username" placeholder="Enter username" value="" required> <br><br>
             <label><b>Password:</b></label>
