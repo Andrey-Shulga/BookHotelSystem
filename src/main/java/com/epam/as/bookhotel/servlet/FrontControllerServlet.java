@@ -12,6 +12,7 @@ import java.io.IOException;
 @WebServlet(name = "FrontControllerServlet", urlPatterns = "/do/*")
 @MultipartConfig
 public class FrontControllerServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);

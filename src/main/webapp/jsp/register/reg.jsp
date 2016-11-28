@@ -18,11 +18,12 @@
         <p>Dear Guest, please register. After registration you can make a book order.</p>
         <p>Registration form:</p>
         <form action="/do/register" method="post">
-            <label><b>Username:</b></label>
-            <input type="text" id="username" placeholder="Enter username" value="" required> (in range 3-12 symbols)<br><br>
-            <label><b>Password:</b></label>
-            <input type="password" id="password" value="" placeholder="Enter password" required> (in range 6-16 symbols)<br><br>
-            <label><b>Password again:</b></label>
+            <label><b>Login:</b></label><br>
+            <input type="text" id="username" placeholder="Enter login" value="" required> (in range 3-12
+            symbols)<br><br>
+            <label><b>Password:</b></label><br>
+            <input type="password" id="password" value="" placeholder="Enter password" required> (in range 6-16 symbols)<br>
+            <label><b>Password again:</b></label><br>
             <input type="password" value="" placeholder="Reenter password"><br><br>
             <input type="submit" value="Register">
         </form>
