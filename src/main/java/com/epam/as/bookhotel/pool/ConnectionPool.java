@@ -119,7 +119,7 @@ public class ConnectionPool {
     }
 
     private static class InstanceHolder {
-        final static ConnectionPool instance = new ConnectionPool();
+        static final ConnectionPool instance = new ConnectionPool();
     }
 
 

@@ -1,6 +1,8 @@
 package com.epam.as.bookhotel.servlet;
 
 
+import com.epam.as.bookhotel.action.ActionFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,13 @@ import java.io.IOException;
 @WebServlet(name = "FrontControllerServlet", urlPatterns = "/do/*")
 @MultipartConfig
 public class FrontControllerServlet extends HttpServlet {
+
+    ActionFactory actionFactory;
+
+    @Override
+    public void init() throws ServletException {
+        actionFactory = new ActionFactory();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
