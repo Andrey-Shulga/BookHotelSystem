@@ -16,9 +16,15 @@
         <postgresql.version>9.4.1212.jre7</postgresql.version>
         <javax.version>7.0</javax.version>
 
+
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.12</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -61,6 +67,7 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
 
     </dependencies>
 

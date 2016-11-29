@@ -2,21 +2,22 @@ package com.epam.as.bookhotel.action;
 
 
 import com.epam.as.bookhotel.exception.ActionException;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.util.PropertyManager;
 
 import java.util.Map;
 
 public class ActionFactory {
 
-    private static final String actionPropertyFileName = "action.properties";
+    private static final String actionPropertyFileName = "action.properties1";
     private Map<String, String> actionMap;
 
 
-    public ActionFactory() {
+    public ActionFactory() throws PropertyManagerException {
         loadActions();
     }
 
-    private void loadActions() {
+    private void loadActions() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(actionPropertyFileName);
         actionMap = propertyManager.getPropertiesAsMap();
     }

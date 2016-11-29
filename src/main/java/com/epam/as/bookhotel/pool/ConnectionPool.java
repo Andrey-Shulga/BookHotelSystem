@@ -1,6 +1,8 @@
 package com.epam.as.bookhotel.pool;
 
 
+import com.epam.as.bookhotel.exception.ConnectionPoolException;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,7 @@ public class ConnectionPool {
     private static long pollConnectionTimeout;
     private static BlockingQueue<Connection> connections = null;
 
-    public ConnectionPool() {
+    public ConnectionPool() throws ConnectionPoolException, PropertyManagerException {
 
         poolConfigure();
 
@@ -39,18 +41,20 @@ public class ConnectionPool {
         logger.debug("Initial connection pool with {} connections was created.", connections.size());
     }
 
-    private static Connection getNewConnection(String url, String username, String password) {
+    private static Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
 
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            logger.error("Can't get new connection from database. " + e.getMessage());
+
+            throw new ConnectionPoolException(e);
         }
         connectionCount++;
         logger.debug("The current number of connections = {}", connectionCount);
         return connection;
     }
+
 
     static void putConnectionToPool(Connection returnedConnection) {
         if (returnedConnection != null) {
@@ -59,18 +63,18 @@ public class ConnectionPool {
         }
     }
 
-    public static void close() {
+    public static void close() throws ConnectionPoolException {
         for (Connection con : connections)
             try {
                 if (!con.isClosed())
                     con.close();
             } catch (SQLException e) {
-                logger.debug("Error with database access occur. " + e.getMessage());
+                throw new ConnectionPoolException(e);
             }
         logger.debug("Connection pool was closed.");
     }
 
-    public synchronized Connection getConnection() {
+    public synchronized Connection getConnection() throws ConnectionPoolException {
 
         Connection connection = null;
         logger.debug("Thread trying to take connection from pool...");
@@ -88,19 +92,21 @@ public class ConnectionPool {
             try {
                 connection = connections.poll(pollConnectionTimeout, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
-                logger.error("Interrupted while waiting new connection from Connection pool. " + e.getMessage());
+
+                throw new ConnectionPoolException(e);
             }
         }
         return connection;
     }
 
-    private void poolConfigure() {
+    private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(dbPropertyFileName);
         String drivers = propertyManager.getProperty("jdbc.drivers");
         try {
             Class.forName(drivers);
         } catch (ClassNotFoundException e) {
-            logger.error("Could not load class of JDBC driver!", e.getMessage());
+
+            throw new ConnectionPoolException(e);
         }
         url = propertyManager.getProperty("jdbc.url");
         username = propertyManager.getProperty("jdbc.username");

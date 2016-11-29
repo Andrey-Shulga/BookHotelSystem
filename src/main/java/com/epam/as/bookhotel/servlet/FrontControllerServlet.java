@@ -2,6 +2,9 @@ package com.epam.as.bookhotel.servlet;
 
 
 import com.epam.as.bookhotel.action.ActionFactory;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -15,11 +18,16 @@ import java.io.IOException;
 @MultipartConfig
 public class FrontControllerServlet extends HttpServlet {
 
+    private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
     ActionFactory actionFactory;
 
     @Override
     public void init() throws ServletException {
-        actionFactory = new ActionFactory();
+        try {
+            actionFactory = new ActionFactory();
+        } catch (PropertyManagerException e) {
+            logger.error("Can't open file {} for reading properties.", e);
+        }
     }
 
     @Override

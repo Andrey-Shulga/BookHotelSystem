@@ -1,6 +1,7 @@
 package com.epam.as.bookhotel.util;
 
 
+import com.epam.as.bookhotel.exception.PropertyManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +17,15 @@ public class PropertyManager {
     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);
     private Properties properties;
 
-    public PropertyManager(String propertyFileName) {
+    public PropertyManager(String propertyFileName) throws PropertyManagerException {
 
         properties = new Properties();
         try (InputStream in = PropertyManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
             properties.load(in);
         } catch (IOException e) {
             logger.error("Can't open file {} for reading properties.", e);
+            throw new PropertyManagerException(e);
+
         }
     }
 
@@ -39,7 +42,6 @@ public class PropertyManager {
             String value = properties.getProperty(key);
             propertyMap.put(key, value);
         }
-
         return propertyMap;
     }
 }
