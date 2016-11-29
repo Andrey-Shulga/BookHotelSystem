@@ -1,6 +1,7 @@
 package com.epam.as.bookhotel.listener;
 
 
+import com.epam.as.bookhotel.dao.jdbc.JdbcDaoFactory;
 import com.epam.as.bookhotel.pool.ConnectionPool;
 
 import javax.servlet.ServletContextEvent;
@@ -13,6 +14,8 @@ public class ConnectionPoolListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         ConnectionPool pool = new ConnectionPool();
+        JdbcDaoFactory.setPool(pool);
+
     }
 
     @Override

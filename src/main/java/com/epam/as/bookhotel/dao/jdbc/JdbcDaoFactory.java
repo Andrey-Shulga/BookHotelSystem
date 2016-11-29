@@ -7,13 +7,15 @@ import com.epam.as.bookhotel.pool.ConnectionPool;
 
 public class JdbcDaoFactory extends DaoFactory {
 
-    public JdbcDaoFactory() {
-    }
+    private static ConnectionPool pool;
 
+    public static void setPool(ConnectionPool pool) {
+        JdbcDaoFactory.pool = pool;
+    }
 
     @Override
     public UserDao getUserDao() {
-        return new JdbcUserDao(ConnectionPool.getConnection());
+        return new JdbcUserDao(pool.getConnection());
     }
 
     @Override

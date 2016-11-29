@@ -52,7 +52,25 @@ public class ConnectionPool {
         return connection;
     }
 
-    public static synchronized Connection getConnection() {
+    static void putConnectionToPool(Connection returnedConnection) {
+        if (returnedConnection != null) {
+            connections.offer(returnedConnection);
+            logger.debug("Thread return connection back to pool, now total connections in pool = {}", connections.size());
+        }
+    }
+
+    public static void close() {
+        for (Connection con : connections)
+            try {
+                if (!con.isClosed())
+                    con.close();
+            } catch (SQLException e) {
+                logger.debug("Error with database access occur. " + e.getMessage());
+            }
+        logger.debug("Connection pool was closed.");
+    }
+
+    public synchronized Connection getConnection() {
 
         Connection connection = null;
         logger.debug("Thread trying to take connection from pool...");
@@ -74,24 +92,6 @@ public class ConnectionPool {
             }
         }
         return connection;
-    }
-
-    static void putConnectionToPool(Connection returnedConnection) {
-        if (returnedConnection != null) {
-            connections.offer(returnedConnection);
-            logger.debug("Thread return connection back to pool, now total connections in pool = {}", connections.size());
-        }
-    }
-
-    public static void close() {
-        for (Connection con : connections)
-            try {
-                if (!con.isClosed())
-                    con.close();
-            } catch (SQLException e) {
-                logger.debug("Error with database access occur. " + e.getMessage());
-            }
-        logger.debug("Connection pool was closed.");
     }
 
     private void poolConfigure() {
