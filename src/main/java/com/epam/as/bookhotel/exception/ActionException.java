@@ -1,14 +1,15 @@
-package com.epam.as.bookhotel.action;
+package com.epam.as.bookhotel.exception;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class ActionException extends Throwable {
+public class ActionException extends Exception {
 
     private static final Logger logger = LoggerFactory.getLogger(ActionException.class);
 
-    ActionException(ReflectiveOperationException e) {
+    public ActionException(ReflectiveOperationException e) {
         logger.error("Reflection operation exceptions with ActionFactory occurred", e);
     }
+
 }
