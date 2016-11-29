@@ -12,7 +12,7 @@ public class ConnectionPoolListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        ConnectionPool.getInstance();
+        ConnectionPool pool = new ConnectionPool();
     }
 
     @Override
