@@ -19,9 +19,9 @@
 
         <form action="/do/login" method="post">
             <label><b>Username:</b></label>
-            <input type="text" id="username" placeholder="Enter username" value="" required> <br><br>
+            <input type="text" name="login" placeholder="Enter username" value="" required autofocus> <br><br>
             <label><b>Password:</b></label>
-            <input type="password" id="password" value="" placeholder="Enter password" required><br><br>
+            <input type="password" name="password" value="" placeholder="Enter password" required><br><br>
             <input type="submit" value="Login">
         </form>
     </jsp:body>

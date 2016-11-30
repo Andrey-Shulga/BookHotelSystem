@@ -1,12 +1,12 @@
 package com.epam.as.bookhotel.validator;
 
 
-public class RangeValidator {
+public class LengthValidator {
 
     private int minLength;
     private int maxLength;
 
-    public RangeValidator() {
+    public LengthValidator() {
     }
 
     public int getMinLength() {
