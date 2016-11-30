@@ -20,9 +20,10 @@ public class ConnectionPoolListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        ConnectionPool pool = null;
+        ConnectionPool pool = new ConnectionPool();
+
         try {
-            pool = new ConnectionPool();
+            pool.fillPool();
         } catch (ConnectionPoolException e) {
             logger.error("Connection pool creating error occurred", e);
         } catch (PropertyManagerException e) {

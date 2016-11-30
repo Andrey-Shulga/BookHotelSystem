@@ -25,11 +25,14 @@ public class FrontControllerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        try {
+
             actionFactory = new ActionFactory();
+        try {
+            actionFactory.loadActions();
         } catch (PropertyManagerException e) {
             logger.error("Can't open file {} for reading properties.", e);
         }
+
     }
 
 

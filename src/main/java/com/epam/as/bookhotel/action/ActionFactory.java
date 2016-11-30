@@ -12,13 +12,9 @@ public class ActionFactory {
     private static final String actionPropertyFileName = "action.properties";
     private Map<String, String> actionMap;
 
-
-    public ActionFactory() throws PropertyManagerException {
-        loadActions();
-    }
-
-    private void loadActions() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(actionPropertyFileName);
+    public void loadActions() throws PropertyManagerException {
+        PropertyManager propertyManager = new PropertyManager();
+        propertyManager.loadPropertyFromFile(actionPropertyFileName);
         actionMap = propertyManager.getPropertiesAsMap();
     }
 

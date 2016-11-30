@@ -17,16 +17,15 @@ public class PropertyManager {
     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);
     private Properties properties;
 
-    public PropertyManager(String propertyFileName) throws PropertyManagerException {
-
+    public void loadPropertyFromFile(String propertyFileName) throws PropertyManagerException {
         properties = new Properties();
         try (InputStream in = PropertyManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
             properties.load(in);
         } catch (IOException e) {
-            logger.error("Can't open file {} for reading properties.", e);
-            throw new PropertyManagerException(e);
 
+            throw new PropertyManagerException(e);
         }
+
     }
 
     public String getProperty(String key) {

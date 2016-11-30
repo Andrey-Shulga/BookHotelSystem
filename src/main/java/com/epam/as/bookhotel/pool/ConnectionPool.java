@@ -25,21 +25,7 @@ public class ConnectionPool {
     private static int poolStartSize;
     private static int poolMaxSize;
     private static long pollConnectionTimeout;
-    private static BlockingQueue<Connection> connections = null;
-
-    public ConnectionPool() throws ConnectionPoolException, PropertyManagerException {
-
-        poolConfigure();
-
-        //logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
-        logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
-        for (int i = 0; i < poolStartSize; i++) {
-            Connection connection = getNewConnection(url, username, password);
-            if (connection != null)
-                connections.offer(connection);
-        }
-        logger.debug("Initial connection pool with {} connections was created.", connections.size());
-    }
+    private static BlockingQueue<Connection> connections;
 
     private static Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
 
@@ -99,8 +85,23 @@ public class ConnectionPool {
         return connection;
     }
 
+    public void fillPool() throws ConnectionPoolException, PropertyManagerException {
+
+        poolConfigure();
+
+        //logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
+        logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
+        for (int i = 0; i < poolStartSize; i++) {
+            Connection connection = getNewConnection(url, username, password);
+            if (connection != null)
+                connections.offer(connection);
+        }
+        logger.debug("Initial connection pool with {} connections was created.", connections.size());
+    }
+
     private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(dbPropertyFileName);
+        PropertyManager propertyManager = new PropertyManager();
+        propertyManager.loadPropertyFromFile(dbPropertyFileName);
         String drivers = propertyManager.getProperty("jdbc.drivers");
         try {
             Class.forName(drivers);
@@ -116,9 +117,6 @@ public class ConnectionPool {
         pollConnectionTimeout = Long.parseLong(propertyManager.getProperty("pool.pollconnection.timeout"));
         connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
-
-
-
 
 }
 
