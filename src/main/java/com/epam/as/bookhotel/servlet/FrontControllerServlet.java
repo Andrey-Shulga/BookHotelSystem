@@ -19,7 +19,7 @@ import java.io.IOException;
 public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
-    ActionFactory actionFactory;
+    private ActionFactory actionFactory;
 
     @Override
     public void init() throws ServletException {
@@ -42,6 +42,11 @@ public class FrontControllerServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.service(req, resp);
+        String actionName = getActionName(req);
+        logger.debug(actionName);
+    }
+
+    private String getActionName(HttpServletRequest req) {
+        return req.getParameter("register");
     }
 }

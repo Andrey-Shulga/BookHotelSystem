@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ActionFactory {
 
-    private static final String actionPropertyFileName = "action.properties1";
+    private static final String actionPropertyFileName = "action.properties";
     private Map<String, String> actionMap;
 
 
@@ -23,7 +23,7 @@ public class ActionFactory {
     }
 
     public Action getAction(String actionName) throws ActionException {
-        Action action = null;
+        Action action;
         String actionClassName = actionMap.get(actionName);
         try {
             Class actionClass = Class.forName(actionClassName);

@@ -31,8 +31,8 @@ public class ConnectionPool {
 
         poolConfigure();
 
-        logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
-        logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
+        //logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
+        //logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
             Connection connection = getNewConnection(url, username, password);
             if (connection != null)
@@ -43,7 +43,7 @@ public class ConnectionPool {
 
     private static Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
 
-        Connection connection = null;
+        Connection connection;
         try {
             connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class ConnectionPool {
 
     public synchronized Connection getConnection() throws ConnectionPoolException {
 
-        Connection connection = null;
+        Connection connection;
         logger.debug("Thread trying to take connection from pool...");
 
         if (connectionCount < poolMaxSize) {
