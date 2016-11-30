@@ -32,15 +32,6 @@ public class FrontControllerServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,10 +45,21 @@ public class FrontControllerServlet extends HttpServlet {
         if (action != null) {
             String view = action.execute(req, resp);
         }
-        logger.debug(actionName);
+        logger.debug("Received request: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
+
     }
 
     private String getActionName(HttpServletRequest req) {
         return req.getParameter("command");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
     }
 }

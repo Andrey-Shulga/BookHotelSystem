@@ -32,7 +32,7 @@ public class ConnectionPool {
         poolConfigure();
 
         //logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
-        //logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
+        logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
             Connection connection = getNewConnection(url, username, password);
             if (connection != null)
@@ -51,7 +51,7 @@ public class ConnectionPool {
             throw new ConnectionPoolException(e);
         }
         connectionCount++;
-        logger.debug("The current number of connections = {}", connectionCount);
+        //logger.debug("The current number of connections = {}", connectionCount);
         return connection;
     }
 
