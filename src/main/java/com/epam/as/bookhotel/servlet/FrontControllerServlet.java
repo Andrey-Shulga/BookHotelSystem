@@ -32,28 +32,18 @@ public class FrontControllerServlet extends HttpServlet {
         } catch (PropertyManagerException e) {
             logger.error("PropertyManagerException occurred", e);
         }
-
     }
-
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String actionName = getActionName(req);
-        Action action = null;
         try {
-            action = actionFactory.getAction(actionName);
-        } catch (ActionException e) {
-            logger.error("Reflection operation exceptions with ActionFactory occurred", e);
+            Action action = actionFactory.getAction(actionName);
+            String view = action.execute(req, resp);
+            logger.debug("Received request: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
+        } catch (ActionException | PropertyManagerException e) {
+            logger.error("ActionException or PropertyManagerException occurred", e);
         }
-        if (action != null) {
-            try {
-                String view = action.execute(req, resp);
-            } catch (PropertyManagerException e) {
-                logger.error("PropertyManagerException occurred", e);
-            }
-        }
-        logger.debug("Received request: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
-
     }
 
     private String getActionName(HttpServletRequest req) {
