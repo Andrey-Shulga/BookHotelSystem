@@ -8,7 +8,11 @@ public class PropertyManagerException extends Throwable {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyManagerException.class);
 
-    public PropertyManagerException(Exception e) {
-        logger.error("Can't open file {} for reading properties.", e);
+    public PropertyManagerException(String message) {
+        super(message);
+    }
+
+    public PropertyManagerException(Exception e, String propertyFileName) {
+        logger.error("Unable to open file {} for reading properties.", e, propertyFileName);
     }
 }

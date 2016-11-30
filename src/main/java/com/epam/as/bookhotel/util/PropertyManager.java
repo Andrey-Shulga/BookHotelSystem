@@ -15,7 +15,22 @@ import java.util.Properties;
 public class PropertyManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);
-    private Properties properties;
+    private static PropertyManager instance;
+    private static Properties properties;
+
+    public static PropertyManager getInstance() {
+        if (instance == null) {
+            instance = new PropertyManager();
+        }
+        return instance;
+    }
+
+    public static String getProperty(String key) throws PropertyManagerException {
+        if (properties == null) {
+            throw new PropertyManagerException("Properties were not loaded from file. Use loadPropertyFromFile() method");
+        }
+        return properties.getProperty(key);
+    }
 
     public void loadPropertyFromFile(String propertyFileName) throws PropertyManagerException {
         properties = new Properties();
@@ -23,18 +38,17 @@ public class PropertyManager {
             properties.load(in);
         } catch (IOException e) {
 
-            throw new PropertyManagerException(e);
+            throw new PropertyManagerException(e, propertyFileName);
         }
 
     }
 
-    public String getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
-    public Map<String, String> getPropertiesAsMap() {
+    public Map<String, String> getPropertiesAsMap() throws PropertyManagerException {
 
         Map<String, String> propertyMap = new HashMap<>();
+        if (properties == null) {
+            throw new PropertyManagerException("Properties were not loaded from file. Use loadPropertyFromFile() method");
+        }
         Enumeration<?> propertyNames = properties.propertyNames();
         while (propertyNames.hasMoreElements()) {
             String key = (String) propertyNames.nextElement();

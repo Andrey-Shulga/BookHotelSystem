@@ -30,7 +30,7 @@ public class FrontControllerServlet extends HttpServlet {
         try {
             actionFactory.loadActions();
         } catch (PropertyManagerException e) {
-            logger.error("Can't open file {} for reading properties.", e);
+            logger.error("PropertyManagerException occurred", e);
         }
 
     }
@@ -46,7 +46,11 @@ public class FrontControllerServlet extends HttpServlet {
             logger.error("Reflection operation exceptions with ActionFactory occurred", e);
         }
         if (action != null) {
-            String view = action.execute(req, resp);
+            try {
+                String view = action.execute(req, resp);
+            } catch (PropertyManagerException e) {
+                logger.error("PropertyManagerException occurred", e);
+            }
         }
         logger.debug("Received request: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
 

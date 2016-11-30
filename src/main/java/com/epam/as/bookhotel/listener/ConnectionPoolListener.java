@@ -20,16 +20,16 @@ public class ConnectionPoolListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        ConnectionPool pool = new ConnectionPool();
-
         try {
-            pool.fillPool();
+            ConnectionPool.getInstance().fillPool();
         } catch (ConnectionPoolException e) {
-            logger.error("Connection pool creating error occurred", e);
+            logger.error("ConnectionPoolException occurred", e);
         } catch (PropertyManagerException e) {
-            logger.error("Can't open file {} for reading properties.", e);
+            logger.error("PropertyManagerException occurred", e);
         }
-        JdbcDaoFactory.setPool(pool);
+        JdbcDaoFactory.setPool(ConnectionPool.getInstance());
+
+
 
     }
 
@@ -38,7 +38,7 @@ public class ConnectionPoolListener implements ServletContextListener {
         try {
             ConnectionPool.close();
         } catch (ConnectionPoolException e) {
-            logger.error("Connection pool creating error occurred", e);
+            logger.error("ConnectionPoolException occurred", e);
         }
 
     }

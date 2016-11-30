@@ -18,6 +18,7 @@ public class ConnectionPool {
 
     private static final String dbPropertyFileName = "database.properties";
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
+    private static ConnectionPool instance;
     private static int connectionCount = 0;
     private static String url;
     private static String username;
@@ -26,6 +27,17 @@ public class ConnectionPool {
     private static int poolMaxSize;
     private static long pollConnectionTimeout;
     private static BlockingQueue<Connection> connections;
+
+    private ConnectionPool() {
+    }
+
+    public static ConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new ConnectionPool();
+        }
+        return instance;
+    }
+
 
     private static Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
 
@@ -100,21 +112,20 @@ public class ConnectionPool {
     }
 
     private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager();
-        propertyManager.loadPropertyFromFile(dbPropertyFileName);
-        String drivers = propertyManager.getProperty("jdbc.drivers");
+        PropertyManager.getInstance().loadPropertyFromFile(dbPropertyFileName);
+        String drivers = PropertyManager.getProperty("jdbc.drivers");
         try {
             Class.forName(drivers);
         } catch (ClassNotFoundException e) {
 
             throw new ConnectionPoolException(e);
         }
-        url = propertyManager.getProperty("jdbc.url");
-        username = propertyManager.getProperty("jdbc.username");
-        password = propertyManager.getProperty("jdbc.password");
-        poolStartSize = Integer.parseInt(propertyManager.getProperty("pool.start.size"));
-        poolMaxSize = Integer.parseInt(propertyManager.getProperty("pool.max.size"));
-        pollConnectionTimeout = Long.parseLong(propertyManager.getProperty("pool.pollconnection.timeout"));
+        url = PropertyManager.getProperty("jdbc.url");
+        username = PropertyManager.getProperty("jdbc.username");
+        password = PropertyManager.getProperty("jdbc.password");
+        poolStartSize = Integer.parseInt(PropertyManager.getProperty("pool.start.size"));
+        poolMaxSize = Integer.parseInt(PropertyManager.getProperty("pool.max.size"));
+        pollConnectionTimeout = Long.parseLong(PropertyManager.getProperty("pool.pollconnection.timeout"));
         connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
 
