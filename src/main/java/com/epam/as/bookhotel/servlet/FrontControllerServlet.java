@@ -1,7 +1,9 @@
 package com.epam.as.bookhotel.servlet;
 
 
+import com.epam.as.bookhotel.action.Action;
 import com.epam.as.bookhotel.action.ActionFactory;
+import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +45,19 @@ public class FrontControllerServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String actionName = getActionName(req);
+        Action action = null;
+        try {
+            action = actionFactory.getAction(actionName);
+        } catch (ActionException e) {
+            logger.error("Reflection operation exceptions with ActionFactory occurred", e);
+        }
+        if (action != null) {
+            String view = action.execute(req, resp);
+        }
         logger.debug(actionName);
     }
 
     private String getActionName(HttpServletRequest req) {
-        return req.getParameter("register");
+        return req.getParameter("command");
     }
 }

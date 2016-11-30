@@ -18,7 +18,7 @@
         <p>Dear Guest, please register. After registration you can make a book order.</p>
         <p>Registration form:</p>
         <form name="registerForm" action="/do/register" method="post">
-            <input type="hidden" name="register" value="register"/>
+            <input type="hidden" name="command" value="register"/>
             <label><b>Login:</b></label><br>
             <input type="text" id="username" placeholder="Enter login" value="" required> (in range 3-12
             symbols)<br><br>

@@ -1,12 +1,12 @@
 package com.epam.as.bookhotel.action;
 
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 public class RegisterAction implements Action {
     @Override
-    public String execute(HttpRequest req, HttpResponse res) {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         return null;
     }
 }
