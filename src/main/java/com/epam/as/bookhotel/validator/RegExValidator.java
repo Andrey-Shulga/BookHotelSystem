@@ -20,4 +20,11 @@ public class RegExValidator extends ParentValidator implements Validator {
     public Boolean isValid(String parameter) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "RegExValidator{" +
+                "regEx='" + regEx + '\'' +
+                '}';
+    }
 }

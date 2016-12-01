@@ -43,23 +43,13 @@ public class FormValidator {
         while (attributeNames.hasMoreElements()) {
             String fieldName = attributeNames.nextElement();
             String value = request.getParameter(fieldName);
-            logger.debug("From form \"{}\" received parameter \"{}\" with value \"{}\"", formName, fieldName, value);
             String formFieldName = formName + propertyKeyDot + fieldName;
             if (!fieldName.equals(formActionName)) {
+                logger.debug("From form \"{}\" received parameter \"{}\" with value \"{}\"", formName, fieldName, value);
                 validators = getValidators(formFieldName);
                 fieldValidators.put(fieldName, validators);
             }
 
-        }
-        logger.debug("Size ={}", fieldValidators.size());
-        for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
-            String key = entry.getKey();
-            logger.debug("Validate field: {}", key);
-            List<Validator> fieldValidators = entry.getValue();
-            for (Validator validator : fieldValidators) {
-                logger.debug("Validator {}", validator.getClass().getSimpleName());
-                logger.debug(validator.toString());
-            }
         }
         return null;
     }
@@ -78,7 +68,6 @@ public class FormValidator {
             }
         }
         return validators;
-
     }
 
     private Validator getValidator(String validatorNumberName, String formFiledName, String validatorName) throws ValidatorException {
@@ -91,6 +80,7 @@ public class FormValidator {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new ValidatorException(e);
         }
+        logger.debug("Validate using validator: {}", validator.toString());
         return validator;
 
     }
