@@ -3,6 +3,13 @@ package com.epam.as.bookhotel.validator;
 
 public interface Validator {
 
-    String validate(String parameter);
+
+    Boolean isValid(String parameter);
+
+    String getMessage();
+
+    void setMessage(String msg);
+
+
 
 }

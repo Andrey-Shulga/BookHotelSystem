@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.action.Action;
 import com.epam.as.bookhotel.action.ActionFactory;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,10 +40,10 @@ public class FrontControllerServlet extends HttpServlet {
         String actionName = getActionName(req);
         try {
             Action action = actionFactory.getAction(actionName);
+            logger.debug("Received request with command: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
             String view = action.execute(req, resp);
-            logger.debug("Received request: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
-        } catch (ActionException | PropertyManagerException e) {
-            logger.error("ActionException or PropertyManagerException occurred", e);
+        } catch (ActionException | PropertyManagerException | ValidatorException e) {
+            logger.error("ActionException or PropertyManagerException or ValidatorException occurred", e);
         }
     }
 

@@ -14,7 +14,7 @@ public class ActionFactory {
 
     public void loadActions() throws PropertyManagerException {
         PropertyManager.getInstance().loadPropertyFromFile(actionPropertyFileName);
-        actionProperties = PropertyManager.getInstance().getPropertiesMap();
+        actionProperties = PropertyManager.getInstance().getProperties();
     }
 
     public Action getAction(String actionName) throws ActionException {

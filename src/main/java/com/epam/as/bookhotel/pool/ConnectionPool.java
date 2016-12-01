@@ -114,7 +114,7 @@ public class ConnectionPool {
 
     private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
         PropertyManager.getInstance().loadPropertyFromFile(dbPropertyFileName);
-        Properties properties = PropertyManager.getInstance().getPropertiesMap();
+        Properties properties = PropertyManager.getInstance().getProperties();
 
         String drivers = properties.getProperty("jdbc.drivers");
 

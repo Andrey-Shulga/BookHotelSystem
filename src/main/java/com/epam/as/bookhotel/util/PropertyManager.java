@@ -40,7 +40,7 @@ public class PropertyManager {
 
     }
 
-    public Properties getPropertiesMap() throws PropertyManagerException {
+    public Properties getProperties() throws PropertyManagerException {
 
         return properties;
     }

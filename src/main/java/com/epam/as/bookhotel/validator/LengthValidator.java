@@ -1,27 +1,41 @@
 package com.epam.as.bookhotel.validator;
 
 
-public class LengthValidator {
+public class LengthValidator extends ParentValidator implements Validator {
 
-    private int minLength;
-    private int maxLength;
+    private Integer minLength;
+    private Integer maxLength;
+
 
     public LengthValidator() {
     }
 
-    public int getMinLength() {
+    public Integer getMinLength() {
         return minLength;
     }
 
-    public void setMinLength(int minLength) {
+    public void setMinLength(Integer minLength) {
         this.minLength = minLength;
     }
 
-    public int getMaxLength() {
+    public Integer getMaxLength() {
         return maxLength;
     }
 
-    public void setMaxLength(int maxLength) {
+    public void setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;
+    }
+
+    @Override
+    public Boolean isValid(String parameter) {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "LengthValidator{" +
+                "minLength=" + minLength +
+                ", maxLength=" + maxLength +
+                '}';
     }
 }
