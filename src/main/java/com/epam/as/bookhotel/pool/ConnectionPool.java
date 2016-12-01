@@ -19,7 +19,6 @@ public class ConnectionPool {
 
     private static final String dbPropertyFileName = "database.properties";
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
-    private static ConnectionPool instance;
     private static int connectionCount = 0;
     private static String url;
     private static String username;
@@ -33,10 +32,7 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (instance == null) {
-            instance = new ConnectionPool();
-        }
-        return instance;
+        return ConectionPoolHolder.instance;
     }
 
 
@@ -102,7 +98,7 @@ public class ConnectionPool {
 
         poolConfigure();
 
-        //logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
+        logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
             Connection connection = getNewConnection(url, username, password);
@@ -133,5 +129,8 @@ public class ConnectionPool {
         connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
 
+    private static class ConectionPoolHolder {
+        private static final ConnectionPool instance = new ConnectionPool();
+    }
 }
 
