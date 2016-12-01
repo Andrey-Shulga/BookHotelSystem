@@ -17,7 +17,7 @@ public class RegisterAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException {
 
         FormValidator registerFormValidator = new FormValidator();
-        String message = registerFormValidator.validate(formName, req);
-        return null;
+        return registerFormValidator.validate(formName, req);
     }
 }
+

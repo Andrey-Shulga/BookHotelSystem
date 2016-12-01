@@ -3,17 +3,17 @@ package com.epam.as.bookhotel.validator;
 
 public class RegExValidator extends ParentValidator implements Validator {
 
-    private String regEx;
+    private String regex;
 
     public RegExValidator() {
     }
 
-    public String getRegEx() {
-        return regEx;
+    public String getRegex() {
+        return regex;
     }
 
-    public void setRegEx(String regEx) {
-        this.regEx = regEx;
+    public void setRegex(String regex) {
+        this.regex = regex;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class RegExValidator extends ParentValidator implements Validator {
     @Override
     public String toString() {
         return "RegExValidator{" +
-                "regEx='" + regEx + '\'' +
+                "regex='" + regex + '\'' +
                 '}';
     }
 }

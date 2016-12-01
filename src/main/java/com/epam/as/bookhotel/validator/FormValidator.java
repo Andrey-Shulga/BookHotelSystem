@@ -18,10 +18,10 @@ import java.util.*;
 public class FormValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(FormValidator.class);
-    private static final String formPropertyFileName = "forms.properties";
-    private static final String propertyKeyDot = ".";
-    private static final String formActionName = "command";
-    private static final String regexNumber = "[0-9]*";
+    private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
+    private static final String PROPERTY_KEY_DOT = ".";
+    private static final String FORM_ACTION_NAME = "command";
+    private static final String REGEX_NUMBER = "[0-9]*";
     private static Map<String, List<Validator>> fieldValidators = new HashMap<>();
     private static Properties formProperties;
 
@@ -32,7 +32,7 @@ public class FormValidator {
     }
 
     private void loadFormProperties() throws PropertyManagerException {
-        PropertyManager.getInstance().loadPropertyFromFile(formPropertyFileName);
+        PropertyManager.getInstance().loadPropertyFromFile(FORM_PROPERTY_FILE_NAME);
         formProperties = PropertyManager.getInstance().getProperties();
     }
 
@@ -43,8 +43,8 @@ public class FormValidator {
         while (attributeNames.hasMoreElements()) {
             String fieldName = attributeNames.nextElement();
             String value = request.getParameter(fieldName);
-            String formFieldName = formName + propertyKeyDot + fieldName;
-            if (!fieldName.equals(formActionName)) {
+            String formFieldName = formName + PROPERTY_KEY_DOT + fieldName;
+            if (!fieldName.equals(FORM_ACTION_NAME)) {
                 logger.debug("From form \"{}\" received parameter \"{}\" with value \"{}\"", formName, fieldName, value);
                 validators = getValidators(formFieldName);
                 fieldValidators.put(fieldName, validators);
@@ -55,14 +55,14 @@ public class FormValidator {
     }
 
     private List<Validator> getValidators(String formFieldName) throws ValidatorException {
-        final int defineValidatorNumber = 1;
+        final int DEFINE_VALIDATOR_NUMBER = 1;
         List<Validator> validators = new ArrayList<>();
         Validator validator;
         for (Map.Entry<?, ?> property : formProperties.entrySet()) {
             String key = (String) property.getKey();
             String value = (String) property.getValue();
-            String validatorNameNumber = key.substring(key.length() - defineValidatorNumber, key.length());
-            if (validatorNameNumber.matches(regexNumber)) {
+            String validatorNameNumber = key.substring(key.length() - DEFINE_VALIDATOR_NUMBER, key.length());
+            if ((key.startsWith(formFieldName)) && (validatorNameNumber.matches(REGEX_NUMBER))) {
                 validator = getValidator(validatorNameNumber, formFieldName, value);
                 validators.add(validator);
             }
@@ -89,10 +89,10 @@ public class FormValidator {
         for (Map.Entry<?, ?> property : formProperties.entrySet()) {
             String key = (String) property.getKey();
             String value = (String) property.getValue();
-            if (key.startsWith(formFiledName + propertyKeyDot + validatorNumberName)) {
+            if (key.startsWith(formFiledName + PROPERTY_KEY_DOT + validatorNumberName + PROPERTY_KEY_DOT)) {
                 try {
                     Object valueObject = parseValue(value);
-                    String keyFieldName = formFiledName + propertyKeyDot + validatorNumberName + propertyKeyDot;
+                    String keyFieldName = formFiledName + PROPERTY_KEY_DOT + validatorNumberName + PROPERTY_KEY_DOT;
                     String filedValidatorName = key.substring(keyFieldName.length(), key.length());
                     BeanInfo beanInfo = Introspector.getBeanInfo(validatorClass);
                     PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
@@ -112,7 +112,7 @@ public class FormValidator {
 
     private Object parseValue(String value) {
 
-        if (value.matches(regexNumber)) return new Integer(value);
+        if (value.matches(REGEX_NUMBER)) return new Integer(value);
         return value;
     }
 }
