@@ -20,7 +20,6 @@ public class FormValidator {
     private static final Logger logger = LoggerFactory.getLogger(FormValidator.class);
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
-    private static final String FORM_ACTION_NAME = "command";
     private static final String REGEX_NUMBER = "[0-9]*";
     private static Map<String, List<Validator>> fieldValidators = new HashMap<>();
     private static Properties formProperties;
@@ -44,12 +43,9 @@ public class FormValidator {
             String fieldName = attributeNames.nextElement();
             String value = request.getParameter(fieldName);
             String formFieldName = formName + PROPERTY_KEY_DOT + fieldName;
-            if (!fieldName.equals(FORM_ACTION_NAME)) {
-                logger.debug("From form \"{}\" received parameter \"{}\" with value \"{}\"", formName, fieldName, value);
-                validators = getValidators(formFieldName);
-                fieldValidators.put(fieldName, validators);
-            }
-
+            logger.debug("From form \"{}\" received parameter \"{}\" with value \"{}\"", formName, fieldName, value);
+            validators = getValidators(formFieldName);
+            if (!validators.isEmpty()) fieldValidators.put(fieldName, validators);
         }
         return null;
     }
@@ -111,7 +107,6 @@ public class FormValidator {
     }
 
     private Object parseValue(String value) {
-
         if (value.matches(REGEX_NUMBER)) return new Integer(value);
         return value;
     }
