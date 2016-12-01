@@ -41,9 +41,9 @@ public class FormValidator {
             String key = entry.getKey();
             String value = request.getParameter(key);
             for (Validator validator : entry.getValue()) {
-                if (!validator.isValid(value)) {
+                //if (!validator.isValid(value)) {
                     fieldErrors.put(key, validator.getMessage());
-                }
+                //}
             }
         }
         return fieldErrors;
@@ -57,7 +57,7 @@ public class FormValidator {
             String fieldName = attributeNames.nextElement();
             String value = request.getParameter(fieldName);
             String formFieldName = formName + PROPERTY_KEY_DOT + fieldName;
-            logger.debug("From form \"{}\" received parameter \"{}\" with value \"{}\"", formName, fieldName, value);
+            logger.debug("From form received parameter \"{}\" with value \"{}\"", fieldName, value);
             validators = getValidators(formFieldName);
             if (!validators.isEmpty()) fieldValidators.put(fieldName, validators);
         }

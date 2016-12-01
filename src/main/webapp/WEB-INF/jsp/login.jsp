@@ -5,10 +5,7 @@
 
     <jsp:attribute name="title"/>
 
-    <jsp:attribute name="sidebar">
-        <p><a href="/jsp/login/login.jsp">Login</a></p>
-        <p><a href="/jsp/register/reg.jsp">Registration</a></p>
-    </jsp:attribute>
+    <jsp:attribute name="sidebar"/>
 
     <jsp:attribute name="header"/>
 
@@ -17,7 +14,7 @@
     <jsp:body>
         <p>Please login:</p>
 
-        <form action="/do/login" method="post">
+        <form action="/do/?action=login" method="post">
             <label><b>Username:</b></label>
             <input type="text" name="login" placeholder="Enter username" value="" required autofocus> <br><br>
             <label><b>Password:</b></label>

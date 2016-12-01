@@ -1,8 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@tag description="Overall Page template" pageEncoding="UTF-8" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="sidebar" fragment="true" %>
 <%@attribute name="title" fragment="true" %>
+<c:set var="prefix" value="${pageContext.request.contextPath}"/>
 
 <html>
 <head>
@@ -68,6 +71,9 @@
 
 <div id="sidebar">
     <jsp:invoke fragment="sidebar"/>
+    <p><a href="${prefix}/do/?action=show-index">Main</a></p>
+    <p><a href="${prefix}/do/?action=show-register-form">Register</a></p>
+    <p><a href="${prefix}/do/?action=show-login-form">Login</a></p>
 </div>
 
 <div id="content">

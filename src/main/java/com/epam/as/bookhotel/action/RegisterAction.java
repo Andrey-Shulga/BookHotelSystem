@@ -12,8 +12,6 @@ import java.util.Map;
 public class RegisterAction implements Action {
 
     private static final String FORM_NAME = "register";
-    private static final String RESPOND_ATTRIBUTE_NAME = "respond-messsage";
-    private static final String RESPOND_ATTRIBUTE_MESSAGE = "success";
     private static final String REDIRECT = "redirect:";
 
 
@@ -23,11 +21,10 @@ public class RegisterAction implements Action {
         FormValidator registerFormValidator = new FormValidator();
         Map<String, String> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
         if (!fieldErrors.isEmpty()) {
-            req.setAttribute(RESPOND_ATTRIBUTE_NAME, FORM_NAME);
+
             return FORM_NAME;
         }
 
-        req.getSession().setAttribute(RESPOND_ATTRIBUTE_NAME, RESPOND_ATTRIBUTE_MESSAGE);
         return REDIRECT;
     }
 }

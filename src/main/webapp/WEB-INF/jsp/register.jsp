@@ -5,10 +5,7 @@
 
     <jsp:attribute name="title"/>
 
-    <jsp:attribute name="sidebar">
-        <p><a href="/jsp/login/login.jsp">Login</a></p>
-        <p><a href="/jsp/register/reg.jsp">Registration</a></p>
-    </jsp:attribute>
+    <jsp:attribute name="sidebar"/>
 
     <jsp:attribute name="header"/>
 
@@ -17,8 +14,7 @@
     <jsp:body>
         <p>Dear Guest, please register. After registration you can make a book order.</p>
         <p>Registration form:</p>
-        <form name="registerForm" action="/do/register" method="post">
-            <input type="hidden" name="command" value="register"/>
+        <form name="registerForm" action="/do/?action=register" method="post">
             <label><b>Login:</b></label><br>
             <input type="text" name="login" placeholder="Enter login" required autofocus value=""> (in range 3-12
             symbols)<br><br>

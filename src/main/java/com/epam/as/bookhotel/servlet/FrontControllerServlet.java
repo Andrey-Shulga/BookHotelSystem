@@ -22,6 +22,8 @@ import java.io.IOException;
 public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String ACTION_PREFIX = "action";
     private ActionFactory actionFactory;
 
     @Override
@@ -37,18 +39,31 @@ public class FrontControllerServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String actionName = getActionName(req);
         try {
             Action action = actionFactory.getAction(actionName);
-            logger.debug("Received request with command: \"{}\", get action: {}", actionName, action.getClass().getSimpleName());
+            logger.debug("Received {} request with command: \"{}\", get action: {}", req.getMethod(), actionName, action.getClass().getSimpleName());
             String view = action.execute(req, resp);
+            proceedTo(view, req, resp);
         } catch (ActionException | PropertyManagerException | ValidatorException e) {
             logger.error("ActionException or PropertyManagerException or ValidatorException occurred", e);
+        }
+
+    }
+
+    private void proceedTo(String view, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+
+        if (view.startsWith(REDIRECT_PREFIX)) {
+            resp.sendRedirect(view.substring(REDIRECT_PREFIX.length()));
+        } else {
+            req.getRequestDispatcher("/WEB-INF/jsp/" + view + ".jsp").forward(req, resp);
+
         }
     }
 
     private String getActionName(HttpServletRequest req) {
-        return req.getParameter("command");
+        return req.getParameter(ACTION_PREFIX);
     }
 
     @Override
