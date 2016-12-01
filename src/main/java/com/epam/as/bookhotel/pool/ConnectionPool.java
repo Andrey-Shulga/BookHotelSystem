@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -113,19 +114,22 @@ public class ConnectionPool {
 
     private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
         PropertyManager.getInstance().loadPropertyFromFile(dbPropertyFileName);
-        String drivers = PropertyManager.getProperty("jdbc.drivers");
+        Properties properties = PropertyManager.getInstance().getPropertiesMap();
+
+        String drivers = properties.getProperty("jdbc.drivers");
+
         try {
             Class.forName(drivers);
         } catch (ClassNotFoundException e) {
 
             throw new ConnectionPoolException(e);
         }
-        url = PropertyManager.getProperty("jdbc.url");
-        username = PropertyManager.getProperty("jdbc.username");
-        password = PropertyManager.getProperty("jdbc.password");
-        poolStartSize = Integer.parseInt(PropertyManager.getProperty("pool.start.size"));
-        poolMaxSize = Integer.parseInt(PropertyManager.getProperty("pool.max.size"));
-        pollConnectionTimeout = Long.parseLong(PropertyManager.getProperty("pool.pollconnection.timeout"));
+        url = properties.getProperty("jdbc.url");
+        username = properties.getProperty("jdbc.username");
+        password = properties.getProperty("jdbc.password");
+        poolStartSize = Integer.parseInt(properties.getProperty("pool.start.size"));
+        poolMaxSize = Integer.parseInt(properties.getProperty("pool.max.size"));
+        pollConnectionTimeout = Long.parseLong(properties.getProperty("pool.pollconnection.timeout"));
         connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
 

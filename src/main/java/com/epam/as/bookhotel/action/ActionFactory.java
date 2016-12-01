@@ -5,22 +5,21 @@ import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.util.PropertyManager;
 
-import java.util.Map;
+import java.util.Properties;
 
 public class ActionFactory {
 
     private static final String actionPropertyFileName = "action.properties";
-    private Map<String, String> actionMap;
+    private Properties actionProperties;
 
     public void loadActions() throws PropertyManagerException {
         PropertyManager.getInstance().loadPropertyFromFile(actionPropertyFileName);
-
-        actionMap = PropertyManager.getInstance().getPropertiesAsMap();
+        actionProperties = PropertyManager.getInstance().getPropertiesMap();
     }
 
     public Action getAction(String actionName) throws ActionException {
         Action action;
-        String actionClassName = actionMap.get(actionName);
+        String actionClassName = actionProperties.getProperty(actionName);
         try {
             Class actionClass = Class.forName(actionClassName);
             action = (Action) actionClass.newInstance();

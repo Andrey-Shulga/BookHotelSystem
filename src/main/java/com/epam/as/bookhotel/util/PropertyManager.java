@@ -7,9 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 public class PropertyManager {
@@ -43,18 +40,8 @@ public class PropertyManager {
 
     }
 
-    public Map<String, String> getPropertiesAsMap() throws PropertyManagerException {
+    public Properties getPropertiesMap() throws PropertyManagerException {
 
-        Map<String, String> propertyMap = new HashMap<>();
-        if (properties == null) {
-            throw new PropertyManagerException("Properties were not loaded from file. Use loadPropertyFromFile() method");
-        }
-        Enumeration<?> propertyNames = properties.propertyNames();
-        while (propertyNames.hasMoreElements()) {
-            String key = (String) propertyNames.nextElement();
-            String value = properties.getProperty(key);
-            propertyMap.put(key, value);
-        }
-        return propertyMap;
+        return properties;
     }
 }
