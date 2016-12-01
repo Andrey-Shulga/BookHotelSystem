@@ -22,15 +22,12 @@ public class ConnectionPoolListener implements ServletContextListener {
 
         try {
             ConnectionPool.getInstance().fillPool();
+            JdbcDaoFactory.setPool(ConnectionPool.getInstance());
         } catch (ConnectionPoolException e) {
             logger.error("ConnectionPoolException occurred", e);
         } catch (PropertyManagerException e) {
             logger.error("PropertyManagerException occurred", e);
         }
-        JdbcDaoFactory.setPool(ConnectionPool.getInstance());
-
-
-
     }
 
     @Override
@@ -40,6 +37,5 @@ public class ConnectionPoolListener implements ServletContextListener {
         } catch (ConnectionPoolException e) {
             logger.error("ConnectionPoolException occurred", e);
         }
-
     }
 }

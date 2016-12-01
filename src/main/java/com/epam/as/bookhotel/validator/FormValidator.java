@@ -21,7 +21,6 @@ public class FormValidator {
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_NUMBER = "[0-9]*";
-    private static Map<String, List<Validator>> fieldValidators = new HashMap<>();
     private static Properties formProperties;
 
     public FormValidator() throws PropertyManagerException {
@@ -35,9 +34,24 @@ public class FormValidator {
         formProperties = PropertyManager.getInstance().getProperties();
     }
 
-    public String validate(String formName, HttpServletRequest request) throws ValidatorException {
-        List<String> message = new ArrayList<>();
-        List<Validator> validators = new ArrayList<>();
+    public Map<String, String> validate(String formName, HttpServletRequest request) throws ValidatorException {
+        Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
+        Map<String, String> fieldErrors = new HashMap<>();
+        for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
+            String key = entry.getKey();
+            String value = request.getParameter(key);
+            for (Validator validator : entry.getValue()) {
+                if (!validator.isValid(value)) {
+                    fieldErrors.put(key, validator.getMessage());
+                }
+            }
+        }
+        return fieldErrors;
+    }
+
+    private Map<String, List<Validator>> getParameterValidatorsMap(String formName, HttpServletRequest request) throws ValidatorException {
+        Map<String, List<Validator>> fieldValidators = new HashMap<>();
+        List<Validator> validators;
         Enumeration<String> attributeNames = request.getParameterNames();
         while (attributeNames.hasMoreElements()) {
             String fieldName = attributeNames.nextElement();
@@ -47,7 +61,7 @@ public class FormValidator {
             validators = getValidators(formFieldName);
             if (!validators.isEmpty()) fieldValidators.put(fieldName, validators);
         }
-        return null;
+        return fieldValidators;
     }
 
     private List<Validator> getValidators(String formFieldName) throws ValidatorException {
