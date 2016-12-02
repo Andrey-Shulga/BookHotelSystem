@@ -34,17 +34,21 @@ public class FormValidator {
         formProperties = PropertyManager.getInstance().getProperties();
     }
 
-    public Map<String, String> validate(String formName, HttpServletRequest request) throws ValidatorException {
+    public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
-        Map<String, String> fieldErrors = new HashMap<>();
+        Map<String, List<String>> fieldErrors = new HashMap<>();
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
             String key = entry.getKey();
             String value = request.getParameter(key);
+            List<String> errorMessages = new ArrayList<>();
             for (Validator validator : entry.getValue()) {
                 if (!validator.isValid(value)) {
                     logger.debug("Warning! Try to validate parameter \"{}\" with value \"{}\" use validator {}. Result: {}", key, value, validator.getClass().getSimpleName(), validator.isValid(value));
-                    fieldErrors.put(key, validator.getMessage());
+                    errorMessages.add(validator.getMessage());
                 }
+            }
+            if (!errorMessages.isEmpty()) {
+                fieldErrors.put(key, errorMessages);
             }
         }
         return fieldErrors;

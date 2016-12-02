@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,9 +23,13 @@ public class RegisterAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException {
 
         FormValidator registerFormValidator = new FormValidator();
-        Map<String, String> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
+        Map<String, List<String>> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
         if (!fieldErrors.isEmpty()) {
-
+            for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
+                for (String errorMessage : entry.getValue()) {
+                    logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
+                }
+            }
             return FORM_NAME;
         }
         logger.debug("Form's parameters are valid.");

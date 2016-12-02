@@ -19,12 +19,16 @@
             <input type="text" name="login" placeholder="Enter login" required autofocus value=""> (in range 3-12
             symbols)<br><br>
             <label><b>Password:</b></label><br>
-            <input type="password" name="password" value="" placeholder="Enter password" required> (in range 6-16
+            <input type="password" name="password" value="" placeholder="Enter password" required
+                   onchange="form.confirm_password.pattern = this.value;"> (in range 6-16
             symbols)<br>
-            <label><b>Password again:</b></label><br>
-            <input type="password" name="password2" value="" placeholder="Reenter password" required><br><br>
+            <label><b>Confirm Password:</b></label><br>
+            <input type="password" name="confirm_password" value="" placeholder="Confirm password" required><br><br>
+
             <input type="submit" value="Register">
+
         </form>
+
     </jsp:body>
 
 </t:genericpage>
