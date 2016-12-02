@@ -17,6 +17,7 @@ public class RegisterAction implements Action {
     private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);
     private static final String FORM_NAME = "register";
     private static final String REDIRECT = "redirect:/do/?action=show-index";
+    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
 
 
     @Override
@@ -26,6 +27,7 @@ public class RegisterAction implements Action {
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
         if (!fieldErrors.isEmpty()) {
             for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
+                req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
                 for (String errorMessage : entry.getValue()) {
                     logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
                 }
