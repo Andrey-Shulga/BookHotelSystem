@@ -25,6 +25,7 @@ public class RegisterAction implements Action {
 
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
+
         if (!fieldErrors.isEmpty()) {
             for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
                 req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());

@@ -21,20 +21,25 @@
             <br>
             <input type="text" name="login" placeholder="Enter login" required autofocus value="">
             <c:forEach var="element" items="${loginErrorMessages}">
-                "<c:out value="${element}"/>" /
+                "<c:out value="${element}"/>"
             </c:forEach>
             <br><br>
             <label><b>Password: </b></label>
             <small>(6-16 characters)</small>
             <br>
             <input type="password" name="password" value="" placeholder="Enter password" required
-                   onchange="form.confirm_password.pattern = this.value;">
+                   onchange1="form.confirm_password.pattern = this.value;">
             <c:forEach var="element" items="${passwordErrorMessages}">
-                "<c:out value="${element}"/>" /
+                "<c:out value="${element}"/>"
             </c:forEach>
             <br>
             <label><b>Confirm Password:</b></label><br>
-            <input type="password" name="confirm_password" value="" placeholder="Confirm password" required><br><br>
+            <input type="password" name="confirm_password" value="" placeholder="Confirm password" required>
+
+            <c:forEach var="element" items="${confirm_passwordErrorMessages}">
+                "<c:out value="${element}"/>"
+            </c:forEach>
+            <br><br>
 
             <input type="submit" value="Register">
 

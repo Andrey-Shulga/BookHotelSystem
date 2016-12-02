@@ -21,6 +21,9 @@ public class FormValidator {
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_NUMBER = "[0-9]*";
+    private static final String FIELD_PASSWORD_NAME = "password";
+    private static final String FIELD_CONFIRM_PASSWORD_NAME = "confirm_password";
+    private static final String CONFIRM_PASSWORD_ERROR_MESSAGE = "register.confirm_password.1.message";
     private static Properties formProperties;
 
     public FormValidator() throws PropertyManagerException {
@@ -51,6 +54,14 @@ public class FormValidator {
                 fieldErrors.put(key, errorMessages);
             }
         }
+
+        if (!request.getParameter(FIELD_PASSWORD_NAME).equals(request.getParameter(FIELD_CONFIRM_PASSWORD_NAME))) {
+            List<String> errorsConfirmPasswordMessages = new ArrayList<>();
+            String errorMessage = formProperties.getProperty(CONFIRM_PASSWORD_ERROR_MESSAGE);
+            errorsConfirmPasswordMessages.add(errorMessage);
+            fieldErrors.put(FIELD_CONFIRM_PASSWORD_NAME, errorsConfirmPasswordMessages);
+        }
+
         return fieldErrors;
     }
 
