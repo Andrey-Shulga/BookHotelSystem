@@ -18,13 +18,15 @@ public class RegExValidator extends ParentValidator implements Validator {
 
     @Override
     public Boolean isValid(String parameter) {
-        return null;
+
+        return parameter.matches(regex);
     }
 
     @Override
     public String toString() {
         return "RegExValidator{" +
                 "regex='" + regex + '\'' +
+                ", message=" + this.getMessage() +
                 '}';
     }
 }

@@ -28,7 +28,8 @@ public class LengthValidator extends ParentValidator implements Validator {
 
     @Override
     public Boolean isValid(String parameter) {
-        return null;
+        int length = parameter.length();
+        return length >= minLength && length <= maxLength;
     }
 
     @Override
@@ -36,6 +37,7 @@ public class LengthValidator extends ParentValidator implements Validator {
         return "LengthValidator{" +
                 "minLength=" + minLength +
                 ", maxLength=" + maxLength +
+                ", message=" + this.getMessage() +
                 '}';
     }
 }

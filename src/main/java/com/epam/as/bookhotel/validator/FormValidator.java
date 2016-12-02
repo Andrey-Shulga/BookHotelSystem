@@ -41,9 +41,10 @@ public class FormValidator {
             String key = entry.getKey();
             String value = request.getParameter(key);
             for (Validator validator : entry.getValue()) {
-                //if (!validator.isValid(value)) {
+                if (!validator.isValid(value)) {
+                    logger.debug("Warning! Try to validate parameter \"{}\" with value \"{}\" use validator {}. Result: {}", key, value, validator.getClass().getSimpleName(), validator.isValid(value));
                     fieldErrors.put(key, validator.getMessage());
-                //}
+                }
             }
         }
         return fieldErrors;
@@ -90,7 +91,7 @@ public class FormValidator {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new ValidatorException(e);
         }
-        logger.debug("Validate using validator: {}", validator.toString());
+        logger.debug("Will be used validator: {}", validator.toString());
         return validator;
 
     }
