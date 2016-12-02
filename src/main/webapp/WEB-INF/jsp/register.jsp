@@ -1,47 +1,45 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setBundle basename="lang"/>
+<fmt:message key="register.title" var="title"/>
+<fmt:message key="register.login.placeholder" var="loginPlaceholder"/>
+<fmt:message key="register.password.placeholder" var="passwordPlaceholder"/>
+<fmt:message key="register.password.confirm.placeholder" var="passwordConfirmPlaceholder"/>
 
-<t:genericpage>
-
-    <jsp:attribute name="title"/>
-
-    <jsp:attribute name="sidebar"/>
-
-    <jsp:attribute name="header"/>
-
-    <jsp:attribute name="footer"/>
+<t:genericpage title="${title}">
 
     <jsp:body>
-        <p>Dear Guest, please register. After registration you can make a book order.</p>
-        <p>Registration form:</p>
+        <p><fmt:message key="register.hello.message"/></p>
         <form name="registerForm" action="/do/?action=register" method="post">
-            <label><b>Login: </b></label>
-            <small>(3-12 characters)</small>
+            <label><b><fmt:message key="register.login"/></b></label>
+            <small><fmt:message key="register.login.range"/></small>
             <br>
-            <input type="text" name="login" placeholder="Enter login" required autofocus value="">
+            <input type="text" name="login" placeholder="${loginPlaceholder}" required autofocus value="">
             <c:forEach var="element" items="${loginErrorMessages}">
                 "<c:out value="${element}"/>"
             </c:forEach>
             <br><br>
-            <label><b>Password: </b></label>
-            <small>(6-16 characters)</small>
+            <label><b><fmt:message key="register.password"/></b></label>
+            <small><fmt:message key="register.password.range"/></small>
             <br>
-            <input type="password" name="password" value="" placeholder="Enter password" required
-                   onchange1="form.confirm_password.pattern = this.value;">
+            <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required
+                   onchange="form.confirm_password.pattern = this.value;">
             <c:forEach var="element" items="${passwordErrorMessages}">
                 "<c:out value="${element}"/>"
             </c:forEach>
             <br>
-            <label><b>Confirm Password:</b></label><br>
-            <input type="password" name="confirm_password" value="" placeholder="Confirm password" required>
+            <label><b><fmt:message key="register.password.confirm"/></b></label><br>
+            <input type="password" name="confirm_password" value="" placeholder="${passwordConfirmPlaceholder}"
+                   required>
 
             <c:forEach var="element" items="${confirm_passwordErrorMessages}">
                 "<c:out value="${element}"/>"
             </c:forEach>
             <br><br>
 
-            <input type="submit" value="Register">
+            <button type="submit"><fmt:message key="register.button.submit"/></button>
 
         </form>
 

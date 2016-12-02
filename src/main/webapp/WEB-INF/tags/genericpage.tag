@@ -1,18 +1,23 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@tag description="Overall Page template" pageEncoding="UTF-8" %>
+<fmt:setBundle basename="lang"/>
+<fmt:setLocale value="en"/>
+
+<%@attribute name="title" type="java.lang.String" required="true" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
+<%@attribute name="menu" fragment="true" %>
 <%@attribute name="sidebar" fragment="true" %>
-<%@attribute name="title" fragment="true" %>
-<c:set var="prefix" value="${pageContext.request.contextPath}"/>
 
-<html>
+<html lang="en">
 <head>
-    <title>
-        <jsp:invoke fragment="title"/>
-        EPAM Hotel Deluxe & SPA
-    </title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>${title}</title>
 
     <style>
         body {
@@ -24,7 +29,6 @@
             font-size: 36px; /* Размер шрифта */
             margin: 0; /* Убираем отступы */
             color: #fc6; /* Цвет текста */
-
         }
 
         h2 {
@@ -66,15 +70,16 @@
 
 <div id="header">
     <jsp:invoke fragment="header"/>
-    <h1>Welcome to EPAM Hotel!</h1>
+    <fmt:message key="index.header.message"/>
 </div>
 
 <div id="sidebar">
     <jsp:invoke fragment="sidebar"/>
-    <p><a href="${prefix}/do/?action=show-index">Main</a></p>
-    <p><a href="${prefix}/do/?action=show-register-form">Register</a></p>
-    <p><a href="${prefix}/do/?action=show-login-form">Login</a></p>
+    <p><a href="${prefix}/do/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
+    <p><a href="${prefix}/do/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
+    <p><a href="${prefix}/do/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
 </div>
+
 
 <div id="content">
     <jsp:doBody/>
@@ -82,7 +87,7 @@
 
 <div id="footer">
     <jsp:invoke fragment="footer"/>
-    <p id="copyright">&copy; Copyright 2016-2017. Andrey Shulga.</p>
+    <p id="copyright"><fmt:message key="index.footer.copryght"/></p>
 </div>
 
 </body>
