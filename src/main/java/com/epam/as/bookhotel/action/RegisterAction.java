@@ -12,7 +12,7 @@ import java.util.Map;
 public class RegisterAction implements Action {
 
     private static final String FORM_NAME = "register";
-    private static final String REDIRECT = "redirect:";
+    private static final String REDIRECT = "redirect:/do/?action=show-index";
 
 
     @Override
