@@ -1,6 +1,8 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.UserService;
@@ -24,7 +26,7 @@ public class RegisterAction implements Action {
     private static final String PASSWORD_PARAMETER = "password";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, ServiceException {
 
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(FORM_NAME, req);

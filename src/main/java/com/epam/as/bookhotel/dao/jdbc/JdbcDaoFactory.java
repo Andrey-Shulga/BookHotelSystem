@@ -4,6 +4,8 @@ import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.pool.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,6 +13,7 @@ import java.sql.SQLException;
 
 public class JdbcDaoFactory extends DaoFactory {
 
+    private static final Logger logger = LoggerFactory.getLogger(JdbcDaoFactory.class);
     private static ConnectionPool pool;
     private Connection connection;
 
@@ -56,4 +59,8 @@ public class JdbcDaoFactory extends DaoFactory {
         }
     }
 
+    @Override
+    public void close() throws Exception {
+        ConnectionPool.putConnectionToPool(connection);
+    }
 }

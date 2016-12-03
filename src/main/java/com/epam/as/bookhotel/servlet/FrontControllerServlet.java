@@ -3,9 +3,7 @@ package com.epam.as.bookhotel.servlet;
 
 import com.epam.as.bookhotel.action.Action;
 import com.epam.as.bookhotel.action.ActionFactory;
-import com.epam.as.bookhotel.exception.ActionException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,10 +46,9 @@ public class FrontControllerServlet extends HttpServlet {
             logger.debug("Received {} request with command: \"{}\", get action: {}", req.getMethod(), actionName, action.getClass().getSimpleName());
             String view = action.execute(req, resp);
             proceedTo(view, req, resp);
-        } catch (ActionException | PropertyManagerException | ValidatorException e) {
-            logger.error("ActionException or PropertyManagerException or ValidatorException occurred", e);
+        } catch (ActionException | PropertyManagerException | ValidatorException | ConnectionPoolException | ServiceException e) {
+            logger.error("Servlet Controller exception occurred", e);
         }
-
     }
 
     private void proceedTo(String view, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

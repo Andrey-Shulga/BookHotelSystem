@@ -51,10 +51,10 @@ public class ConnectionPool {
     }
 
 
-    static void putConnectionToPool(Connection returnedConnection) {
+    public static void putConnectionToPool(Connection returnedConnection) {
         if (returnedConnection != null) {
             connections.offer(returnedConnection);
-            logger.debug("Thread return connection back to pool, now total connections in pool = {}", connections.size());
+            logger.debug("Connection returned back to pool, now total connections in pool = {}", connections.size());
         }
     }
 
@@ -72,18 +72,17 @@ public class ConnectionPool {
     public synchronized Connection getConnection() throws ConnectionPoolException {
 
         Connection connection;
-        logger.debug("Thread trying to take connection from pool...");
-
+        logger.debug("Trying to take connection from the pool...");
         if (connectionCount < poolMaxSize) {
             connection = connections.poll();
             if (connection == null) {
                 logger.debug("No connections in pool! Trying to get new connection...");
                 return getNewConnection(url, username, password);
             }
-            logger.debug("Thread take connection from pool, total connections in pool now = {}", connections.size());
+            logger.debug("The connection was taken, total connections in the pool now = {}", connections.size());
         } else {
-            logger.debug("Number of connections reached max pool's size = {}, No new connection " +
-                    "will be create, waiting for release any connection...", poolMaxSize);
+            logger.debug("Max limit of connection pool = {} reached. No new connection " +
+                    "will be create, wait for release any connection...", poolMaxSize);
             try {
                 connection = connections.poll(pollConnectionTimeout, TimeUnit.SECONDS);
             } catch (InterruptedException e) {

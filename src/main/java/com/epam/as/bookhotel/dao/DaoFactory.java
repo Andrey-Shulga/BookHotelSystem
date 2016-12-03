@@ -5,7 +5,7 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 
 import java.sql.SQLException;
 
-public abstract class DaoFactory {
+public abstract class DaoFactory implements AutoCloseable {
 
     public static DaoFactory createFactory() throws ConnectionPoolException {
         return new JdbcDaoFactory();
