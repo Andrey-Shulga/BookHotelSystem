@@ -46,7 +46,7 @@ public class FrontControllerServlet extends HttpServlet {
             logger.debug("Received {} request with command: \"{}\", get action: {}", req.getMethod(), actionName, action.getClass().getSimpleName());
             String view = action.execute(req, resp);
             proceedTo(view, req, resp);
-        } catch (ActionException | PropertyManagerException | ValidatorException | ConnectionPoolException | ServiceException e) {
+        } catch (ActionException | PropertyManagerException | ValidatorException | ConnectionPoolException | ServiceException | JdbcDaoException e) {
             logger.error("Servlet Controller exception occurred", e);
         }
     }

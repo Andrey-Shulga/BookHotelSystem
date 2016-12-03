@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
-public class DaoException extends Throwable {
+public class JdbcDaoException extends Throwable {
 
-    private static final Logger logger = LoggerFactory.getLogger(DaoException.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdbcDaoException.class);
 
-    public DaoException(SQLException e) {
+    public JdbcDaoException(SQLException e) {
         logger.error("Dao exception occurred", e);
     }
 }

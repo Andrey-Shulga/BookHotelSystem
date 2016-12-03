@@ -1,9 +1,6 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.*;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.UserService;
 import com.epam.as.bookhotel.validator.FormValidator;
@@ -20,13 +17,13 @@ public class RegisterAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);
     private static final String FORM_NAME = "register";
-    private static final String REDIRECT = "redirect:/do/?action=show-index";
+    private static final String REDIRECT = "redirect:/do/?action=show-login-form";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, ServiceException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, ServiceException, JdbcDaoException {
 
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
@@ -50,7 +47,6 @@ public class RegisterAction implements Action {
         if (!isRegister) {
             return FORM_NAME;
         }
-
         return REDIRECT;
     }
 }

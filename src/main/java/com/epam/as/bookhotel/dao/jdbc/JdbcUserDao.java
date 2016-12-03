@@ -17,9 +17,24 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
     private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
+    private static final String UPDATE_USER_PROPERTY_KEY = "update.user";
 
     JdbcUserDao(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    void setUpdateFieldToPs(PreparedStatement ps, User entity) throws SQLException {
+        ps.setString(2, entity.getLogin());
+        ps.setString(3, entity.getPassword());
+        ps.setString(1, Integer.toString(entity.getId()));
+    }
+
+    @Override
+    String getUpdateQuery() throws PropertyManagerException {
+        PropertyManager.getInstance().loadPropertyFromFile(QUERY_PROPERTY_FILE);
+        Properties properties = PropertyManager.getInstance().getProperties();
+        return properties.getProperty(UPDATE_USER_PROPERTY_KEY);
     }
 
 
@@ -32,8 +47,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
 
     @Override
-    public void setFieldToPs(PreparedStatement ps, User entity) throws SQLException {
-        ps.setString(2, entity.getLogin());
-        ps.setString(3, entity.getPassword());
+    public void setInsertFieldToPs(PreparedStatement ps, User entity) throws SQLException {
+        ps.setString(1, entity.getLogin());
+        ps.setString(2, entity.getPassword());
     }
 }
