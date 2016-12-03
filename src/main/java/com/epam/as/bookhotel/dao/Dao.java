@@ -1,5 +1,7 @@
 package com.epam.as.bookhotel.dao;
 
+import com.epam.as.bookhotel.exception.DaoException;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.BaseEntity;
 
 /**
@@ -7,7 +9,7 @@ import com.epam.as.bookhotel.model.BaseEntity;
  */
 public interface Dao<T extends BaseEntity> {
 
-    T save(T entity);
+    T save(T entity) throws PropertyManagerException, DaoException;
 
     T findById(int id);
 

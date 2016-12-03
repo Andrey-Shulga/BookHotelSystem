@@ -19,6 +19,7 @@ public class JdbcDaoFactory extends DaoFactory {
 
     public JdbcDaoFactory() throws ConnectionPoolException {
         this.connection = pool.getConnection();
+
     }
 
     public static void setPool(ConnectionPool pool) {
