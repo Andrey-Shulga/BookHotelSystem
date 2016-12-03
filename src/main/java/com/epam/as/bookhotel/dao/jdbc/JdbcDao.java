@@ -8,10 +8,7 @@ import com.epam.as.bookhotel.model.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
@@ -32,6 +29,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             try {
                 PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
                 setFieldToPs(ps, entity);
+                ps.executeUpdate();
+                setId(entity, ps);
             } catch (SQLException e) {
                 throw new DaoException(e);
             }
@@ -39,6 +38,13 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
         }
         return entity;
+    }
+
+    private void setId(T entity, PreparedStatement ps) throws SQLException {
+        ResultSet generatedId = ps.getGeneratedKeys();
+        generatedId.next();
+        int id = generatedId.getInt(1);
+        entity.setId(id);
     }
 
     abstract String getInsertQuery() throws PropertyManagerException;
