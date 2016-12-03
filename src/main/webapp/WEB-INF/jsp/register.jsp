@@ -18,8 +18,8 @@
             <small><fmt:message key="register.login.range"/></small>
             <br>
             <input type="text" name="login" placeholder="${loginPlaceholder}" required autofocus value="">
-            <c:forEach var="element" items="${loginErrorMessages}">
-                <div id="errorcolortext"><c:out value="${element}"/></div>
+            <c:forEach var="errorMessage" items="${loginErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="register.password"/></b></label>
@@ -27,16 +27,16 @@
             <br>
             <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required
                    onchange="form.confirm_password.pattern = this.value;">
-            <c:forEach var="element" items="${passwordErrorMessages}">
-                <div id="errorcolortext"><c:out value="${element}"/></div>
+            <c:forEach var="errorMessage" items="${passwordErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br>
             <label><b><fmt:message key="register.password.confirm"/></b></label><br>
             <input type="password" name="confirm_password" value="" placeholder="${passwordConfirmPlaceholder}"
                    required>
 
-            <c:forEach var="element" items="${confirm_passwordErrorMessages}">
-                <div id="errorcolortext"><c:out value="${element}"/></div>
+            <c:forEach var="errorMessage" items="${confirm_passwordErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br><br>
 
