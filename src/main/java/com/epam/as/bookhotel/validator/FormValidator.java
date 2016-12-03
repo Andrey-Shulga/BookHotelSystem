@@ -54,14 +54,13 @@ public class FormValidator {
                 fieldErrors.put(key, errorMessages);
             }
         }
-
+        //Validate on equals password and confirm_password fields in register form.
         if (!request.getParameter(FIELD_PASSWORD_NAME).equals(request.getParameter(FIELD_CONFIRM_PASSWORD_NAME))) {
             List<String> errorsConfirmPasswordMessages = new ArrayList<>();
             String errorMessage = formProperties.getProperty(CONFIRM_PASSWORD_ERROR_MESSAGE);
             errorsConfirmPasswordMessages.add(errorMessage);
             fieldErrors.put(FIELD_CONFIRM_PASSWORD_NAME, errorsConfirmPasswordMessages);
         }
-
         return fieldErrors;
     }
 
