@@ -40,3 +40,7 @@ h2 {
     clear: left; /* Отменяем действие float */
     text-align: center;
 }
+
+#errorcolortext {
+    color: #ff070e; /* Цвет текста */
+}

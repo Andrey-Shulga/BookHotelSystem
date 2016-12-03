@@ -11,6 +11,7 @@
 <t:genericpage title="${title}">
 
     <jsp:body>
+
         <p><fmt:message key="register.hello.message"/></p>
         <form name="registerForm" action="/do/?action=register" method="post">
             <label><b><fmt:message key="register.login"/></b></label>
@@ -18,7 +19,7 @@
             <br>
             <input type="text" name="login" placeholder="${loginPlaceholder}" required autofocus value="">
             <c:forEach var="element" items="${loginErrorMessages}">
-                "<c:out value="${element}"/>"
+                <div id="errorcolortext"><c:out value="${element}"/></div>
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="register.password"/></b></label>
@@ -27,7 +28,7 @@
             <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required
                    onchange="form.confirm_password.pattern = this.value;">
             <c:forEach var="element" items="${passwordErrorMessages}">
-                "<c:out value="${element}"/>"
+                <div id="errorcolortext"><c:out value="${element}"/></div>
             </c:forEach>
             <br>
             <label><b><fmt:message key="register.password.confirm"/></b></label><br>
@@ -35,7 +36,7 @@
                    required>
 
             <c:forEach var="element" items="${confirm_passwordErrorMessages}">
-                "<c:out value="${element}"/>"
+                <div id="errorcolortext"><c:out value="${element}"/></div>
             </c:forEach>
             <br><br>
 
