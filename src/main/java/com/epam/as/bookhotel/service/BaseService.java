@@ -4,12 +4,12 @@ import com.epam.as.bookhotel.dao.DaoFactory;
 
 public abstract class BaseService {
 
-    private DaoFactory daoFactory;
+    protected DaoFactory daoFactory;
 
-    public BaseService() {
+    protected BaseService() {
     }
 
-    public BaseService(DaoFactory daoFactory) {
+    protected BaseService(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 }

@@ -9,6 +9,6 @@ public class ConnectionPoolException extends Exception {
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolException.class);
 
     public ConnectionPoolException(Exception e) {
-        logger.error("Connection pool creating error occurred", e);
+        logger.error("An error with the database connection occurred", e);
     }
 }

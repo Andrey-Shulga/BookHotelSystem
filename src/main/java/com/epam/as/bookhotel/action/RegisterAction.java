@@ -3,6 +3,7 @@ package com.epam.as.bookhotel.action;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.service.UserService;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,8 @@ public class RegisterAction implements Action {
     private static final String FORM_NAME = "register";
     private static final String REDIRECT = "redirect:/do/?action=show-index";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-
+    private static final String LOGIN_PARAMETER = "login";
+    private static final String PASSWORD_PARAMETER = "password";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException {
@@ -39,10 +39,15 @@ public class RegisterAction implements Action {
         }
         logger.debug("Form's parameters are valid.");
 
-        String login = req.getParameter(LOGIN);
-        String password = req.getParameter(PASSWORD);
+        String login = req.getParameter(LOGIN_PARAMETER);
+        String password = req.getParameter(PASSWORD_PARAMETER);
 
         User user = new User(login, password);
+        UserService userService = new UserService();
+        Boolean isRegister = userService.register(user, req);
+        if (!isRegister) {
+            return FORM_NAME;
+        }
 
         return REDIRECT;
     }
