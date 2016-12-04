@@ -15,17 +15,15 @@ public class UserService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public Boolean register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException {
+    public Boolean register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException {
 
         Boolean done;
-        try {
-            try (DaoFactory daoFactory = DaoFactory.createFactory()) {
-                daoFactory.beginTx();
-                UserDao userDao = daoFactory.getUserDao();
-                userDao.save(user);
-                daoFactory.commit();
-                done = true;
-            }
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            daoFactory.beginTx();
+            UserDao userDao = daoFactory.getUserDao();
+            userDao.save(user);
+            daoFactory.commit();
+            done = true;
         } catch (Exception e) {
             try {
                 if (!daoFactory.getConnection().getAutoCommit()) daoFactory.rollback();

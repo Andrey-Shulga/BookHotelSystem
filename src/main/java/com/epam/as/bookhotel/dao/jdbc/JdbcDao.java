@@ -2,6 +2,7 @@ package com.epam.as.bookhotel.dao.jdbc;
 
 
 import com.epam.as.bookhotel.dao.Dao;
+import com.epam.as.bookhotel.exception.DatabaseConnectionException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.UserExistingException;
@@ -26,7 +27,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
 
     @Override
-    public T save(T entity) throws PropertyManagerException, JdbcDaoException, UserExistingException {
+    public T save(T entity) throws PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException {
         //insert entity
         if (entity.getId() == null) {
             logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
@@ -37,6 +38,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 ps.executeUpdate();
                 setId(entity, ps);
             } catch (SQLException e) {
+                if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                    throw new DatabaseConnectionException(e);
                 if (USER_EXIST_ERROR_CODE.equals(e.getSQLState()))
                     throw new UserExistingException(e);
             }

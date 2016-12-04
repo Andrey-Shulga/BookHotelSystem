@@ -97,7 +97,7 @@ public class ConnectionPool {
 
         poolConfigure();
 
-        logger.debug("Maximum limit of connections in the pool = {} connections", poolMaxSize);
+        logger.debug("Maximum limit of connections to database in the pool = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
             Connection connection = getNewConnection(url, username, password);

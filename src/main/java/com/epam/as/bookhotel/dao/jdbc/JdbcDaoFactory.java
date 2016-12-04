@@ -36,7 +36,7 @@ public class JdbcDaoFactory extends DaoFactory {
         try {
             if ((!connection.isClosed()) && (connection.getAutoCommit())) {
                 connection.setAutoCommit(false);
-                logger.debug("Transaction begin...");
+                logger.debug("Transaction open...");
             }
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);
@@ -61,7 +61,7 @@ public class JdbcDaoFactory extends DaoFactory {
         try {
             if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
                 connection.commit();
-                logger.debug("Transaction end.");
+                logger.debug("Transaction commit.");
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {

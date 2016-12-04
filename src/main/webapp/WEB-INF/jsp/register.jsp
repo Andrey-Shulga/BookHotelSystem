@@ -7,7 +7,7 @@
 <fmt:message key="register.login.placeholder" var="loginPlaceholder"/>
 <fmt:message key="register.password.placeholder" var="passwordPlaceholder"/>
 <fmt:message key="register.password.confirm.placeholder" var="passwordConfirmPlaceholder"/>
-<c:set var="user" value="${registerErrorMessages}"/>
+<c:set var="errorUserExist" value="${registerErrorMessages}"/>
 
 <t:genericpage title="${title}">
 
@@ -42,8 +42,8 @@
             <br><br>
 
             <button type="submit"><fmt:message key="register.button.submit"/></button>
-            <c:if test="${not empty user}">
-                <div id="errorcolortext"><fmt:message key="register.error.message.exist"/></div>
+            <c:if test="${not empty errorUserExist}">
+                <div id="errorcolortext"><fmt:message key="${registerErrorMessages}"/></div>
             </c:if>
 
         </form>

@@ -1,5 +1,6 @@
 package com.epam.as.bookhotel.dao;
 
+import com.epam.as.bookhotel.exception.DatabaseConnectionException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.UserExistingException;
@@ -10,7 +11,7 @@ import com.epam.as.bookhotel.model.BaseEntity;
  */
 public interface Dao<T extends BaseEntity> {
 
-    T save(T entity) throws PropertyManagerException, JdbcDaoException, UserExistingException;
+    T save(T entity) throws PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException;
 
     T findById(int id);
 

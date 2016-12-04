@@ -10,6 +10,7 @@ public class JdbcDaoException extends Throwable {
     private static final Logger logger = LoggerFactory.getLogger(JdbcDaoException.class);
 
     public JdbcDaoException(SQLException e) {
-        logger.error("Dao exception with error code {} occurred", e.getSQLState(), e);
+
+        logger.error("JdbcDao exception occurred:", e);
     }
 }
