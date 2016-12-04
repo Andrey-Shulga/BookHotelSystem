@@ -13,7 +13,7 @@ public class UserExistingException extends Throwable {
 
     public UserExistingException(SQLException e) {
         this.message = "User is Exist";
-        logger.error("User is exist.", e);
+        logger.error("Error. User is exist.", e);
     }
 
     @Override

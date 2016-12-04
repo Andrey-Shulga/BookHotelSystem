@@ -15,6 +15,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String USER_EXIST_ERROR_CODE = "23505";
+    private static final String DATABASE_CONNECT_LOST_ERROR_CODE = "08006";
     private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
     private Connection connection;
 
