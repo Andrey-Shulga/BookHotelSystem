@@ -41,7 +41,7 @@
             <br><br>
 
             <button type="submit"><fmt:message key="register.button.submit"/></button>
-
+            <div id="errorcolortext"><fmt:message key="${registerErrorMessages}"/></div>
         </form>
 
     </jsp:body>

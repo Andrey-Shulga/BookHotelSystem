@@ -34,7 +34,10 @@ public class JdbcDaoFactory extends DaoFactory {
     @Override
     public void beginTx() throws ConnectionPoolException {
         try {
-            connection.setAutoCommit(false);
+            if ((!connection.isClosed()) && (connection.getAutoCommit())) {
+                connection.setAutoCommit(false);
+                logger.debug("Transaction begin...");
+            }
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);
         }
@@ -43,8 +46,11 @@ public class JdbcDaoFactory extends DaoFactory {
     @Override
     public void rollback() throws ConnectionPoolException {
         try {
-            connection.rollback();
-            connection.setAutoCommit(true);
+            if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
+                connection.rollback();
+                logger.debug("Transaction rollback.");
+                connection.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);
         }
@@ -53,8 +59,11 @@ public class JdbcDaoFactory extends DaoFactory {
     @Override
     public void commit() throws ConnectionPoolException {
         try {
-            connection.commit();
-            connection.setAutoCommit(true);
+            if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
+                connection.commit();
+                logger.debug("Transaction end.");
+                connection.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);
         }

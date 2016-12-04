@@ -21,6 +21,7 @@ public class RegisterAction implements Action {
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
+    private static final String REG_ERROR_MSG_EXIST = "register.error.message.exist";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, ServiceException, JdbcDaoException {
@@ -43,7 +44,12 @@ public class RegisterAction implements Action {
 
         User user = new User(login, password);
         UserService userService = new UserService();
-        Boolean isRegister = userService.register(user, req);
+        Boolean isRegister = false;
+        try {
+            isRegister = userService.register(user, req);
+        } catch (UserExistingException e) {
+            req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, REG_ERROR_MSG_EXIST);
+        }
         if (!isRegister) {
             return FORM_NAME;
         }

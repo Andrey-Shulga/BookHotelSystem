@@ -3,20 +3,21 @@ package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.UserDao;
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ServiceException;
+import com.epam.as.bookhotel.exception.*;
 import com.epam.as.bookhotel.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 public class UserService extends BaseService {
 
-    public Boolean register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-        Boolean done = false;
+    public Boolean register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException {
+
+        Boolean done;
         try {
             try (DaoFactory daoFactory = DaoFactory.createFactory()) {
                 daoFactory.beginTx();
@@ -27,8 +28,7 @@ public class UserService extends BaseService {
             }
         } catch (Exception e) {
             try {
-                if (!done) daoFactory.rollback();
-
+                if (!daoFactory.getConnection().getAutoCommit()) daoFactory.rollback();
             } catch (SQLException e1) {
                 throw new ConnectionPoolException(e);
             }
