@@ -4,18 +4,20 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="login.title" var="title"/>
+<fmt:message key="register.login.placeholder" var="loginPlaceholder"/>
+<fmt:message key="register.password.placeholder" var="passwordPlaceholder"/>
 
 <t:genericpage title="${title}">
 
     <jsp:body>
-        <p>Please login:</p>
+        <p><fmt:message key="login.message"/></p>
 
         <form action="/do/?action=login" method="post">
-            <label><b>Username:</b></label>
-            <input type="text" name="login" placeholder="Enter username" value="" required autofocus> <br><br>
-            <label><b>Password:</b></label>
-            <input type="password" name="password" value="" placeholder="Enter password" required><br><br>
-            <input type="submit" value="Login">
+            <label><b><fmt:message key="register.login"/></b></label><br>
+            <input type="text" name="login" placeholder="${loginPlaceholder}" value="" required autofocus> <br><br>
+            <label><b><fmt:message key="register.password"/></b></label><br>
+            <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required><br><br>
+            <button type="submit"><fmt:message key="login.button.submit"/></button>
         </form>
     </jsp:body>
 
