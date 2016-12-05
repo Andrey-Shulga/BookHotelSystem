@@ -27,7 +27,7 @@
             <small><fmt:message key="register.password.range"/></small>
             <br>
             <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required
-                   onchange="form.confirm_password.pattern = this.value;">
+                   onchange1="form.confirm_password.pattern = this.value;">
             <c:forEach var="errorMessage" items="${passwordErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>

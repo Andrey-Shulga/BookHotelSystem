@@ -9,29 +9,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.SQLException;
 
 public class UserService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public Boolean register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException {
+    public User register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException {
 
-        Boolean done;
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
-            UserDao userDao = daoFactory.getUserDao();
-            daoFactory.beginTx();
+        DaoFactory daoFactory = DaoFactory.createFactory();
+        UserDao userDao = daoFactory.getUserDao();
+        try {
             userDao.save(user);
-            daoFactory.commit();
-            done = true;
-        } catch (Exception e) {
-            try {
-                if (!daoFactory.getConnection().getAutoCommit()) daoFactory.rollback();
-            } catch (SQLException e1) {
-                throw new ConnectionPoolException(e);
-            }
-            throw new ServiceException(e);
+        } finally {
+            daoFactory.returnConnectionToPool();
         }
-        return done;
+        return user;
     }
+
 }
+

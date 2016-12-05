@@ -44,13 +44,12 @@ public class RegisterAction implements Action {
 
         User user = new User(login, password);
         UserService userService = new UserService();
-        Boolean isRegister = false;
         try {
-            isRegister = userService.register(user, req);
+            user = userService.register(user, req);
         } catch (UserExistingException | DatabaseConnectionException e) {
             req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
-        if (!isRegister) {
+        if (user.getId() == null) {
             return FORM_NAME;
         }
         return REDIRECT;

@@ -27,6 +27,16 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
+    public Connection getConnection() {
+        return connection;
+    }
+
+    @Override
+    public void returnConnectionToPool() {
+        ConnectionPool.putConnectionToPool(connection);
+    }
+
+    @Override
     public UserDao getUserDao() throws ConnectionPoolException {
         return new JdbcUserDao(connection);
     }
@@ -69,8 +79,5 @@ public class JdbcDaoFactory extends DaoFactory {
         }
     }
 
-    @Override
-    public void close() throws Exception {
-        ConnectionPool.putConnectionToPool(connection);
-    }
+
 }

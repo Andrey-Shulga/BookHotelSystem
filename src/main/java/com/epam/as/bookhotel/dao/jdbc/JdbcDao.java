@@ -68,8 +68,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         generatedId.next();
         int id = generatedId.getInt(1);
         entity.setId(id);
-        setRole(entity);
         logger.debug("Insert success. Entity id = {}", id);
+        setRole(entity);
     }
 
     abstract void setRole(T entity);

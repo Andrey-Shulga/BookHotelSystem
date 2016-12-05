@@ -6,17 +6,17 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class DaoFactory implements AutoCloseable {
+public abstract class DaoFactory {
 
-    Connection connection;
+    private Connection connection;
 
     public static DaoFactory createFactory() throws ConnectionPoolException {
         return new JdbcDaoFactory();
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
+    public abstract Connection getConnection();
+
+    public abstract void returnConnectionToPool();
 
     public abstract UserDao getUserDao() throws ConnectionPoolException;
 
