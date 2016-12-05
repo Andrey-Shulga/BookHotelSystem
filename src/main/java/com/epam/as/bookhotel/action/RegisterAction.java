@@ -1,6 +1,9 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.*;
+import com.epam.as.bookhotel.exception.ConnectionPoolException;
+import com.epam.as.bookhotel.exception.JdbcDaoException;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.UserService;
 import com.epam.as.bookhotel.validator.FormValidator;
@@ -24,7 +27,7 @@ public class RegisterAction implements Action {
 
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, ServiceException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
 
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(FORM_NAME, req);
@@ -46,7 +49,7 @@ public class RegisterAction implements Action {
         UserService userService = new UserService();
         try {
             user = userService.register(user, req);
-        } catch (UserExistingException | DatabaseConnectionException e) {
+        } catch (JdbcDaoException e) {
             req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
         if (user.getId() == null) {

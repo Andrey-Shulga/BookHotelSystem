@@ -3,14 +3,22 @@ package com.epam.as.bookhotel.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
-
-public class JdbcDaoException extends DaoException {
+public class JdbcDaoException extends Exception {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcDaoException.class);
+    private String message;
 
-    public JdbcDaoException(SQLException e) {
+    public JdbcDaoException(String message, Exception e) {
+        this.message = message;
+        logger.debug("DAO MESSAGE {}", this.message);
+    }
 
-        logger.error("JdbcDao exception occurred:", e);
+    public JdbcDaoException(Exception e) {
+        this.message = e.getMessage();
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

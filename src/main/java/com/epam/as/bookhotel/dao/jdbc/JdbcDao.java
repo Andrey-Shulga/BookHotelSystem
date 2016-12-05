@@ -27,7 +27,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
 
     @Override
-    public T save(T entity) throws PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException {
+    public T save(T entity) throws PropertyManagerException, JdbcDaoException {
         //insert entity
         if (entity.getId() == null) {
             logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());

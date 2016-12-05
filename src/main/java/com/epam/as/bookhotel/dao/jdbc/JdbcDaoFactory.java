@@ -3,6 +3,7 @@ package com.epam.as.bookhotel.dao.jdbc;
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.ConnectionPoolException;
+import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.pool.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,5 +72,10 @@ public class JdbcDaoFactory extends DaoFactory {
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);
         }
+    }
+
+    @Override
+    public void close() throws JdbcDaoException {
+        pool.putConnectionToPool(connection);
     }
 }
