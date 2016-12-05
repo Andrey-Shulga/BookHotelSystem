@@ -17,7 +17,7 @@ public class RegisterAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);
     private static final String FORM_NAME = "register";
-    private static final String REDIRECT = "redirect:/do/?action=show-login-form";
+    private static final String REDIRECT = "redirect:/do/?action=show-register-success";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
