@@ -48,8 +48,8 @@ public class JdbcDaoFactory extends DaoFactory {
         try {
             if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
                 connection.rollback();
-                logger.debug("Transaction rollback.");
                 connection.setAutoCommit(true);
+                logger.debug("Transaction rollback.");
             }
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);

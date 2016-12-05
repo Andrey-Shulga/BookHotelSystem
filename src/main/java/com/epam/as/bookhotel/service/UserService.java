@@ -19,8 +19,8 @@ public class UserService extends BaseService {
 
         Boolean done;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
-            daoFactory.beginTx();
             UserDao userDao = daoFactory.getUserDao();
+            daoFactory.beginTx();
             userDao.save(user);
             daoFactory.commit();
             done = true;

@@ -5,12 +5,12 @@ public class User extends BaseEntity {
 
     private String login;
     private String password;
-    private String role;
+    private UserType role;
 
     public User() {
     }
 
-    public User(Integer id, String login, String password, String role) {
+    public User(Integer id, String login, String password, UserType role) {
         super(id);
         this.login = login;
         this.password = password;
@@ -38,11 +38,11 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserType getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserType role) {
         this.role = role;
     }
 }
