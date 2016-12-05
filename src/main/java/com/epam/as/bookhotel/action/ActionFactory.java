@@ -13,8 +13,8 @@ public class ActionFactory {
     private Properties actionProperties;
 
     public void loadActions() throws PropertyManagerException {
-        PropertyManager.getInstance().loadPropertyFromFile(actionPropertyFileName);
-        actionProperties = PropertyManager.getInstance().getProperties();
+        PropertyManager propertyManager = new PropertyManager(actionPropertyFileName);
+        actionProperties = propertyManager.getProperties();
     }
 
     public Action getAction(String actionName) throws ActionException {

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 
 
 public class JdbcUserDao extends JdbcDao<User> implements UserDao {
@@ -34,9 +33,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     String getUpdateQuery() throws PropertyManagerException {
-        PropertyManager.getInstance().loadPropertyFromFile(QUERY_PROPERTY_FILE);
-        Properties properties = PropertyManager.getInstance().getProperties();
-        return properties.getProperty(UPDATE_USER_PROPERTY_KEY);
+        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        return propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY);
     }
 
     @Override
@@ -50,9 +48,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getInsertQuery() throws PropertyManagerException {
-        PropertyManager.getInstance().loadPropertyFromFile(QUERY_PROPERTY_FILE);
-        Properties properties = PropertyManager.getInstance().getProperties();
-        return properties.getProperty(INSERT_USER_PROPERTY_KEY);
+        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        return propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY);
     }
 
 

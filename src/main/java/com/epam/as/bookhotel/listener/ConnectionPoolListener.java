@@ -16,24 +16,25 @@ import javax.servlet.annotation.WebListener;
 public class ConnectionPoolListener implements ServletContextListener {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolListener.class);
+    private ConnectionPool pool;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
+        pool = new ConnectionPool();
         try {
-            ConnectionPool.getInstance().fillPool();
-            JdbcDaoFactory.setPool(ConnectionPool.getInstance());
-        } catch (ConnectionPoolException e) {
+            pool.fillPool();
+        } catch (ConnectionPoolException | PropertyManagerException e) {
             logger.error("ConnectionPoolException occurred", e);
-        } catch (PropertyManagerException e) {
-            logger.error("PropertyManagerException occurred", e);
         }
+        JdbcDaoFactory.setPool(pool);
+
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         try {
-            ConnectionPool.close();
+            pool.close();
         } catch (ConnectionPoolException e) {
             logger.error("ConnectionPoolException occurred", e);
         }

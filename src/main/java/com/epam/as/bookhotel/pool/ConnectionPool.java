@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -19,24 +18,16 @@ public class ConnectionPool {
 
     private static final String dbPropertyFileName = "database.properties";
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
-    private static int connectionCount = 0;
-    private static String url;
-    private static String username;
-    private static String password;
-    private static int poolStartSize;
-    private static int poolMaxSize;
-    private static long pollConnectionTimeout;
-    private static BlockingQueue<Connection> connections;
+    private int connectionCount = 0;
+    private String url;
+    private String username;
+    private String password;
+    private int poolStartSize;
+    private int poolMaxSize;
+    private long pollConnectionTimeout;
+    private BlockingQueue<Connection> connections;
 
-    private ConnectionPool() {
-    }
-
-    public static ConnectionPool getInstance() {
-        return ConectionPoolHolder.instance;
-    }
-
-
-    private static Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
+    private Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
 
         Connection connection;
         try {
@@ -51,14 +42,14 @@ public class ConnectionPool {
     }
 
 
-    public static void putConnectionToPool(Connection returnedConnection) {
+    public void putConnectionToPool(Connection returnedConnection) {
         if (returnedConnection != null) {
             connections.offer(returnedConnection);
             logger.debug("Factory returned connection back to pool, now total connections in pool = {}", connections.size());
         }
     }
 
-    public static void close() throws ConnectionPoolException {
+    public void close() throws ConnectionPoolException {
         for (Connection con : connections)
             try {
                 if (!con.isClosed())
@@ -108,10 +99,8 @@ public class ConnectionPool {
     }
 
     private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
-        PropertyManager.getInstance().loadPropertyFromFile(dbPropertyFileName);
-        Properties properties = PropertyManager.getInstance().getProperties();
-
-        String drivers = properties.getProperty("jdbc.drivers");
+        PropertyManager propertyManager = new PropertyManager(dbPropertyFileName);
+        String drivers = propertyManager.getPropertyKey("jdbc.drivers");
 
         try {
             Class.forName(drivers);
@@ -119,17 +108,14 @@ public class ConnectionPool {
 
             throw new ConnectionPoolException(e);
         }
-        url = properties.getProperty("jdbc.url");
-        username = properties.getProperty("jdbc.username");
-        password = properties.getProperty("jdbc.password");
-        poolStartSize = Integer.parseInt(properties.getProperty("pool.start.size"));
-        poolMaxSize = Integer.parseInt(properties.getProperty("pool.max.size"));
-        pollConnectionTimeout = Long.parseLong(properties.getProperty("pool.pollconnection.timeout"));
+        url = propertyManager.getPropertyKey("jdbc.url");
+        username = propertyManager.getPropertyKey("jdbc.username");
+        password = propertyManager.getPropertyKey("jdbc.password");
+        poolStartSize = Integer.parseInt(propertyManager.getPropertyKey("pool.start.size"));
+        poolMaxSize = Integer.parseInt(propertyManager.getPropertyKey("pool.max.size"));
+        pollConnectionTimeout = Long.parseLong(propertyManager.getPropertyKey("pool.pollconnection.timeout"));
         connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
 
-    private static class ConectionPoolHolder {
-        private static final ConnectionPool instance = new ConnectionPool();
-    }
 }
 

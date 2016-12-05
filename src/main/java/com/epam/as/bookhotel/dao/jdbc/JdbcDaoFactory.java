@@ -19,7 +19,6 @@ public class JdbcDaoFactory extends DaoFactory {
 
     public JdbcDaoFactory() throws ConnectionPoolException {
         this.connection = pool.getConnection();
-
     }
 
     public static void setPool(ConnectionPool pool) {
@@ -29,11 +28,6 @@ public class JdbcDaoFactory extends DaoFactory {
     @Override
     public Connection getConnection() {
         return connection;
-    }
-
-    @Override
-    public void returnConnectionToPool() {
-        ConnectionPool.putConnectionToPool(connection);
     }
 
     @Override
@@ -78,6 +72,4 @@ public class JdbcDaoFactory extends DaoFactory {
             throw new ConnectionPoolException(e);
         }
     }
-
-
 }

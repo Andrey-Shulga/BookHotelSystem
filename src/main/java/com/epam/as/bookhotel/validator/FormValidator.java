@@ -33,8 +33,8 @@ public class FormValidator {
     }
 
     private void loadFormProperties() throws PropertyManagerException {
-        PropertyManager.getInstance().loadPropertyFromFile(FORM_PROPERTY_FILE_NAME);
-        formProperties = PropertyManager.getInstance().getProperties();
+        PropertyManager propertyManager = new PropertyManager(FORM_PROPERTY_FILE_NAME);
+        formProperties = propertyManager.getProperties();
     }
 
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {

@@ -12,31 +12,24 @@ import java.util.Properties;
 public class PropertyManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);
-    private static Properties properties;
+    private Properties properties;
 
-    private PropertyManager() {
-    }
-
-    public static PropertyManager getInstance() {
-        return PropertyManagerHolder.instance;
-    }
-
-    public void loadPropertyFromFile(String propertyFileName) throws PropertyManagerException {
+    public PropertyManager(String propertyFileName) throws PropertyManagerException {
         properties = new Properties();
         try (InputStream in = PropertyManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
             properties.load(in);
         } catch (IOException e) {
             throw new PropertyManagerException(e, propertyFileName);
         }
-
     }
 
-    public Properties getProperties() throws PropertyManagerException {
-        if (properties == null) throw new PropertyManagerException("Properties not found. Load property file fist");
+    public String getPropertyKey(String key) throws PropertyManagerException {
+        if (properties == null) throw new PropertyManagerException("Properties not loaded.");
+        return properties.getProperty(key);
+    }
+
+    public Properties getProperties() {
         return properties;
     }
 
-    private static class PropertyManagerHolder {
-        private static final PropertyManager instance = new PropertyManager();
-    }
 }

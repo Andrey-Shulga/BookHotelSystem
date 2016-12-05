@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
-public class JdbcDaoException extends Throwable {
+public class JdbcDaoException extends DaoException {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcDaoException.class);
 

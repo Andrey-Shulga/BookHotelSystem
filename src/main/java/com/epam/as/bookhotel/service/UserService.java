@@ -14,17 +14,14 @@ public class UserService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public User register(User user, HttpServletRequest request) throws ConnectionPoolException, ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException {
+    public User register(User user, HttpServletRequest request) throws ServiceException, PropertyManagerException, JdbcDaoException, UserExistingException, DatabaseConnectionException, ConnectionPoolException {
 
-        DaoFactory daoFactory = DaoFactory.createFactory();
-        UserDao userDao = daoFactory.getUserDao();
-        try {
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            UserDao userDao = daoFactory.getUserDao();
             userDao.save(user);
-        } finally {
-            daoFactory.returnConnectionToPool();
+        } catch (DaoException e) {
+            logger.error("Error");
         }
         return user;
     }
-
 }
-
