@@ -20,7 +20,7 @@ public class LoginAction implements Action {
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
-    private static final String SESSION_ATTRIBUTE_NAME = "user";
+    private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 
 
     @Override
@@ -33,14 +33,14 @@ public class LoginAction implements Action {
         UserService userService = new UserService();
         try {
             user = userService.login(user);
-            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
+            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database and authorized", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (JdbcDaoException e) {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
         if (user.getId() == null) {
             return LOGIN_FORM;
         }
-        req.getSession().setAttribute(SESSION_ATTRIBUTE_NAME, user);
+        req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
         return REDIRECT;
     }
 }
