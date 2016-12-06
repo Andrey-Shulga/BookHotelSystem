@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class UserService extends BaseService {
+public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -24,6 +24,11 @@ public class UserService extends BaseService {
         } catch (JdbcDaoException e) {
             throw new JdbcDaoException(e);
         }
+        return user;
+    }
+
+    public User login(User user) {
+
         return user;
     }
 }
