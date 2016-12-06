@@ -78,6 +78,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private void getId(T entity, ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
         entity.setId(id);
+        logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
     }
 
     private void setId(T entity, PreparedStatement ps) throws SQLException {
@@ -85,7 +86,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         generatedId.next();
         int id = generatedId.getInt(1);
         entity.setId(id);
-        logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), id);
+        logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
     }
 
     @Override
