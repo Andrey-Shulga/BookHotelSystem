@@ -136,5 +136,9 @@ ALTER TABLE "Room_photo" ADD CONSTRAINT "Room_photo_fk1" FOREIGN KEY ("bed_id") 
 ALTER TABLE "Confirmation_order" ADD CONSTRAINT "Confirmation_order_fk0" FOREIGN KEY ("order_id") REFERENCES "Order"("order_id");
 ALTER TABLE "Confirmation_order" ADD CONSTRAINT "Confirmation_order_fk1" FOREIGN KEY ("room_id") REFERENCES "Room"("room_id");
 
-INSERT INTO "User_role" (role_name) VALUES ('ADMIN');
+INSERT INTO "User_role" (role_name) VALUES ('MANAGER');
 INSERT INTO "User_role" (role_name) VALUES ('USER');
+
+INSERT INTO "User" (login, password, role_id) VALUES ('manager', 'manager', (SELECT "User_role".role_id
+																																						 FROM public."User_role"
+																																						 WHERE "User_role".role_name = 'MANAGER'));

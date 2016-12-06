@@ -3,13 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
-<fmt:message key="book.title" var="title"/>
+<fmt:message key="orders.title" var="title"/>
 
 
 <t:genericpage title="${title}">
 
     <jsp:body>
-        <div align="center"><b><p><fmt:message key="book.message"/></p></b></div>
+        <div align="center"><b><p><fmt:message key="oreders.message"/></p></b></div>
         <hr>
 
 
