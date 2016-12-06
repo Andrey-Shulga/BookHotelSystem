@@ -32,6 +32,7 @@ public class UserService {
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             foundUser = userDao.find(user);
+            userDao.findSetUserRole(user);
         } catch (JdbcDaoException e) {
             throw new JdbcDaoException(e);
         }

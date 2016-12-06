@@ -32,7 +32,7 @@ public class LoginAction implements Action {
         UserService userService = new UserService();
         try {
             user = userService.login(user);
-            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword());
+            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (JdbcDaoException e) {
             req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }

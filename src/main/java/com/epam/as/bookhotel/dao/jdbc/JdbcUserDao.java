@@ -1,8 +1,10 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.UserDao;
+import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,13 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
     private static final String UPDATE_USER_PROPERTY_KEY = "update.user";
     private static final String FIND_USER_PROPERTY_KEY = "find.user";
+    private static final String FIND_USER_ROLE_KEY = "find.user.role";
+    private Connection connection;
 
 
     JdbcUserDao(Connection connection) {
         super(connection);
+        this.connection = connection;
     }
 
     @Override
@@ -74,5 +79,29 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
         logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY));
         return propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY);
+    }
+
+    public void findSetUserRole(User entity) throws PropertyManagerException, JdbcDaoException {
+        logger.debug("{} trying to find role for this user in database...", this.getClass().getSimpleName());
+        String findQuery = getFindUserRoleQuery();
+        try {
+            PreparedStatement ps = connection.prepareStatement(findQuery);
+            ps.setString(1, entity.getLogin());
+            ResultSet rs = ps.executeQuery();
+            if (rs != null) {
+                rs.next();
+                String role = rs.getString("role_name");
+                entity.setRole(UserType.valueOf(role));
+                logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
+            }
+        } catch (SQLException e) {
+            throw new JdbcDaoException(e);
+        }
+    }
+
+    private String getFindUserRoleQuery() throws PropertyManagerException {
+        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_USER_ROLE_KEY));
+        return propertyManager.getPropertyKey(FIND_USER_ROLE_KEY);
     }
 }
