@@ -10,7 +10,6 @@ public class JdbcDaoException extends Exception {
 
     public JdbcDaoException(String message, Exception e) {
         this.message = message;
-        logger.debug("DAO MESSAGE {}", this.message);
     }
 
     public JdbcDaoException(Exception e) {

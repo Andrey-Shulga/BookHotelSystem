@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -27,7 +28,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     void setFindFieldToPs(PreparedStatement ps, User entity) throws SQLException {
         ps.setString(1, entity.getLogin());
-
+        ps.setString(2, entity.getPassword());
     }
 
     @Override
@@ -35,6 +36,12 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         ps.setString(2, entity.getLogin());
         ps.setString(3, entity.getPassword());
         ps.setString(1, Integer.toString(entity.getId()));
+    }
+
+    @Override
+    void setRsToField(ResultSet rs, User entity) throws SQLException {
+        String login = rs.getString("login");
+        String password = rs.getString("password");
     }
 
     @Override

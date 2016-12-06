@@ -5,14 +5,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
-public class UserExistingException extends JdbcDaoException {
+public class UserNotFoundException extends JdbcDaoException {
 
     private static final Logger logger = LoggerFactory.getLogger(UserExistingException.class);
-    private static final String ERROR_MSG = "register.error.message.exist";
+    private static final String ERROR_MSG = "login.error.notfound";
 
-
-    public UserExistingException(SQLException e) {
+    public UserNotFoundException(SQLException e) {
         super(ERROR_MSG, e);
-        logger.error("User is exist.", e);
+        logger.error("User not found.", e);
     }
 }

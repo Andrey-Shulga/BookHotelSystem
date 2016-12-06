@@ -26,7 +26,7 @@ public class JdbcDaoFactory extends DaoFactory {
         JdbcDaoFactory.pool = pool;
     }
 
-    @Override
+
     public Connection getConnection() {
         return connection;
     }
