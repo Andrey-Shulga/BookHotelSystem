@@ -4,7 +4,7 @@
 <html>
 <head>
     <title><fmt:message key="login.success.title"/></title>
-    <meta http-equiv="refresh" content="2; url=/do/?action=show-index">
+    <meta http-equiv="refresh" content="1; url=/do/?action=show-index">
 </head>
 <body>
 <div align="center"><h1><b><fmt:message key="login.success.message"/></b></h1></div>
