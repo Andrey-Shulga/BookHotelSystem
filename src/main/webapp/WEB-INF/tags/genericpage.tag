@@ -37,7 +37,9 @@
         <p><a href="/do/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
         <p><a href="/do/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
     </c:if>
-    <c:if test="${not empty hasRole}"><p><a href="/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
+    <c:if test="${not empty hasRole}">
+        <p><a href="/do/?action=show-book-order"><fmt:message key="sidebar.menu.book.order"/></a></p>
+        <p><a href="/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
     </c:if>
 </div>
 
