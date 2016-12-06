@@ -8,12 +8,14 @@ import com.epam.as.bookhotel.exception.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowRegisterSuccessAction implements Action {
+public class LogoutAction implements Action {
 
-    private static final String REGISTER_SUCCESS_JSP = "register_success";
+    private static final String INDEX_JSP = "index";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
-        return REGISTER_SUCCESS_JSP;
+
+        req.getSession().invalidate();
+        return INDEX_JSP;
     }
 }

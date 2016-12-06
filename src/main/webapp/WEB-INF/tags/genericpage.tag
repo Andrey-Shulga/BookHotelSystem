@@ -10,6 +10,7 @@
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="menu" fragment="true" %>
 <%@attribute name="sidebar" fragment="true" %>
+<c:set var="hasRole" value="${user.role}"/>
 
 <html>
 <head>
@@ -30,9 +31,14 @@
 
 <div id="sidebar">
     <jsp:invoke fragment="sidebar"/>
+
     <p><a href="/do/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
-    <p><a href="/do/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
-    <p><a href="/do/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
+    <c:if test="${empty hasRole}">
+        <p><a href="/do/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
+        <p><a href="/do/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
+    </c:if>
+    <c:if test="${not empty hasRole}"><p><a href="/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
+    </c:if>
 </div>
 
 <div id="content">

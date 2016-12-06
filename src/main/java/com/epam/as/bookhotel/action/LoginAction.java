@@ -15,11 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
-    private static final String FORM_NAME = "login";
+    private static final String LOGIN_FORM = "login";
     private static final String REDIRECT = "redirect:/do/?action=show-login-success";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
+    private static final String SESSION_ATTRIBUTE_NAME = "user";
 
 
     @Override
@@ -34,11 +35,12 @@ public class LoginAction implements Action {
             user = userService.login(user);
             logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (JdbcDaoException e) {
-            req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
         if (user.getId() == null) {
-            return FORM_NAME;
+            return LOGIN_FORM;
         }
+        req.getSession().setAttribute(SESSION_ATTRIBUTE_NAME, user);
         return REDIRECT;
     }
 }

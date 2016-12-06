@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowLoginSuccessAction implements Action {
 
-    private static final String LOGIN_SUCCESS = "login_success";
+    private static final String LOGIN_SUCCESS_JSP = "login_success";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
-        return LOGIN_SUCCESS;
+        return LOGIN_SUCCESS_JSP;
     }
 }
