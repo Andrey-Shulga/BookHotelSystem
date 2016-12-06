@@ -59,6 +59,14 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return entity;
     }
 
+    @Override
+    public void find(T entity) {
+        logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
+        String findQuery = getFindQuery();
+    }
+
+    protected abstract String getFindQuery() throws PropertyManagerException;
+
     abstract void setUpdateFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
     abstract String getUpdateQuery() throws PropertyManagerException;

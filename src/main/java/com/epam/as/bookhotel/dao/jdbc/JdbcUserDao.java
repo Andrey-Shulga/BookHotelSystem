@@ -18,6 +18,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
     private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
     private static final String UPDATE_USER_PROPERTY_KEY = "update.user";
+    private static final String FIND_USER_PROPERTY_KEY = "find.user";
     private static final String DEFAULT_USER_ROLE = "USER";
 
     JdbcUserDao(Connection connection) {
@@ -57,5 +58,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     public void setInsertFieldToPs(PreparedStatement ps, User entity) throws SQLException {
         ps.setString(1, entity.getLogin());
         ps.setString(2, entity.getPassword());
+    }
+
+    @Override
+    protected String getFindQuery() throws PropertyManagerException {
+        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        return propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY);
     }
 }

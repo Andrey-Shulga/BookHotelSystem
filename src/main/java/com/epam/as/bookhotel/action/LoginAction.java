@@ -30,7 +30,14 @@ public class LoginAction implements Action {
 
         User user = new User(login, password);
         UserService userService = new UserService();
-        userService.login(user);
+        try {
+            user = userService.login(user);
+        } catch (JdbcDaoException e) {
+            req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, e.getMessage());
+        }
+        if (user.getId() == null) {
+            return FORM_NAME;
+        }
         return REDIRECT;
     }
 }

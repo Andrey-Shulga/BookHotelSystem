@@ -18,4 +18,6 @@ public interface Dao<T extends BaseEntity> {
     void delete(T entity);
 
     void deleteById(int id);
+
+    void find(T entity);
 }

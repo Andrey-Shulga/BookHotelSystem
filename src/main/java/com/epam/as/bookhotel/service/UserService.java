@@ -27,8 +27,13 @@ public class UserService {
         return user;
     }
 
-    public User login(User user) {
-
+    public User login(User user) throws JdbcDaoException, ConnectionPoolException, PropertyManagerException {
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            UserDao userDao = daoFactory.getUserDao();
+            userDao.find(user);
+        } catch (JdbcDaoException e) {
+            throw new JdbcDaoException(e);
+        }
         return user;
     }
 }
