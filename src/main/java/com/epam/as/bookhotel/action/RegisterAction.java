@@ -49,7 +49,7 @@ public class RegisterAction implements Action {
         UserService userService = new UserService();
         try {
             user = userService.register(user, req);
-            logger.debug("User with login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.", user.getLogin(), user.getPassword(), user.getRole());
+            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole());
         } catch (JdbcDaoException e) {
             req.setAttribute(FORM_NAME + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }

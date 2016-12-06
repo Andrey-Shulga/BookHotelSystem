@@ -42,6 +42,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     void setRsToField(ResultSet rs, User entity) throws SQLException {
         String login = rs.getString("login");
         String password = rs.getString("password");
+        entity.setLogin(login);
+        entity.setPassword(password);
     }
 
     @Override
