@@ -17,10 +17,19 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
+    public User(String login, String password, UserType role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+
     }
+
+
 
     public String getLogin() {
         return login;

@@ -19,5 +19,5 @@ public interface Dao<T extends BaseEntity> {
 
     void deleteById(int id);
 
-    void find(T entity);
+    T find(T entity) throws PropertyManagerException;
 }

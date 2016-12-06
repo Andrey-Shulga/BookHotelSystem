@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.service.UserService;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
@@ -25,7 +26,6 @@ public class RegisterAction implements Action {
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
 
-
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
 
@@ -45,7 +45,7 @@ public class RegisterAction implements Action {
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
 
-        User user = new User(login, password);
+        User user = new User(login, password, UserType.USER);
         UserService userService = new UserService();
         try {
             user = userService.register(user, req);

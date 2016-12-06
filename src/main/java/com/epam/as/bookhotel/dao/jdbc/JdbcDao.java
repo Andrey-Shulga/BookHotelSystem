@@ -51,7 +51,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 PreparedStatement ps = connection.prepareStatement(updateQuery, Statement.RETURN_GENERATED_KEYS);
                 setUpdateFieldToPs(ps, entity);
                 ps.executeUpdate();
-
             } catch (SQLException e) {
                 throw new JdbcDaoException(e);
             }
@@ -60,10 +59,25 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public void find(T entity) {
+    public T find(T entity) throws PropertyManagerException {
         logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
         String findQuery = getFindQuery();
+        try {
+            PreparedStatement ps = connection.prepareStatement(findQuery);
+            setFindFieldToPs(ps, entity);
+            ps.executeQuery();
+            getId(entity, ps);
+        } catch (SQLException e) {
+           /* if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                throw new DatabaseConnectionException(e);
+            if (USER_EXIST_ERROR_CODE.equals(e.getSQLState()))
+                throw new UserExistingException(e);*/
+            logger.error("Error {}", e);
+        }
+        return entity;
     }
+
+    abstract void setFindFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
     protected abstract String getFindQuery() throws PropertyManagerException;
 
@@ -71,16 +85,21 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     abstract String getUpdateQuery() throws PropertyManagerException;
 
+    private void getId(T entity, PreparedStatement ps) throws SQLException {
+        ResultSet rs = ps.getResultSet();
+        rs.next();
+        int id = rs.getInt(1);
+        entity.setId(id);
+    }
+
     private void setId(T entity, PreparedStatement ps) throws SQLException {
         ResultSet generatedId = ps.getGeneratedKeys();
         generatedId.next();
         int id = generatedId.getInt(1);
         entity.setId(id);
         logger.debug("Insert success. Entity id = {}", id);
-        setRole(entity);
     }
 
-    abstract void setRole(T entity);
 
     abstract String getInsertQuery() throws PropertyManagerException;
 

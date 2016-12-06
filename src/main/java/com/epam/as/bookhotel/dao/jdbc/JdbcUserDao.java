@@ -3,7 +3,6 @@ package com.epam.as.bookhotel.dao.jdbc;
 import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.User;
-import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +18,16 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
     private static final String UPDATE_USER_PROPERTY_KEY = "update.user";
     private static final String FIND_USER_PROPERTY_KEY = "find.user";
-    private static final String DEFAULT_USER_ROLE = "USER";
+
 
     JdbcUserDao(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    void setFindFieldToPs(PreparedStatement ps, User entity) throws SQLException {
+        ps.setString(1, entity.getLogin());
+
     }
 
     @Override
@@ -35,21 +40,15 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     String getUpdateQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY));
         return propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY);
-    }
-
-    @Override
-    void setRole(User entity) {
-        if (entity.getRole() == null) {
-            entity.setRole(UserType.valueOf(DEFAULT_USER_ROLE));
-            logger.debug("Entity {} assigned role \"{}\".", entity.getClass().getSimpleName(), entity.getRole());
-        }
     }
 
 
     @Override
     protected String getInsertQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY));
         return propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY);
     }
 
@@ -58,11 +57,13 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     public void setInsertFieldToPs(PreparedStatement ps, User entity) throws SQLException {
         ps.setString(1, entity.getLogin());
         ps.setString(2, entity.getPassword());
+        ps.setString(3, entity.getRole().toString());
     }
 
     @Override
     protected String getFindQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        return propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY));
+        return propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY);
     }
 }
