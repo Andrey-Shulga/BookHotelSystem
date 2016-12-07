@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowBookOrderAction implements Action {
 
-    private static final String BOOK_ORDER_JSP = "book_order";
+    private static final String BOOK_ORDER_JSP = "make_order";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
