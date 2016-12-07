@@ -10,6 +10,8 @@
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="menu" fragment="true" %>
 <%@attribute name="sidebar" fragment="true" %>
+
+<c:set var="prefix" value="/do"/>
 <c:set var="role" value="${user.role}"/>
 <c:set var="USER" value="USER"/>
 <c:set var="MANAGER" value="MANAGER"/>
@@ -29,25 +31,28 @@
 
 <div id="header">
     <jsp:invoke fragment="header"/>
+    <div align="left"><a href="${prefix}/?action=en" style="color: white">English</a>
+        <a href="${prefix}/?action=ru" style="color: white">Русский</a></div>
     <h1><fmt:message key="index.header.message"/></h1>
+
 </div>
 
 <div id="sidebar">
     <jsp:invoke fragment="sidebar"/>
 
-    <p><a href="/do/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
+    <p><a href="${prefix}/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
     <c:if test="${empty role}">
-        <p><a href="/do/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
-        <p><a href="/do/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
+        <p><a href="${prefix}/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
+        <p><a href="${prefix}/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
     </c:if>
     <c:if test="${not empty role}">
         <c:if test="${role==MANAGER}">
-            <p><a href="/do/?action=show-order-list"><fmt:message key="sidebar.menu.order.list"/></a></p>
+            <p><a href="${prefix}/?action=show-order-list"><fmt:message key="sidebar.menu.order.list"/></a></p>
         </c:if>
         <c:if test="${role==USER}">
-            <p><a href="/do/?action=show-book-order"><fmt:message key="sidebar.menu.book.order"/></a></p>
+            <p><a href="${prefix}/?action=show-book-order"><fmt:message key="sidebar.menu.book.order"/></a></p>
         </c:if>
-        <p><a href="/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
+        <p><a href="${prefix}/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
     </c:if>
 </div>
 

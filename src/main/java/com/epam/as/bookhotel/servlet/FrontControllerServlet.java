@@ -57,7 +57,6 @@ public class FrontControllerServlet extends HttpServlet {
             resp.sendRedirect(view.substring(REDIRECT_PREFIX.length()));
         } else {
             req.getRequestDispatcher(PATH_TO_JSP + view + FILE_JSP).forward(req, resp);
-
         }
     }
 

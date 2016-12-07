@@ -13,6 +13,7 @@ public class ShowIndexAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException {
+
         return INDEX_JSP;
     }
 }
