@@ -136,6 +136,8 @@ ALTER TABLE "Room_photo" ADD CONSTRAINT "Room_photo_fk1" FOREIGN KEY ("bed_id") 
 ALTER TABLE "Confirmation_order" ADD CONSTRAINT "Confirmation_order_fk0" FOREIGN KEY ("order_id") REFERENCES "Order"("order_id");
 ALTER TABLE "Confirmation_order" ADD CONSTRAINT "Confirmation_order_fk1" FOREIGN KEY ("room_id") REFERENCES "Room"("room_id");
 
+ALTER DATABASE dbase SET datestyle TO "ISO, DMY";
+
 INSERT INTO "User_role" (role_name) VALUES ('MANAGER');
 INSERT INTO "User_role" (role_name) VALUES ('USER');
 

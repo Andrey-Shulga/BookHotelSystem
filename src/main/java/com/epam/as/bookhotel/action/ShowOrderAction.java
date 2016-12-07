@@ -4,21 +4,16 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class OrderRoomAction implements Action {
+public class ShowOrderAction implements Action {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderRoomAction.class);
-    private static final String ORDER_FORM = "order_form";
-    private static final String REDIRECT = "redirect:/do/?action=show-user-order-list";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
+    private static final String BOOK_ORDER_JSP = "order_form";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
-        return null;
+        return BOOK_ORDER_JSP;
     }
 }

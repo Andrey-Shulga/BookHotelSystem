@@ -50,7 +50,9 @@
             <p><a href="${prefix}/?action=show-order-list"><fmt:message key="sidebar.menu.order.list"/></a></p>
         </c:if>
         <c:if test="${role==USER}">
-            <p><a href="${prefix}/?action=show-book-order"><fmt:message key="sidebar.menu.make.order"/></a></p>
+            <p><a href="${prefix}/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>
+            <p><a href="${prefix}/?action=show-user-order-list"><fmt:message key="sidebar.menu.user.order.list"/></a>
+            </p>
         </c:if>
         <p><a href="${prefix}/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
     </c:if>
