@@ -1,7 +1,12 @@
 package com.epam.as.bookhotel.validator;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RegExValidator extends ParentValidator implements Validator {
+
+    private static final Logger logger = LoggerFactory.getLogger(RegExValidator.class);
 
     private String regex;
 
@@ -18,7 +23,7 @@ public class RegExValidator extends ParentValidator implements Validator {
 
     @Override
     public Boolean isValid(String parameter) {
-
+        if (parameter.matches(regex)) logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return parameter.matches(regex);
     }
 

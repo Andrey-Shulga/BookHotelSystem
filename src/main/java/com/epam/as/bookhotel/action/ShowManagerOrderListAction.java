@@ -8,7 +8,7 @@ import com.epam.as.bookhotel.exception.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowOrderListAction implements Action {
+public class ShowManagerOrderListAction implements Action {
 
     private static final String ORDER_LIST_JSP = "show_orders";
 
