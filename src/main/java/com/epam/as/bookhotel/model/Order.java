@@ -7,22 +7,33 @@ public class Order extends BaseEntity {
     private String lastName;
     private String email;
     private String phone;
-    private String checkin;
-    private String checkout;
+    private String checkIn;
+    private String checkOut;
     private int bed;
-    private String type;
+    private String roomType;
 
-    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, String checkin, String checkout, int bed, String type) {
+    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, String checkIn, String checkOut, int bed, String roomType) {
         super(id);
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.checkin = checkin;
-        this.checkout = checkout;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
         this.bed = bed;
-        this.type = type;
+        this.roomType = roomType;
+    }
+
+    public Order(String firstName, String lastName, String email, String phone, String checkIn, String checkOut, int bed, String roomType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.bed = bed;
+        this.roomType = roomType;
     }
 
     public int getUserId() {
@@ -66,19 +77,19 @@ public class Order extends BaseEntity {
     }
 
     public String getCheckin() {
-        return checkin;
+        return checkIn;
     }
 
     public void setCheckin(String checkin) {
-        this.checkin = checkin;
+        this.checkIn = checkin;
     }
 
     public String getCheckout() {
-        return checkout;
+        return checkOut;
     }
 
     public void setCheckout(String checkout) {
-        this.checkout = checkout;
+        this.checkOut = checkout;
     }
 
     public int getBed() {
@@ -89,11 +100,11 @@ public class Order extends BaseEntity {
         this.bed = bed;
     }
 
-    public String getType() {
-        return type;
+    public String getRoomType() {
+        return roomType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 }
