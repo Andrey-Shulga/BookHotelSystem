@@ -22,15 +22,10 @@ public class OrderRoomAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
-        FormValidator registerFormValidator = new FormValidator();
-        Map<String, List<String>> fieldErrors = registerFormValidator.validate(ORDER_FORM, req);
+        FormValidator orderFormValidator = new FormValidator();
+        Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
         if (!fieldErrors.isEmpty()) {
-            for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
-                req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
-                for (String errorMessage : entry.getValue()) {
-                    logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
-                }
-            }
+            orderFormValidator.setErrorToRequest(req);
             return ORDER_FORM;
         }
         logger.debug("Form's parameters are valid.");

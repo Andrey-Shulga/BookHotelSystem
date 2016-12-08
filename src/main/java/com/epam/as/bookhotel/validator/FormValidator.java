@@ -18,6 +18,7 @@ import java.util.*;
 public class FormValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(FormValidator.class);
+    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_NUMBER = "[0-9]*";
@@ -25,6 +26,7 @@ public class FormValidator {
     private static final String FIELD_CONFIRM_PASSWORD_NAME = "confirm_password";
     private static final String CONFIRM_PASSWORD_ERROR_MESSAGE = "register.confirm_password.1.message";
     private static Properties formProperties;
+    private Map<String, List<String>> fieldErrors = new HashMap<>();
 
     public FormValidator() throws PropertyManagerException {
         if (formProperties == null) {
@@ -37,9 +39,18 @@ public class FormValidator {
         formProperties = propertyManager.getProperties();
     }
 
+    public void setErrorToRequest(HttpServletRequest req) {
+        for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
+            req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
+            for (String errorMessage : entry.getValue()) {
+                logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
+            }
+        }
+    }
+
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
-        Map<String, List<String>> fieldErrors = new HashMap<>();
+
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
             String key = entry.getKey();
             String value = request.getParameter(key);

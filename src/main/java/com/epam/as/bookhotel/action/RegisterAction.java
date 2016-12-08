@@ -32,12 +32,7 @@ public class RegisterAction implements Action {
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(REGISTER_FORM, req);
         if (!fieldErrors.isEmpty()) {
-            for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
-                req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
-                for (String errorMessage : entry.getValue()) {
-                    logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
-                }
-            }
+            registerFormValidator.setErrorToRequest(req);
             return REGISTER_FORM;
         }
         logger.debug("Form's parameters are valid.");
