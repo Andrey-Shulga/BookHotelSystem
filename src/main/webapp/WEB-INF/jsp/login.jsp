@@ -6,7 +6,7 @@
 <fmt:message key="login.title" var="title"/>
 <fmt:message key="register.login.placeholder" var="loginPlaceholder"/>
 <fmt:message key="register.password.placeholder" var="passwordPlaceholder"/>
-<c:set var="errorUserNotFound" value="${loginErrorMessages}"/>
+<c:set var="orderErrorMessage" value="${loginErrorMessages}"/>
 
 <t:genericpage title="${title}">
 
@@ -20,7 +20,7 @@
             <input type="password" name="password" value="1" placeholder="${passwordPlaceholder}" required><br><br>
             <button type="submit"><fmt:message key="login.button.submit"/></button>
             <br>
-            <c:if test="${not empty errorUserNotFound}">
+            <c:if test="${not empty orderErrorMessage}">
                 <div id="errorcolortext"><fmt:message key="${loginErrorMessages}"/></div>
             </c:if>
         </form>

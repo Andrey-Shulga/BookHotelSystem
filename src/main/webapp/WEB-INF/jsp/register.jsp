@@ -7,7 +7,7 @@
 <fmt:message key="register.login.placeholder" var="loginPlaceholder"/>
 <fmt:message key="register.password.placeholder" var="passwordPlaceholder"/>
 <fmt:message key="register.password.confirm.placeholder" var="passwordConfirmPlaceholder"/>
-<c:set var="errorUserExist" value="${registerErrorMessages}"/>
+<c:set var="registerErrorMessage" value="${registerErrorMessages}"/>
 
 <t:genericpage title="${title}">
 
@@ -18,7 +18,7 @@
             <label><b><fmt:message key="register.login"/></b></label>
             <small><fmt:message key="register.login.range"/></small>
             <br>
-            <input roomType="text" name="login" placeholder="${loginPlaceholder}" required autofocus value="">
+            <input type="text" name="login" placeholder="${loginPlaceholder}" required autofocus value="">
             <c:forEach var="errorMessage" items="${loginErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -26,14 +26,14 @@
             <label><b><fmt:message key="register.password"/></b></label>
             <small><fmt:message key="register.password.range"/></small>
             <br>
-            <input roomType="password" name="password" value="" placeholder="${passwordPlaceholder}" required1
+            <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required1
                    onchange1="form.confirm_password.pattern = this.value;">
             <c:forEach var="errorMessage" items="${passwordErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br>
             <label><b><fmt:message key="register.password.confirm"/></b></label><br>
-            <input roomType="password" name="confirm_password" value="" placeholder="${passwordConfirmPlaceholder}"
+            <input type="password" name="confirm_password" value="" placeholder="${passwordConfirmPlaceholder}"
                    required1>
 
             <c:forEach var="errorMessage" items="${confirm_passwordErrorMessages}">
@@ -41,8 +41,8 @@
             </c:forEach>
             <br><br>
 
-            <button roomType="submit"><fmt:message key="register.button.submit"/></button>
-            <c:if test="${not empty errorUserExist}">
+            <button type="submit"><fmt:message key="register.button.submit"/></button>
+            <c:if test="${not empty registerErrorMessage}">
                 <div id="errorcolortext"><fmt:message key="${registerErrorMessages}"/></div>
             </c:if>
 

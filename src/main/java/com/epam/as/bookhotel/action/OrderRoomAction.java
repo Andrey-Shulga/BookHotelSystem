@@ -41,6 +41,8 @@ public class OrderRoomAction implements Action {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         FormValidator orderFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
+        orderFormValidator.checkParameterOnNull(BED, req);
+        orderFormValidator.checkParameterOnNull(ROOM_TYPE, req);
 
         if (!fieldErrors.isEmpty()) {
             orderFormValidator.setErrorToRequest(req);
@@ -65,7 +67,7 @@ public class OrderRoomAction implements Action {
 
         OrderService orderService = new OrderService();
         try {
-            order = orderService.makeOrder(order, req);
+            order = orderService.makeOrder(order);
         } catch (JdbcDaoException e) {
             req.setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }

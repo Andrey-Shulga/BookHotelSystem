@@ -25,12 +25,14 @@ public class RegisterAction implements Action {
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
+    private static final String CONFIRM_PASSWORD_PARAMETER = "confirm_password";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
 
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(REGISTER_FORM, req);
+        registerFormValidator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
         if (!fieldErrors.isEmpty()) {
             registerFormValidator.setErrorToRequest(req);
             return REGISTER_FORM;
@@ -43,7 +45,7 @@ public class RegisterAction implements Action {
         User user = new User(login, password, UserType.USER);
         UserService userService = new UserService();
         try {
-            user = userService.register(user, req);
+            user = userService.register(user);
             logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole());
         } catch (JdbcDaoException e) {
             req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());

@@ -41,6 +41,8 @@ public class LoginAction implements Action {
             return LOGIN_FORM;
         }
         req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
+
+        logger.debug("User with login \"{}\" logged and save to session. Returned id={}, log={}", user.getLogin());
         return REDIRECT;
     }
 }

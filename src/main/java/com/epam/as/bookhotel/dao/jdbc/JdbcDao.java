@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.List;
 
 abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
@@ -38,6 +39,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                     throw new DatabaseConnectionException(e);
                 if (USER_EXIST_ERROR_CODE.equals(e.getSQLState()))
                     throw new UserExistingException(e);
+                else
+                    throw new JdbcDaoException(e);
             }
             //update entity
         } else {
@@ -49,7 +52,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 ps.executeUpdate();
                 ps.close();
             } catch (SQLException e) {
-                throw new JdbcDaoException(e);
+                if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                    throw new DatabaseConnectionException(e);
+                else
+                    throw new JdbcDaoException(e);
             }
         }
         return entity;
@@ -68,12 +74,15 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 rs.next();
                 getId(entity, rs);
                 setRsToField(rs, entity);
-                rs.close();
             }
             ps.close();
         } catch (SQLException e) {
+            if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                throw new DatabaseConnectionException(e);
             if (USER_NOT_FOUND_ERROR_CODE.equals(e.getSQLState()))
                 throw new UserNotFoundException(e);
+            else
+                throw new JdbcDaoException(e);
         }
         return entity;
     }
@@ -81,7 +90,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private void getId(T entity, ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
         entity.setId(id);
-        rs.close();
         logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
     }
 
@@ -95,7 +103,18 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public T findById(int id) {
+    public List<T> findAllById(int id) throws PropertyManagerException, JdbcDaoException {
+
+        logger.debug("{} trying to FIND entities by id={} in database...", this.getClass().getSimpleName(), id);
+        String findQuery = getFindQuery();
+        try {
+            PreparedStatement ps = connection.prepareStatement(findQuery);
+        } catch (SQLException e) {
+            if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                throw new DatabaseConnectionException(e);
+            else
+                throw new JdbcDaoException(e);
+        }
         return null;
     }
 

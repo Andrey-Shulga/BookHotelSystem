@@ -13,6 +13,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcOrderDao.class);
     private static final String INSERT_ORDER_PROPERTY_KEY = "insert.order";
+    private static final String FIND_ORDERS_PROPERTY_KEY = "find.orders";
     private Connection connection;
 
     JdbcOrderDao(Connection connection) {
@@ -34,7 +35,9 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     @Override
     String getFindQuery() throws PropertyManagerException {
-        return null;
+        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ORDERS_PROPERTY_KEY));
+        return propertyManager.getPropertyKey(FIND_ORDERS_PROPERTY_KEY);
     }
 
     @Override

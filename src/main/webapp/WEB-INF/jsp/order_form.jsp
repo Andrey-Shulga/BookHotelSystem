@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="order.make.title" var="title"/>
+<c:set var="orderErrorMessage" value="${order_formErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -99,6 +100,10 @@
             <br><br>
 
             <button type="submit"><fmt:message key="order.make.submit"/></button>
+            <br>
+            <c:if test="${not empty orderErrorMessage}">
+                <div id="errorcolortext"><fmt:message key="${order_formErrorMessages}"/></div>
+            </c:if>
 
         </form>
 

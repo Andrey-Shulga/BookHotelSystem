@@ -7,11 +7,11 @@ import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.Order;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class OrderService {
 
-    public Order makeOrder(Order order, HttpServletRequest req) throws ConnectionPoolException, PropertyManagerException, JdbcDaoException {
+    public Order makeOrder(Order order) throws ConnectionPoolException, PropertyManagerException, JdbcDaoException {
         Order newOrder;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
@@ -20,6 +20,15 @@ public class OrderService {
             throw new JdbcDaoException(e);
         }
         return newOrder;
+    }
+
+    public List<Order> findOrdersByUserId(int id) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+        List<Order> orderList;
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            OrderDao orderDao = daoFactory.getOrderDao();
+            orderList = orderDao.findAllById(id);
+        }
+        return orderList;
     }
 
 }

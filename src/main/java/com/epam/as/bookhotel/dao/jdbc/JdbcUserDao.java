@@ -92,7 +92,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 rs.next();
                 String role = rs.getString("role_name");
                 entity.setRole(UserType.valueOf(role));
-                rs.close();
                 logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
             }
             ps.close();

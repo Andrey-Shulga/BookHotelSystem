@@ -14,6 +14,7 @@ public class JdbcDaoException extends Exception {
 
     public JdbcDaoException(Exception e) {
         this.message = e.getMessage();
+
     }
 
     @Override
