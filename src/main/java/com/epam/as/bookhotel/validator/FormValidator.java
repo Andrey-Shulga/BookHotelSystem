@@ -25,6 +25,10 @@ public class FormValidator {
     private static final String FIELD_PASSWORD_NAME = "password";
     private static final String FIELD_CONFIRM_PASSWORD_NAME = "confirm_password";
     private static final String CONFIRM_PASSWORD_ERROR_MESSAGE = "register.confirm_password.1.message";
+    private static final String BED = "bed";
+    private static final String ROOM_TYPE = "roomType";
+    private static final String BED_NOT_SELECTED_MESSAGE = "order_form.bed.2.message";
+    private static final String ROOM_TYPE_NOT_SELECTED_MESSAGE = "order_form.roomType.2.message";
     private static Properties formProperties;
     private Map<String, List<String>> fieldErrors = new HashMap<>();
 
@@ -50,7 +54,6 @@ public class FormValidator {
 
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
-
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
             String key = entry.getKey();
             String value = request.getParameter(key);
@@ -72,7 +75,28 @@ public class FormValidator {
             errorsConfirmPasswordMessages.add(errorMessage);
             fieldErrors.put(FIELD_CONFIRM_PASSWORD_NAME, errorsConfirmPasswordMessages);
         }
+        //Validate parameters from dropdown list, transferred from the make_order form, on NULL
+        checkParameterOnNull(BED, request);
+        checkParameterOnNull(ROOM_TYPE, request);
         return fieldErrors;
+    }
+
+    private void checkParameterOnNull(String parameter, HttpServletRequest req) {
+
+        if (req.getParameter(parameter) == null) {
+            String errorMessage;
+            List<String> errorMessages = new ArrayList<>();
+            if (BED.equals(parameter)) {
+                errorMessage = formProperties.getProperty(BED_NOT_SELECTED_MESSAGE);
+                errorMessages.add(errorMessage);
+                fieldErrors.put(BED, errorMessages);
+            }
+            if (ROOM_TYPE.equals(parameter)) {
+                errorMessage = formProperties.getProperty(ROOM_TYPE_NOT_SELECTED_MESSAGE);
+                errorMessages.add(errorMessage);
+                fieldErrors.put(ROOM_TYPE, errorMessages);
+            }
+        }
     }
 
     private Map<String, List<Validator>> getParameterValidatorsMap(String formName, HttpServletRequest request) throws ValidatorException {

@@ -82,7 +82,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     public void findSetUserRole(User entity) throws PropertyManagerException, JdbcDaoException {
-        logger.debug("{} trying to find role for this user in database...", this.getClass().getSimpleName());
+        logger.debug("{} trying to find role for {} in database...", this.getClass().getSimpleName(), entity);
         String findQuery = getFindUserRoleQuery();
         try {
             PreparedStatement ps = connection.prepareStatement(findQuery);
@@ -92,8 +92,10 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 rs.next();
                 String role = rs.getString("role_name");
                 entity.setRole(UserType.valueOf(role));
+                rs.close();
                 logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
             }
+            ps.close();
         } catch (SQLException e) {
             throw new JdbcDaoException(e);
         }

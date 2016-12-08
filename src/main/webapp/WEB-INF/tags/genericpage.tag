@@ -5,7 +5,7 @@
 
 <fmt:setBundle basename="lang"/>
 
-<%@attribute name="title" roomType="java.lang.String" required="true" %>
+<%@attribute name="title" type="java.lang.String" required="true" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="menu" fragment="true" %>
@@ -22,7 +22,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link rel="stylesheet" roomType="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <title>${title}</title>
 
 </head>

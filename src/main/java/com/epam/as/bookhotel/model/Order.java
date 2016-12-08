@@ -1,5 +1,7 @@
 package com.epam.as.bookhotel.model;
 
+import java.time.LocalDate;
+
 public class Order extends BaseEntity {
 
     private int userId;
@@ -7,12 +9,12 @@ public class Order extends BaseEntity {
     private String lastName;
     private String email;
     private String phone;
-    private String checkIn;
-    private String checkOut;
+    private LocalDate checkIn;
+    private LocalDate checkOut;
     private int bed;
     private String roomType;
 
-    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, String checkIn, String checkOut, int bed, String roomType) {
+    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, int bed, String roomType) {
         super(id);
         this.userId = userId;
         this.firstName = firstName;
@@ -25,7 +27,9 @@ public class Order extends BaseEntity {
         this.roomType = roomType;
     }
 
-    public Order(String firstName, String lastName, String email, String phone, String checkIn, String checkOut, int bed, String roomType) {
+
+    public Order(int userId, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, int bed, String roomType) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -35,6 +39,7 @@ public class Order extends BaseEntity {
         this.bed = bed;
         this.roomType = roomType;
     }
+
 
     public int getUserId() {
         return userId;
@@ -76,20 +81,20 @@ public class Order extends BaseEntity {
         this.phone = phone;
     }
 
-    public String getCheckin() {
+    public LocalDate getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckin(String checkin) {
-        this.checkIn = checkin;
+    public void setCheckIn(LocalDate checkIn) {
+        this.checkIn = checkIn;
     }
 
-    public String getCheckout() {
+    public LocalDate getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckout(String checkout) {
-        this.checkOut = checkout;
+    public void setCheckOut(LocalDate checkOut) {
+        this.checkOut = checkOut;
     }
 
     public int getBed() {
@@ -106,5 +111,20 @@ public class Order extends BaseEntity {
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + this.getId() +
+                ", userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", checkIn=" + checkIn +
+                ", checkOut=" + checkOut +
+                ", bed=" + bed +
+                ", roomType='" + roomType + '\'' +
+                '}';
     }
 }

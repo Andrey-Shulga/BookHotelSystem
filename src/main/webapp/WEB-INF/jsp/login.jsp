@@ -15,10 +15,10 @@
 
         <form action="/do/?action=login" method="post">
             <label><b><fmt:message key="register.login"/></b></label><br>
-            <input roomType="text" name="login" placeholder="${loginPlaceholder}" value="" required autofocus> <br><br>
+            <input type="text" name="login" placeholder="${loginPlaceholder}" value="t" required autofocus> <br><br>
             <label><b><fmt:message key="register.password"/></b></label><br>
-            <input roomType="password" name="password" value="" placeholder="${passwordPlaceholder}" required><br><br>
-            <button roomType="submit"><fmt:message key="login.button.submit"/></button>
+            <input type="password" name="password" value="1" placeholder="${passwordPlaceholder}" required><br><br>
+            <button type="submit"><fmt:message key="login.button.submit"/></button>
             <br>
             <c:if test="${not empty errorUserNotFound}">
                 <div id="errorcolortext"><fmt:message key="${loginErrorMessages}"/></div>

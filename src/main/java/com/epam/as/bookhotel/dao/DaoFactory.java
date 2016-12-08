@@ -24,4 +24,6 @@ public abstract class DaoFactory implements AutoCloseable {
     public void close() throws JdbcDaoException {
 
     }
+
+    public abstract OrderDao getOrderDao();
 }

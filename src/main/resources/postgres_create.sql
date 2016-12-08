@@ -144,3 +144,9 @@ INSERT INTO "User_role" (role_name) VALUES ('USER');
 INSERT INTO "User" (login, password, role_id) VALUES ('manager', 'manager', (SELECT "User_role".role_id
 																																						 FROM public."User_role"
 																																						 WHERE "User_role".role_name = 'MANAGER'));
+
+INSERT INTO "Order_status" (order_status) VALUES ('unconfirmed'), ('confirmed');
+
+INSERT INTO "Room_type" (type_name) VALUES ('Standard'), ('Junior suit'), ('Suit');
+
+INSERT INTO "Room_bed" (bed_number) VALUES ('1'), ('2'), ('3'), ('4'), ('5');

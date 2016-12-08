@@ -26,7 +26,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public T save(T entity) throws PropertyManagerException, JdbcDaoException {
         //insert entity
         if (entity.getId() == null) {
-            logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
+            logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
             String insertQuery = getInsertQuery();
             try {
                 PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
@@ -47,6 +47,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 PreparedStatement ps = connection.prepareStatement(updateQuery, Statement.RETURN_GENERATED_KEYS);
                 setUpdateFieldToPs(ps, entity);
                 ps.executeUpdate();
+                ps.close();
             } catch (SQLException e) {
                 throw new JdbcDaoException(e);
             }
@@ -56,7 +57,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T find(T entity) throws PropertyManagerException, JdbcDaoException {
-        logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
+        logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
         String findQuery = getFindQuery();
         try {
             PreparedStatement ps = connection.prepareStatement(findQuery);
@@ -67,7 +68,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 rs.next();
                 getId(entity, rs);
                 setRsToField(rs, entity);
+                rs.close();
             }
+            ps.close();
         } catch (SQLException e) {
             if (USER_NOT_FOUND_ERROR_CODE.equals(e.getSQLState()))
                 throw new UserNotFoundException(e);
@@ -78,6 +81,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private void getId(T entity, ResultSet rs) throws SQLException {
         int id = rs.getInt(1);
         entity.setId(id);
+        rs.close();
         logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
     }
 
@@ -86,6 +90,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         generatedId.next();
         int id = generatedId.getInt(1);
         entity.setId(id);
+        ps.close();
         logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
     }
 
