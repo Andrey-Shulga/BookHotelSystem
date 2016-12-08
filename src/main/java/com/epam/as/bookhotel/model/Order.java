@@ -1,7 +1,5 @@
 package com.epam.as.bookhotel.model;
 
-import java.sql.Date;
-
 public class Order extends BaseEntity {
 
     private int userId;
@@ -9,12 +7,12 @@ public class Order extends BaseEntity {
     private String lastName;
     private String email;
     private String phone;
-    private Date checkin;
-    private Date checkout;
+    private String checkin;
+    private String checkout;
     private int bed;
     private String type;
 
-    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, Date checkin, Date checkout, int bed, String type) {
+    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, String checkin, String checkout, int bed, String type) {
         super(id);
         this.userId = userId;
         this.firstName = firstName;
@@ -67,19 +65,19 @@ public class Order extends BaseEntity {
         this.phone = phone;
     }
 
-    public Date getCheckin() {
+    public String getCheckin() {
         return checkin;
     }
 
-    public void setCheckin(Date checkin) {
+    public void setCheckin(String checkin) {
         this.checkin = checkin;
     }
 
-    public Date getCheckout() {
+    public String getCheckout() {
         return checkout;
     }
 
-    public void setCheckout(Date checkout) {
+    public void setCheckout(String checkout) {
         this.checkout = checkout;
     }
 
