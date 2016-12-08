@@ -23,7 +23,6 @@ public class RegExValidator extends ParentValidator implements Validator {
 
     @Override
     public Boolean isValid(String parameter) {
-        if (parameter.matches(regex)) logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return parameter.matches(regex);
     }
 
