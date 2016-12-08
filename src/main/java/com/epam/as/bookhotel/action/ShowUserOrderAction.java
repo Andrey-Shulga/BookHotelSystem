@@ -25,10 +25,11 @@ public class ShowUserOrderAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
-        User user = (User) req.getSession().getAttribute(USER);
-        int id = user.getId();
+        User user = (User) req.getSession(false).getAttribute(USER);
+        Order order = new Order();
+        order.setUserId(user.getId());
         OrderService orderService = new OrderService();
-        List<Order> orderList = orderService.findOrdersByUserId(id);
+        List<Order> orderList = orderService.findOrdersByUserId(order);
         req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
 
         return USER_ORDER_LIST;

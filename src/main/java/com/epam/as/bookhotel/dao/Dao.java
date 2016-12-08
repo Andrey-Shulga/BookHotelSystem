@@ -13,7 +13,7 @@ public interface Dao<T extends BaseEntity> {
 
     T save(T entity) throws PropertyManagerException, JdbcDaoException;
 
-    List<T> findAllById(int id) throws PropertyManagerException, JdbcDaoException;
+    List<T> findAllById(T entity, int id) throws PropertyManagerException, JdbcDaoException;
 
     void delete(T entity);
 

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
@@ -103,20 +104,29 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findAllById(int id) throws PropertyManagerException, JdbcDaoException {
+    public List<T> findAllById(T entity, int id) throws PropertyManagerException, JdbcDaoException {
 
-        logger.debug("{} trying to FIND entities by id={} in database...", this.getClass().getSimpleName(), id);
+        logger.debug("{} trying to FIND entities {} related by id={} in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName(), id);
+        List<T> entities = new ArrayList<>();
         String findQuery = getFindQuery();
         try {
             PreparedStatement ps = connection.prepareStatement(findQuery);
+            setFindIdFieldToPs(ps, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                setRsToField(rs, entity);
+                entities.add(entity);
+            }
         } catch (SQLException e) {
             if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
                 throw new DatabaseConnectionException(e);
             else
                 throw new JdbcDaoException(e);
         }
-        return null;
+        return entities;
     }
+
+    abstract void setFindIdFieldToPs(PreparedStatement ps, int id) throws SQLException;
 
     @Override
     public void delete(T entity) {
@@ -138,5 +148,5 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     abstract void setUpdateFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
-    abstract void setRsToField(ResultSet ps, T entity) throws SQLException;
+    abstract void setRsToField(ResultSet rs, T entity) throws SQLException;
 }

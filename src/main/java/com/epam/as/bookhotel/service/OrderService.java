@@ -22,11 +22,11 @@ public class OrderService {
         return newOrder;
     }
 
-    public List<Order> findOrdersByUserId(int id) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+    public List<Order> findOrdersByUserId(Order order) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            orderList = orderDao.findAllById(id);
+            orderList = orderDao.findAllById(order, order.getUserId());
         }
         return orderList;
     }

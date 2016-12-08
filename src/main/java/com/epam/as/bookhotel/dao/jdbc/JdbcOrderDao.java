@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
@@ -19,6 +20,11 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     JdbcOrderDao(Connection connection) {
         super(connection);
         this.connection = connection;
+    }
+
+    @Override
+    void setFindIdFieldToPs(PreparedStatement ps, int id) throws SQLException {
+        ps.setInt(1, id);
     }
 
     @Override
@@ -60,13 +66,24 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     }
 
+
     @Override
     void setUpdateFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
 
     }
 
     @Override
-    void setRsToField(ResultSet ps, Order entity) throws SQLException {
-
+    void setRsToField(ResultSet rs, Order entity) throws SQLException {
+        entity.setId(rs.getInt(1));
+        entity.setUserId(rs.getInt(2));
+        entity.setFirstName(rs.getString(3));
+        entity.setLastName(rs.getString(4));
+        entity.setEmail(rs.getString(5));
+        entity.setPhone(rs.getString(6));
+        entity.setBedId(rs.getInt(7));
+        entity.setRoomTypeId(rs.getInt(8));
+        entity.setCheckIn(rs.getObject(9, LocalDate.class));
+        entity.setCheckOut(rs.getObject(10, LocalDate.class));
+        entity.setStatusId(rs.getInt(11));
     }
 }
