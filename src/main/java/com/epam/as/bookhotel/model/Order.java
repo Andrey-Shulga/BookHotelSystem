@@ -36,6 +36,9 @@ public class Order extends BaseEntity {
         this.status = status;
     }
 
+    public Order() {
+    }
+
     public Order(int userId, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, int bed, String roomType) {
         this.userId = userId;
         this.firstName = firstName;

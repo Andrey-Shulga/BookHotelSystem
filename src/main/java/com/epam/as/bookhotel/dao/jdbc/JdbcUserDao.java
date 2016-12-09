@@ -1,7 +1,6 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.UserDao;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.model.UserType;
@@ -19,9 +18,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
     private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
-    private static final String UPDATE_USER_PROPERTY_KEY = "update.user";
     private static final String FIND_USER_PROPERTY_KEY = "find.user";
-    private static final String FIND_USER_ROLE_KEY = "find.user.role";
     private Connection connection;
 
 
@@ -31,52 +28,39 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    void setFindIdFieldToPs(PreparedStatement ps, int id) throws SQLException {
+    void setFindQueryRsToField(ResultSet rs, User entity) throws SQLException {
+        rs.next();
+        entity.setId(rs.getInt(1));
+        logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
+        logger.debug("{} trying to find role for {} in database...", this.getClass().getSimpleName(), entity);
+        String userRole = rs.getString(2);
+        entity.setRole(UserType.valueOf(userRole));
+        logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
+    }
+
+    @Override
+    void setIdFieldToPs(PreparedStatement ps, int id) throws SQLException {
 
     }
 
     @Override
-    void setFindFieldToPs(PreparedStatement ps, User entity) throws SQLException {
+    public void setInsertQueryFieldToPs(PreparedStatement ps, User entity) throws SQLException {
+        ps.setString(1, entity.getLogin());
+        ps.setString(2, entity.getPassword());
+        ps.setString(3, entity.getRole().toString());
+    }
+
+    @Override
+    void setFindQueryFieldToPs(PreparedStatement ps, User entity) throws SQLException {
         ps.setString(1, entity.getLogin());
         ps.setString(2, entity.getPassword());
     }
-
-    @Override
-    void setUpdateFieldToPs(PreparedStatement ps, User entity) throws SQLException {
-        ps.setString(2, entity.getLogin());
-        ps.setString(3, entity.getPassword());
-        ps.setString(1, Integer.toString(entity.getId()));
-    }
-
-    @Override
-    void setRsToField(ResultSet rs, User entity) throws SQLException {
-        String login = rs.getString("login");
-        String password = rs.getString("password");
-        entity.setLogin(login);
-        entity.setPassword(password);
-    }
-
-    @Override
-    String getUpdateQuery() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(UPDATE_USER_PROPERTY_KEY);
-    }
-
 
     @Override
     protected String getInsertQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
         logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY));
         return propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY);
-    }
-
-
-    @Override
-    public void setInsertFieldToPs(PreparedStatement ps, User entity) throws SQLException {
-        ps.setString(1, entity.getLogin());
-        ps.setString(2, entity.getPassword());
-        ps.setString(3, entity.getRole().toString());
     }
 
     @Override
@@ -86,28 +70,4 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         return propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY);
     }
 
-    public void findSetUserRole(User entity) throws PropertyManagerException, JdbcDaoException {
-        logger.debug("{} trying to find role for {} in database...", this.getClass().getSimpleName(), entity);
-        String findQuery = getFindUserRoleQuery();
-        try {
-            PreparedStatement ps = connection.prepareStatement(findQuery);
-            ps.setString(1, entity.getLogin());
-            ResultSet rs = ps.executeQuery();
-            if (rs != null) {
-                rs.next();
-                String role = rs.getString("role_name");
-                entity.setRole(UserType.valueOf(role));
-                logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new JdbcDaoException(e);
-        }
-    }
-
-    private String getFindUserRoleQuery() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_USER_ROLE_KEY));
-        return propertyManager.getPropertyKey(FIND_USER_ROLE_KEY);
-    }
 }

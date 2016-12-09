@@ -32,7 +32,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             String insertQuery = getInsertQuery();
             try {
                 PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                setInsertFieldToPs(ps, entity);
+                setInsertQueryFieldToPs(ps, entity);
                 ps.executeUpdate();
                 setId(entity, ps);
             } catch (SQLException e) {
@@ -43,21 +43,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 else
                     throw new JdbcDaoException(e);
             }
-            //update entity
-        } else {
-            logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
-            String updateQuery = getUpdateQuery();
-            try {
-                PreparedStatement ps = connection.prepareStatement(updateQuery, Statement.RETURN_GENERATED_KEYS);
-                setUpdateFieldToPs(ps, entity);
-                ps.executeUpdate();
-                ps.close();
-            } catch (SQLException e) {
-                if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
-                    throw new DatabaseConnectionException(e);
-                else
-                    throw new JdbcDaoException(e);
-            }
+
         }
         return entity;
     }
@@ -68,14 +54,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         String findQuery = getFindQuery();
         try {
             PreparedStatement ps = connection.prepareStatement(findQuery);
-            setFindFieldToPs(ps, entity);
+            setFindQueryFieldToPs(ps, entity);
             ps.executeQuery();
             ResultSet rs = ps.getResultSet();
-            if (rs != null) {
-                rs.next();
-                getId(entity, rs);
-                setRsToField(rs, entity);
-            }
+            setFindQueryRsToField(rs, entity);
             ps.close();
         } catch (SQLException e) {
             if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
@@ -88,11 +70,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return entity;
     }
 
-    private void getId(T entity, ResultSet rs) throws SQLException {
-        int id = rs.getInt(1);
-        entity.setId(id);
-        logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
-    }
 
     private void setId(T entity, PreparedStatement ps) throws SQLException {
         ResultSet generatedId = ps.getGeneratedKeys();
@@ -111,10 +88,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         String findQuery = getFindQuery();
         try {
             PreparedStatement ps = connection.prepareStatement(findQuery);
-            setFindIdFieldToPs(ps, id);
+            setIdFieldToPs(ps, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                setRsToField(rs, entity);
+                setFindQueryRsToField(rs, entity);
                 entities.add(entity);
             }
         } catch (SQLException e) {
@@ -126,27 +103,14 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return entities;
     }
 
-    abstract void setFindIdFieldToPs(PreparedStatement ps, int id) throws SQLException;
-
-    @Override
-    public void delete(T entity) {
-    }
-
-    @Override
-    public void deleteById(int id) {
-    }
+    abstract void setIdFieldToPs(PreparedStatement ps, int id) throws SQLException;
 
     abstract String getInsertQuery() throws PropertyManagerException;
-
-    abstract String getUpdateQuery() throws PropertyManagerException;
-
     abstract String getFindQuery() throws PropertyManagerException;
 
-    abstract void setInsertFieldToPs(PreparedStatement ps, T entity) throws SQLException;
+    abstract void setInsertQueryFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
-    abstract void setFindFieldToPs(PreparedStatement ps, T entity) throws SQLException;
+    abstract void setFindQueryFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
-    abstract void setUpdateFieldToPs(PreparedStatement ps, T entity) throws SQLException;
-
-    abstract void setRsToField(ResultSet rs, T entity) throws SQLException;
+    abstract void setFindQueryRsToField(ResultSet rs, T entity) throws SQLException;
 }

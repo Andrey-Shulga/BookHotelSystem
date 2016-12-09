@@ -15,9 +15,5 @@ public interface Dao<T extends BaseEntity> {
 
     List<T> findAllById(T entity, int id) throws PropertyManagerException, JdbcDaoException;
 
-    void delete(T entity);
-
-    void deleteById(int id);
-
     T find(T entity) throws PropertyManagerException, JdbcDaoException;
 }

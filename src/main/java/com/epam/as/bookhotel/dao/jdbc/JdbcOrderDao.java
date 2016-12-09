@@ -23,7 +23,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    void setFindIdFieldToPs(PreparedStatement ps, int id) throws SQLException {
+    void setIdFieldToPs(PreparedStatement ps, int id) throws SQLException {
         ps.setInt(1, id);
     }
 
@@ -35,11 +35,6 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    String getUpdateQuery() throws PropertyManagerException {
-        return null;
-    }
-
-    @Override
     String getFindQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
         logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ORDERS_PROPERTY_KEY));
@@ -47,7 +42,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    void setInsertFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
+    void setInsertQueryFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
 
         ps.setInt(1, entity.getUserId());
         ps.setString(2, entity.getFirstName());
@@ -62,18 +57,12 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    void setFindFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
-
-    }
-
-
-    @Override
-    void setUpdateFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
+    void setFindQueryFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
 
     }
 
     @Override
-    void setRsToField(ResultSet rs, Order entity) throws SQLException {
+    void setFindQueryRsToField(ResultSet rs, Order entity) throws SQLException {
         entity.setId(rs.getInt(1));
         entity.setUserId(rs.getInt(2));
         entity.setFirstName(rs.getString(3));
