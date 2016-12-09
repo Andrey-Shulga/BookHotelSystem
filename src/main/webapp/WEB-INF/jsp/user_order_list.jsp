@@ -11,6 +11,11 @@
     <jsp:body>
         <div align="center"><b><p><fmt:message key="user.order.list.notice"/></p></b></div>
         <hr>
+        <c:forEach var="order" items="${orders}">
+            ${order}<br>
+            <hr>
+        </c:forEach>
+
 
 
     </jsp:body>

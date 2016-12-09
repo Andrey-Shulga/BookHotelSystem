@@ -1,6 +1,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
+
 <%@tag description="Overall Page template" pageEncoding="UTF-8" %>
 
 <fmt:setBundle basename="lang"/>
@@ -31,9 +33,16 @@
 
 <div id="header">
     <jsp:invoke fragment="header"/>
-    <div align="left"><a href="${prefix}/?action=en" style="color: white">English</a>
-        <a href="${prefix}/?action=ru" style="color: white">Русский</a></div>
     <h1><fmt:message key="index.header.message"/></h1>
+    <div align="left">
+        <a href="${prefix}/?action=en" style="color: white">English</a>
+        <a href="${prefix}/?action=ru" style="color: white">Русский</a>
+    </div>
+    <br>
+    <div align="left">
+        <ctg:hello role="${user.login}"/>
+    </div>
+
 
 </div>
 
