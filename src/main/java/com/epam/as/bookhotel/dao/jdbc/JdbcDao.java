@@ -91,7 +91,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             setIdFieldToPs(ps, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                setFindQueryRsToField(rs, entity);
+                entity = setFindQueryRsToField(rs, entity);
                 entities.add(entity);
             }
         } catch (SQLException e) {
@@ -99,6 +99,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 throw new DatabaseConnectionException(e);
             else
                 throw new JdbcDaoException(e);
+        }
+        for (T element : entities) {
+            logger.debug("Found entity: {}", element);
         }
         return entities;
     }
@@ -112,5 +115,5 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     abstract void setFindQueryFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
-    abstract void setFindQueryRsToField(ResultSet rs, T entity) throws SQLException;
+    abstract T setFindQueryRsToField(ResultSet rs, T entity) throws SQLException;
 }

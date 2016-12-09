@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.time.LocalDate;
 
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
@@ -62,17 +61,21 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    void setFindQueryRsToField(ResultSet rs, Order entity) throws SQLException {
-        entity.setId(rs.getInt(1));
-        entity.setUserId(rs.getInt(2));
-        entity.setFirstName(rs.getString(3));
-        entity.setLastName(rs.getString(4));
-        entity.setEmail(rs.getString(5));
-        entity.setPhone(rs.getString(6));
-        entity.setBedId(rs.getInt(7));
-        entity.setRoomTypeId(rs.getInt(8));
-        entity.setCheckIn(rs.getObject(9, LocalDate.class));
-        entity.setCheckOut(rs.getObject(10, LocalDate.class));
-        entity.setStatusId(rs.getInt(11));
+    Order setFindQueryRsToField(ResultSet rs, Order entity) throws SQLException {
+        Order newEntity = new Order();
+        newEntity.setId(rs.getInt(1));
+        newEntity.setUserId(rs.getInt(2));
+        newEntity.setFirstName(rs.getString(3));
+        newEntity.setLastName(rs.getString(4));
+        newEntity.setEmail(rs.getString(5));
+        newEntity.setPhone(rs.getString(6));
+        newEntity.setBed(rs.getInt(7));
+        newEntity.setRoomType(rs.getString(8));
+        Date checkInDate = rs.getDate(9);
+        Date checkOutDate = rs.getDate(10);
+        newEntity.setCheckIn(checkInDate.toLocalDate());
+        newEntity.setCheckOut(checkOutDate.toLocalDate());
+        newEntity.setStatus(rs.getString(11));
+        return newEntity;
     }
 }

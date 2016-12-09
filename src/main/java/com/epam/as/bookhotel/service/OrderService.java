@@ -6,10 +6,14 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class OrderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     public Order makeOrder(Order order) throws ConnectionPoolException, PropertyManagerException, JdbcDaoException {
         Order newOrder;

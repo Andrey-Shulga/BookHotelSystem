@@ -28,7 +28,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    void setFindQueryRsToField(ResultSet rs, User entity) throws SQLException {
+    User setFindQueryRsToField(ResultSet rs, User entity) throws SQLException {
         rs.next();
         entity.setId(rs.getInt(1));
         logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
@@ -36,6 +36,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         String userRole = rs.getString(2);
         entity.setRole(UserType.valueOf(userRole));
         logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
+        return entity;
     }
 
     @Override

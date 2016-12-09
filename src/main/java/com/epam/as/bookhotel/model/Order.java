@@ -11,11 +11,8 @@ public class Order extends BaseEntity {
     private String phone;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    private int bedId;
     private int bed;
-    private int roomTypeId;
     private String roomType;
-    private int statusId;
     private String status;
 
 
@@ -28,11 +25,8 @@ public class Order extends BaseEntity {
         this.phone = phone;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.bedId = bedId;
         this.bed = bed;
-        this.roomTypeId = roomTypeId;
         this.roomType = roomType;
-        this.statusId = statusId;
         this.status = status;
     }
 
@@ -51,36 +45,12 @@ public class Order extends BaseEntity {
         this.roomType = roomType;
     }
 
-    public int getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public int getBedId() {
-        return bedId;
-    }
-
-    public void setBedId(int bedId) {
-        this.bedId = bedId;
-    }
-
-    public int getRoomTypeId() {
-        return roomTypeId;
-    }
-
-    public void setRoomTypeId(int roomTypeId) {
-        this.roomTypeId = roomTypeId;
     }
 
     public int getUserId() {
@@ -158,7 +128,8 @@ public class Order extends BaseEntity {
     @Override
     public String toString() {
         return "Order{" +
-                "userId=" + userId +
+                "orderId=" + this.getId() +
+                ", userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
