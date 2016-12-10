@@ -27,7 +27,7 @@ public class ShowUserOrderAction implements Action {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         User user = (User) req.getSession(false).getAttribute(USER);
         Order order = new Order();
-        order.setUserId(user.getId());
+        order.setUser(user);
         OrderService orderService = new OrderService();
         List<Order> orderList = orderService.findOrdersByUserId(order);
         req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);

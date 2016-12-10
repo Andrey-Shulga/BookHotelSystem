@@ -4,7 +4,9 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.model.Bed;
 import com.epam.as.bookhotel.model.Order;
+import com.epam.as.bookhotel.model.RoomType;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
 import com.epam.as.bookhotel.validator.FormValidator;
@@ -51,7 +53,7 @@ public class OrderRoomAction implements Action {
         logger.debug("Form's parameters are valid.");
 
         User user = (User) req.getSession().getAttribute(USER);
-        Integer userID = user.getId();
+
         String firstName = req.getParameter(FIRST_NAME);
         String lastName = req.getParameter(LAST_NAME);
         String email = req.getParameter(EMAIL);
@@ -60,10 +62,10 @@ public class OrderRoomAction implements Action {
         String checkOut = req.getParameter(CHECK_OUT);
         LocalDate checkInDate = getLocalDate(checkIn);
         LocalDate checkOutDate = getLocalDate(checkOut);
-        int bed = Integer.parseInt(req.getParameter(BED));
-        String roomType = req.getParameter(ROOM_TYPE);
+        Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
+        RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
-        Order order = new Order(userID, firstName, lastName, email, phone, checkInDate, checkOutDate, bed, roomType);
+        Order order = new Order(user, firstName, lastName, email, phone, checkInDate, checkOutDate, bed, roomType);
 
         OrderService orderService = new OrderService();
         try {

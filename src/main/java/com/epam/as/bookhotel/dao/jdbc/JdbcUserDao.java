@@ -41,11 +41,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    void setIdFieldToPs(PreparedStatement ps, int id) throws SQLException {
-
-    }
-
-    @Override
     public void setInsertQueryFieldToPs(PreparedStatement ps, User entity) throws SQLException {
         ps.setString(1, entity.getLogin());
         ps.setString(2, entity.getPassword());

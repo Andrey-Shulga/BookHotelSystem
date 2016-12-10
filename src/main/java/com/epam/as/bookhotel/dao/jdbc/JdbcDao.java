@@ -81,14 +81,13 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findAllById(T entity, int id) throws PropertyManagerException, JdbcDaoException {
+    public List<T> findAllById(T entity) throws PropertyManagerException, JdbcDaoException {
 
-        logger.debug("{} trying to FIND entities {} related by id={} in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName(), id);
         List<T> entities = new ArrayList<>();
         String findQuery = getFindQuery();
         try {
             PreparedStatement ps = connection.prepareStatement(findQuery);
-            setIdFieldToPs(ps, id);
+            setFindQueryFieldToPs(ps, entity);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 entity = setFindQueryRsToField(rs, entity);
@@ -105,8 +104,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
         return entities;
     }
-
-    abstract void setIdFieldToPs(PreparedStatement ps, int id) throws SQLException;
 
     abstract String getInsertQuery() throws PropertyManagerException;
     abstract String getFindQuery() throws PropertyManagerException;

@@ -30,7 +30,7 @@ public class OrderService {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            orderList = orderDao.findAllById(order, order.getUserId());
+            orderList = orderDao.findAllById(order);
         }
         return orderList;
     }

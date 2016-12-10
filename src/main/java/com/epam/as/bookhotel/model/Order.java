@@ -4,21 +4,21 @@ import java.time.LocalDate;
 
 public class Order extends BaseEntity {
 
-    private int userId;
+    private User user;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    private int bed;
-    private String roomType;
-    private String status;
+    private Bed bed;
+    private RoomType roomType;
+    private OrderStatus status;
 
 
-    public Order(Integer id, int userId, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, int bedId, int bed, int roomTypeId, String roomType, int statusId, String status) {
+    public Order(Integer id, User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, OrderStatus status) {
         super(id);
-        this.userId = userId;
+        this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -33,8 +33,8 @@ public class Order extends BaseEntity {
     public Order() {
     }
 
-    public Order(int userId, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, int bed, String roomType) {
-        this.userId = userId;
+    public Order(User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType) {
+        this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -45,20 +45,20 @@ public class Order extends BaseEntity {
         this.roomType = roomType;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getFirstName() {
@@ -109,19 +109,19 @@ public class Order extends BaseEntity {
         this.checkOut = checkOut;
     }
 
-    public int getBed() {
+    public Bed getBed() {
         return bed;
     }
 
-    public void setBed(int bed) {
+    public void setBed(Bed bed) {
         this.bed = bed;
     }
 
-    public String getRoomType() {
+    public RoomType getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String roomType) {
+    public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
 
@@ -129,7 +129,7 @@ public class Order extends BaseEntity {
     public String toString() {
         return "Order{" +
                 "orderId=" + this.getId() +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
