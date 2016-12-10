@@ -30,7 +30,6 @@ public class ShowUserOrderAction implements Action {
         order.setUserId(user.getId());
         OrderService orderService = new OrderService();
         List<Order> orderList = orderService.findOrdersByUserId(order);
-
         req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
 
         return USER_ORDER_LIST;

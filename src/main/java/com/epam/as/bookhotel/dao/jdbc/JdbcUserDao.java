@@ -3,6 +3,7 @@ package com.epam.as.bookhotel.dao.jdbc;
 import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.model.UserRole;
 import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
@@ -33,9 +34,9 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         entity.setId(rs.getInt(1));
         logger.debug("Search success. Entity {} with id {} found in database.", entity.getClass().getSimpleName(), entity.getId());
         logger.debug("{} trying to find role for {} in database...", this.getClass().getSimpleName(), entity);
-        String userRole = rs.getString(2);
-        entity.setRole(UserType.valueOf(userRole));
-        logger.debug("User role \"{}\" found and set.", entity.getRole().toString());
+        UserRole userRole = new UserRole(UserType.valueOf(rs.getString(2)));
+        entity.setRole(userRole);
+        logger.debug("For user \"{}\" with id \"{}\" found role \"{}\".", entity.getLogin(), entity.getId(), entity.getRole().toString());
         return entity;
     }
 

@@ -138,14 +138,13 @@ ALTER TABLE "Confirmation_order" ADD CONSTRAINT "Confirmation_order_fk1" FOREIGN
 
 ALTER DATABASE dbase SET datestyle TO "ISO, DMY";
 
-INSERT INTO "User_role" (role_name) VALUES ('MANAGER');
-INSERT INTO "User_role" (role_name) VALUES ('USER');
+INSERT INTO "User_role" (role_name) VALUES ('MANAGER'), ('USER');
 
 INSERT INTO "User" (login, password, role_id) VALUES ('manager', 'manager', (SELECT "User_role".role_id
 																																						 FROM public."User_role"
 																																						 WHERE "User_role".role_name = 'MANAGER'));
 
-INSERT INTO "Order_status" (order_status) VALUES ('unconfirmed'), ('confirmed');
+INSERT INTO "Order_status" (order_status) VALUES ('unconfirmed'), ('confirmed'), ('canceled');
 
 INSERT INTO "Room_type" (type_name) VALUES ('Standard'), ('Junior suit'), ('Suit');
 

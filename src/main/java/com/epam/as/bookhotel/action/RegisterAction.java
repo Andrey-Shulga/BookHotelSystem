@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.model.UserRole;
 import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.service.UserService;
 import com.epam.as.bookhotel.validator.FormValidator;
@@ -41,12 +42,13 @@ public class RegisterAction implements Action {
 
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
+        UserRole userRole = new UserRole(UserType.USER);
 
-        User user = new User(login, password, UserType.USER);
+        User user = new User(login, password, userRole);
         UserService userService = new UserService();
         try {
             user = userService.register(user);
-            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole());
+            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (JdbcDaoException e) {
             req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }

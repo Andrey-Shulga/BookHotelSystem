@@ -5,19 +5,19 @@ public class User extends BaseEntity {
 
     private String login;
     private String password;
-    private UserType role;
+    private UserRole role;
 
     public User() {
     }
 
-    public User(Integer id, String login, String password, UserType role) {
+    public User(Integer id, String login, String password, UserRole role) {
         super(id);
         this.login = login;
         this.password = password;
         this.role = role;
     }
 
-    public User(String login, String password, UserType role) {
+    public User(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
         this.role = role;
@@ -47,18 +47,18 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public UserType getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(UserType role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id='" + this.getId() +
-                ", login='" + login + '\'' +
+        return "User{" +
+                "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';

@@ -40,7 +40,7 @@
     </div>
     <br>
     <div align="left">
-        <ctg:hello role="${user.login}"/>
+        <b><ctg:hello role="${user.login}"/></b>
     </div>
 
 
