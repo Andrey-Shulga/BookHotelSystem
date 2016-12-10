@@ -12,8 +12,10 @@ public class ShowRegisterSuccessAction implements Action {
 
     private static final String REGISTER_SUCCESS_JSP = "register_success";
 
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+
         return REGISTER_SUCCESS_JSP;
     }
 }

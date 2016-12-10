@@ -9,6 +9,16 @@
     </session-config>
 
     <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>com.epam.as.bookhotel.filter.AccessFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/do/</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.epam.as.bookhotel.filter.EncodingFilter</filter-class>
         <init-param>
@@ -34,6 +44,7 @@
     <welcome-file-list>
         <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
     </welcome-file-list>
+
 
     <jsp-config>
         <taglib>

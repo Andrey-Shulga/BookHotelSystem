@@ -14,7 +14,7 @@
     <jsp:body>
 
         <p><fmt:message key="register.hello.message"/></p>
-        <form name="registerForm" action="/do/?action=register" method="post">
+        <form name="registerForm" action="do/?action=register" method="post">
             <label><b><fmt:message key="register.login"/></b></label>
             <small><fmt:message key="register.login.range"/></small>
             <br>

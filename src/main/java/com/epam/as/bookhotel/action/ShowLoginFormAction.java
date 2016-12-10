@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowLoginFormAction implements Action {
 
-    private static final String LOPGIN_JSP = "login";
+    private static final String LOGIN_JSP = "login";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException {
-        return LOPGIN_JSP;
+        return LOGIN_JSP;
     }
 }
