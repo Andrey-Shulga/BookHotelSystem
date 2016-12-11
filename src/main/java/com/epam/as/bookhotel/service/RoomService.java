@@ -20,4 +20,14 @@ public class RoomService {
         }
         return roomList;
     }
+
+    public List<Room> findAllRoomsByStatus(Room room) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+
+        List<Room> roomList;
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            RoomDao roomDao = daoFactory.getRoomDao();
+            roomList = roomDao.findAllByParameter(room);
+        }
+        return roomList;
+    }
 }

@@ -18,8 +18,8 @@ import java.sql.SQLException;
 public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
-    private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
-    private static final String FIND_USER_PROPERTY_KEY = "find.user";
+    private static final String INSERT_USER_QUERY = "insert.user";
+    private static final String FIND_LOGIN_USER_QUERY = "find.user";
 
 
     JdbcUserDao(Connection connection) {
@@ -65,15 +65,15 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     protected String getInsertQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(INSERT_USER_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_USER_QUERY));
+        return propertyManager.getPropertyKey(INSERT_USER_QUERY);
     }
 
     @Override
     protected String getFindQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(FIND_USER_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_LOGIN_USER_QUERY));
+        return propertyManager.getPropertyKey(FIND_LOGIN_USER_QUERY);
     }
 
 }

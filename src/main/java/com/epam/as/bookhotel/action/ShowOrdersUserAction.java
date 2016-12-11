@@ -20,6 +20,7 @@ public class ShowOrdersUserAction implements Action {
     private static final String USER = "user";
     private static final String LOGIN_FORM = "login";
     private static final String ORDER_LIST_ATTRIBUTE = "orders";
+    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String USER_ORDER_LIST = "user_order_list";
 
     @Override
@@ -29,8 +30,12 @@ public class ShowOrdersUserAction implements Action {
         Order order = new Order();
         order.setUser(user);
         OrderService orderService = new OrderService();
-        List<Order> orderList = orderService.findOrdersByUserId(order);
-        req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
+        try {
+            List<Order> orderList = orderService.findOrdersByUserId(order);
+            req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
+        } catch (JdbcDaoException e) {
+            req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
+        }
 
         return USER_ORDER_LIST;
     }

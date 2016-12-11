@@ -71,17 +71,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
 
-    private void setId(T entity, PreparedStatement ps) throws SQLException {
-        ResultSet generatedId = ps.getGeneratedKeys();
-        generatedId.next();
-        int id = generatedId.getInt(1);
-        entity.setId(id);
-        ps.close();
-        logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
-    }
-
     @Override
-    public List<T> findAllById(T entity) throws PropertyManagerException, JdbcDaoException {
+    public List<T> findAllByParameter(T entity) throws PropertyManagerException, JdbcDaoException {
 
         List<T> entities = new ArrayList<>();
         String findQuery = getFindQuery();
@@ -99,9 +90,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             else
                 throw new JdbcDaoException(e);
         }
-        for (T element : entities) {
-            logger.debug("Found entity: {}", element);
-        }
+
         return entities;
     }
 
@@ -128,6 +117,15 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             logger.debug("Found entity: {}", element);
         }
         return entities;
+    }
+
+    private void setId(T entity, PreparedStatement ps) throws SQLException {
+        ResultSet generatedId = ps.getGeneratedKeys();
+        generatedId.next();
+        int id = generatedId.getInt(1);
+        entity.setId(id);
+        ps.close();
+        logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
     }
 
     abstract T setFindALLQueryRsToField(ResultSet rs, T entity) throws SQLException;

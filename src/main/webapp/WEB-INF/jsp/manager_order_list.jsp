@@ -4,6 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="orders.show.form.title" var="title"/>
+<c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
+<c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -77,6 +79,75 @@
                 </c:forEach>
             </table>
         </div>
+
+        <br>
+        <c:if test="${not empty orderListErrorMessage}">
+            <div id="errorcolortext"><fmt:message key="${ordersErrorMessages}"/></div>
+        </c:if>
+        <hr>
+        <h2><fmt:message key="orders.manager.form.message.selectroom"/><br></h2>
+
+        <form action="do/?action=select-room" method="post">
+            <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
+            <input type="text" name="orderId" placeholder="" value="" required autofocus><br><br>
+            <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
+            <input type="text" name="roomId" value="" placeholder="" required><br><br>
+            <button type="submit"><fmt:message key="orders.manager.form.select.button.submit"/></button>
+            <br>
+
+        </form>
+
+        <hr>
+        <div align="center"><p>
+            <h2><b><fmt:message key="orders.manager.form.message.room"/></b></h2>
+        </div>
+        <hr>
+        <br>
+
+        <div align="center">
+            <table border='2'>
+                <thead>
+                <tr>
+                    <th scope='colgroup' width="70px"><fmt:message key="roomlist.table.roomid"/></th>
+                    <th scope='colgroup' width="100px"><fmt:message key="userorderlist.table.roomtype"/></th>
+                    <th scope='colgroup' width="60px"><fmt:message key="userorderlist.table.bed"/></th>
+                    <th scope='colgroup' width="75px"><fmt:message key="roomlist.table.roomnumber"/></th>
+                    <th scope='colgroup' width="80px"><fmt:message key="roomlist.table.roomstatus"/></th>
+                    <th scope='colgroup' width="90px"><fmt:message key="roomlist.table.roomprice"/></th>
+
+                </tr>
+                </thead>
+                <c:forEach var="room" items="${rooms}">
+                    <tr align="center">
+                        <td>
+                                ${room.id}
+                        </td>
+
+                        <td>
+                                ${room.roomType}
+                        </td>
+                        <td>
+                                ${room.bed}
+                        </td>
+                        <td>
+                                ${room.number}
+                        </td>
+                        <td>
+                                ${room.roomStatus}
+                        </td>
+                        <td>
+                                ${room.price}
+                        </td>
+
+                    </tr>
+
+                </c:forEach>
+            </table>
+        </div>
+        <br>
+        <c:if test="${not empty roomListErrorMessage}">
+            <div id="errorcolortext"><fmt:message key="${roomsErrorMessages}"/></div>
+        </c:if>
 
     </jsp:body>
 

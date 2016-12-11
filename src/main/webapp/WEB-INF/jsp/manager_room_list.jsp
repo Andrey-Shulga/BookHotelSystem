@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="rooms.show.form.title" var="title"/>
+<c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -56,6 +57,9 @@
                 </c:forEach>
             </table>
         </div>
+        <c:if test="${not empty roomListErrorMessage}">
+            <div id="errorcolortext"><fmt:message key="${roomsErrorMessages}"/></div>
+        </c:if>
 
     </jsp:body>
 

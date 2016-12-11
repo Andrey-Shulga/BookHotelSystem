@@ -4,6 +4,9 @@ public class RoomStatus extends BaseEntity {
 
     private String roomStatus;
 
+    public RoomStatus() {
+    }
+
     public RoomStatus(String roomStatus) {
         this.roomStatus = roomStatus;
     }

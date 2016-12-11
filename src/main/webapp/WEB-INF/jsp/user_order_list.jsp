@@ -6,6 +6,7 @@
 
 <fmt:setBundle basename="lang"/>
 <fmt:message key="user.order.list.title" var="title"/>
+<c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -70,6 +71,9 @@
                 </c:forEach>
             </table>
         </div>
+        <c:if test="${not empty orderListErrorMessage}">
+            <div id="errorcolortext"><fmt:message key="${ordersErrorMessages}"/></div>
+        </c:if>
 
     </jsp:body>
 

@@ -12,9 +12,9 @@ import java.sql.*;
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcOrderDao.class);
-    private static final String INSERT_ORDER_PROPERTY_KEY = "insert.order";
-    private static final String FIND_ORDERS_PROPERTY_KEY = "find.orders";
-    private static final String FIND_ALL_ORDERS_PROPERTY_KEY = "find.all.orders";
+    private static final String INSERT_ORDER_QUERY = "insert.order";
+    private static final String FIND_ORDERS_BY_ID_QUERY = "find.orders";
+    private static final String FIND_ALL_ORDERS_QUERY = "find.all.orders";
 
 
     JdbcOrderDao(Connection connection) {
@@ -49,22 +49,22 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     @Override
     String getFindAllQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ALL_ORDERS_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(FIND_ALL_ORDERS_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ALL_ORDERS_QUERY));
+        return propertyManager.getPropertyKey(FIND_ALL_ORDERS_QUERY);
     }
 
     @Override
     String getInsertQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_ORDER_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(INSERT_ORDER_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_ORDER_QUERY));
+        return propertyManager.getPropertyKey(INSERT_ORDER_QUERY);
     }
 
     @Override
     String getFindQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ORDERS_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(FIND_ORDERS_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ORDERS_BY_ID_QUERY));
+        return propertyManager.getPropertyKey(FIND_ORDERS_BY_ID_QUERY);
     }
 
     @Override
@@ -85,7 +85,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     @Override
     void setFindQueryFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
         logger.debug("{} trying to FIND entities \"{}\" related by entity \"{}\" in database...",
-                this.getClass().getSimpleName(), entity.getClass().getSimpleName(), entity.getUser(), entity.getUser().getId());
+                this.getClass().getSimpleName(), entity.getClass().getSimpleName(), entity.getUser());
         ps.setInt(1, entity.getUser().getId());
     }
 
@@ -108,6 +108,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         newEntity.setCheckOut(checkOutDate.toLocalDate());
         OrderStatus status = new OrderStatus(rs.getString(11));
         newEntity.setStatus(status);
+        logger.debug("Found entity: {}", newEntity);
         return newEntity;
     }
 }

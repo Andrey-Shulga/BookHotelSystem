@@ -18,7 +18,8 @@ import java.sql.SQLException;
 public class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcRoomDao.class);
-    private static final String FIND_ALL_ROOMS_PROPERTY_KEY = "find.all.rooms";
+    private static final String FIND_ALL_ROOMS_QUERY = "find.all.rooms";
+    private static final String FIND_ROOMS_BY_STATUS_QUERY = "find.all.rooms.by.status";
 
     JdbcRoomDao(Connection connection) {
         super(connection);
@@ -42,8 +43,8 @@ public class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
     @Override
     String getFindAllQuery() throws PropertyManagerException {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ALL_ROOMS_PROPERTY_KEY));
-        return propertyManager.getPropertyKey(FIND_ALL_ROOMS_PROPERTY_KEY);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ALL_ROOMS_QUERY));
+        return propertyManager.getPropertyKey(FIND_ALL_ROOMS_QUERY);
     }
 
     @Override
@@ -53,7 +54,9 @@ public class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
 
     @Override
     String getFindQuery() throws PropertyManagerException {
-        return null;
+        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ROOMS_BY_STATUS_QUERY));
+        return propertyManager.getPropertyKey(FIND_ROOMS_BY_STATUS_QUERY);
     }
 
     @Override
@@ -63,11 +66,18 @@ public class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
 
     @Override
     void setFindQueryFieldToPs(PreparedStatement ps, Room entity) throws SQLException {
-
+        ps.setString(1, entity.getRoomStatus().getRoomStatus());
     }
 
     @Override
     Room setFindQueryRsToField(ResultSet rs, Room entity) throws SQLException {
-        return null;
+        Room newRoom = new Room();
+        newRoom.setId(rs.getInt(1));
+        newRoom.setRoomType(new RoomType(rs.getString(2)));
+        newRoom.setBed(new Bed(rs.getInt(3)));
+        newRoom.setNumber(rs.getInt(4));
+        newRoom.setRoomStatus(new RoomStatus(rs.getString(5)));
+        newRoom.setPrice(rs.getBigDecimal(6));
+        return newRoom;
     }
 }

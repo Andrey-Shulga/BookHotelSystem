@@ -26,7 +26,7 @@ public class OrderService {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            orderList = orderDao.findAllById(order);
+            orderList = orderDao.findAllByParameter(order);
         }
         return orderList;
     }
