@@ -102,7 +102,7 @@
             <h2><b><fmt:message key="orders.manager.form.message.room"/></b></h2>
         </div>
         <hr>
-        <br>
+
 
         <div align="center">
             <table border='2'>
