@@ -12,7 +12,8 @@
 
     <jsp:body>
         <div align="center">
-            <h2><b><p><fmt:message key="user.order.list.notice"/></p></b></h2>
+            <p>
+            <h2><b><fmt:message key="user.order.list.notice"/></b></h2>
         </div>
         <hr>
 
@@ -69,9 +70,6 @@
                 </c:forEach>
             </table>
         </div>
-
-
-
 
     </jsp:body>
 

@@ -105,6 +105,30 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return entities;
     }
 
+    @Override
+    public List<T> findAll(T entity) throws PropertyManagerException, JdbcDaoException {
+        List<T> entities = new ArrayList<>();
+        String findAllQuery = getFindAllQuery();
+        try {
+            PreparedStatement ps = connection.prepareStatement(findAllQuery);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                entity = setFindALLQueryRsToField(rs, entity);
+                entities.add(entity);
+            }
+        } catch (SQLException e) {
+            if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                throw new DatabaseConnectionException(e);
+            else
+                throw new JdbcDaoException(e);
+        }
+        return entities;
+    }
+
+    abstract T setFindALLQueryRsToField(ResultSet rs, T entity) throws SQLException;
+
+    abstract String getFindAllQuery() throws PropertyManagerException;
+
     abstract String getInsertQuery() throws PropertyManagerException;
     abstract String getFindQuery() throws PropertyManagerException;
 

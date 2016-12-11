@@ -24,7 +24,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
     <title>${title}</title>
 
 </head>
@@ -57,7 +57,7 @@
     <c:if test="${not empty role}">
         <c:if test="${role==MANAGER}">
             <p><a href="${prefix}/?action=show-manager_order_list"><fmt:message key="sidebar.menu.order.list"/></a></p>
-            <p><a href="${prefix}/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>
+
         </c:if>
         <c:if test="${role==USER}">
             <p><a href="${prefix}/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>

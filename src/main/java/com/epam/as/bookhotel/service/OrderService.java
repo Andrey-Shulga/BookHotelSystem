@@ -35,4 +35,13 @@ public class OrderService {
         return orderList;
     }
 
+    public List<Order> findAllOrders(Order order) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+        List<Order> orderList;
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            OrderDao orderDao = daoFactory.getOrderDao();
+            orderList = orderDao.findAll(order);
+        }
+        return orderList;
+    }
+
 }

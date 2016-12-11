@@ -29,6 +29,16 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
+    User setFindALLQueryRsToField(ResultSet rs, User entity) {
+        return null;
+    }
+
+    @Override
+    String getFindAllQuery() throws PropertyManagerException {
+        return null;
+    }
+
+    @Override
     User setFindQueryRsToField(ResultSet rs, User entity) throws SQLException {
         rs.next();
         entity.setId(rs.getInt(1));
