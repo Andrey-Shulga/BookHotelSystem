@@ -4,29 +4,26 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
-import com.epam.as.bookhotel.model.Order;
-import com.epam.as.bookhotel.service.OrderService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.epam.as.bookhotel.model.Room;
+import com.epam.as.bookhotel.service.RoomService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class ShowManagerOrderListAction implements Action {
+public class ShowRoomManagerAction implements Action {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShowManagerOrderListAction.class);
     private static final String USER = "user";
     private static final String LOGIN_FORM = "login";
-    private static final String ORDER_LIST_ATTRIBUTE = "orders";
-    private static final String ORDER_LIST_JSP = "manager_order_list";
+    private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
+    private static final String ROOM_LIST_JSP = "manager_room_list";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
-        OrderService orderService = new OrderService();
-        List<Order> orderList = orderService.findAllOrders(new Order());
-        req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
-        return ORDER_LIST_JSP;
+        RoomService roomService = new RoomService();
+        List<Room> roomList = roomService.findAllRooms(new Room());
+        req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
+        return ROOM_LIST_JSP;
     }
 }

@@ -50,22 +50,28 @@
     <jsp:invoke fragment="sidebar"/>
 
     <p><a href="${prefix}/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
+
     <c:if test="${empty role}">
         <p><a href="${prefix}/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
         <p><a href="${prefix}/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
     </c:if>
+
     <c:if test="${not empty role}">
         <c:if test="${role==MANAGER}">
             <p><a href="${prefix}/?action=show-manager_order_list"><fmt:message key="sidebar.menu.order.list"/></a></p>
+            <p><a href="${prefix}/?action=show-manager-room-list"><fmt:message key="sidebar.menu.room.list"/></a></p>
 
         </c:if>
+
         <c:if test="${role==USER}">
             <p><a href="${prefix}/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>
             <p><a href="${prefix}/?action=show-user-order-list"><fmt:message key="sidebar.menu.user.order.list"/></a>
             </p>
         </c:if>
+
         <p><a href="${prefix}/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
     </c:if>
+
 </div>
 
 <div id="content">

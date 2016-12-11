@@ -20,12 +20,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final Logger logger = LoggerFactory.getLogger(JdbcUserDao.class);
     private static final String INSERT_USER_PROPERTY_KEY = "insert.user";
     private static final String FIND_USER_PROPERTY_KEY = "find.user";
-    private Connection connection;
 
 
     JdbcUserDao(Connection connection) {
         super(connection);
-        this.connection = connection;
+
     }
 
     @Override

@@ -19,7 +19,6 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     JdbcOrderDao(Connection connection) {
         super(connection);
-
     }
 
     @Override

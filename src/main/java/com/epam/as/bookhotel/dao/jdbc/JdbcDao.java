@@ -109,6 +109,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public List<T> findAll(T entity) throws PropertyManagerException, JdbcDaoException {
         List<T> entities = new ArrayList<>();
         String findAllQuery = getFindAllQuery();
+        logger.debug("{} trying to FIND all entities \"{}\" in database...",
+                this.getClass().getSimpleName(), entity.getClass().getSimpleName());
         try {
             PreparedStatement ps = connection.prepareStatement(findAllQuery);
             ResultSet rs = ps.executeQuery();
@@ -121,6 +123,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 throw new DatabaseConnectionException(e);
             else
                 throw new JdbcDaoException(e);
+        }
+        for (T element : entities) {
+            logger.debug("Found entity: {}", element);
         }
         return entities;
     }
