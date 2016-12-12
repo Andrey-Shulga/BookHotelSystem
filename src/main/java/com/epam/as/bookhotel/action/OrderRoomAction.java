@@ -74,7 +74,7 @@ public class OrderRoomAction implements Action {
             req.setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return ORDER_FORM;
         }
-
+        if (order.getId() == 0) return ORDER_FORM;
         return REDIRECT;
     }
 

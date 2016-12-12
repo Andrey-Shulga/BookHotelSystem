@@ -54,7 +54,7 @@ public class FrontControllerServlet extends HttpServlet {
     private void proceedTo(String view, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         if (view.startsWith(REDIRECT_PREFIX)) {
-            resp.sendRedirect(view.substring(REDIRECT_PREFIX.length()));
+            req.getRequestDispatcher(view.substring(REDIRECT_PREFIX.length())).forward(req, resp);
         } else {
             req.getRequestDispatcher(PATH_TO_JSP + view + FILE_JSP).forward(req, resp);
         }

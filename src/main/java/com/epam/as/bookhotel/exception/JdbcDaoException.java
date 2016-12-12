@@ -12,6 +12,10 @@ public class JdbcDaoException extends Exception {
         this.message = message;
     }
 
+    public JdbcDaoException(String message) {
+        this.message = message;
+    }
+
     public JdbcDaoException(Exception e) {
         this.message = e.getMessage();
 

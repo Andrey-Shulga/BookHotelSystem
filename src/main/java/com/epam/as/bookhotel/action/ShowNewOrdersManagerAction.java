@@ -22,7 +22,7 @@ public class ShowNewOrdersManagerAction implements Action {
     private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
     private static final String ROOM_FREE_STATUS = "free";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String ORDER_LIST_JSP = "manager_order_list";
+    private static final String MANAGER_ORDER_LIST = "manager_order_list";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
@@ -46,6 +46,6 @@ public class ShowNewOrdersManagerAction implements Action {
             req.setAttribute(ROOMS_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
 
-        return ORDER_LIST_JSP;
+        return MANAGER_ORDER_LIST;
     }
 }

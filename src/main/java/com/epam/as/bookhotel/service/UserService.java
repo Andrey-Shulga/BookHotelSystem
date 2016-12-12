@@ -6,6 +6,7 @@ import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.UserNotFoundException;
 import com.epam.as.bookhotel.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String REGISTER_USER_KEY = "insert.user";
     private static final String FIND_LOGIN_USER_KEY = "find.user.login";
+    private static final String USER_NOT_FOUND_ERROR_MSG = "login.error.notfound";
     private List<String> parameters = new ArrayList<>();
 
     public User register(User user) throws PropertyManagerException, ConnectionPoolException, JdbcDaoException {
@@ -41,6 +43,7 @@ public class UserService {
         } catch (JdbcDaoException e) {
             throw new JdbcDaoException(e);
         }
+        if (foundUsers.isEmpty()) throw new UserNotFoundException(USER_NOT_FOUND_ERROR_MSG);
         return foundUsers.get(0);
     }
 

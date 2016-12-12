@@ -6,6 +6,8 @@
 <fmt:message key="orders.show.form.title" var="title"/>
 <c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
 <c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
+<c:set var="orderIdErrorMessage" value="${orderIdErrorMessages}"/>
+<c:set var="roomIdErrorMessage" value="${roomIdErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -22,11 +24,10 @@
                 <thead>
                 <tr>
                     <th scope='colgroup' width="70px"><fmt:message key="userorderlist.table.orderid"/></th>
-                    <th scope='colgroup' width="70px"><fmt:message key="userorderlist.table.userid"/></th>
-                    <th scope='colgroup' width="70px"><fmt:message key="userorderlist.table.userlogin"/></th>
-                    <th scope='colgroup' width="200px"><fmt:message key="userorderlist.table.firstname"/></th>
-                    <th scope='colgroup' width="200px"><fmt:message key="userorderlist.table.lastname"/></th>
-                    <th scope='colgroup' width="200px"><fmt:message key="userorderlist.table.email"/></th>
+
+                    <th scope='colgroup' width="150x"><fmt:message key="userorderlist.table.firstname"/></th>
+                    <th scope='colgroup' width="150px"><fmt:message key="userorderlist.table.lastname"/></th>
+                    <th scope='colgroup' width="150px"><fmt:message key="userorderlist.table.email"/></th>
                     <th scope='colgroup' width="150px"><fmt:message key="userorderlist.table.phone"/></th>
                     <th scope='colgroup' width="50px"><fmt:message key="userorderlist.table.bed"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="userorderlist.table.roomtype"/></th>
@@ -41,12 +42,7 @@
                                 ${order.id}
                         </td>
 
-                        <td>
-                                ${order.user.id}
-                        </td>
-                        <td>
-                                ${order.user.login}
-                        </td>
+
                         <td>
                                 ${order.firstName}
                         </td>
@@ -89,9 +85,17 @@
 
         <form action="do/?action=select-room" method="post">
             <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
-            <input type="text" name="orderId" placeholder="" value="" required autofocus><br><br>
+            <input type="text" name="orderId" placeholder="" value="" required1 autofocus>
+            <c:if test="${not empty orderIdErrorMessage}">
+                <div id="errorcolortext"><fmt:message key="${orderIdErrorMessages}"/></div>
+            </c:if>
+            <br><br>
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
-            <input type="text" name="roomId" value="" placeholder="" required><br><br>
+            <input type="text" name="roomId" value="" placeholder="" required1>
+            <c:if test="${not empty roomIdErrorMessage}">
+                <div id="errorcolortext"><fmt:message key="${roomIdErrorMessages}"/></div>
+            </c:if>
+            <br><br>
             <button type="submit"><fmt:message key="orders.manager.form.select.button.submit"/></button>
             <br>
 

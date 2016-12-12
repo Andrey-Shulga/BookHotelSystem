@@ -2,7 +2,10 @@ package com.epam.as.bookhotel.dao.jdbc;
 
 
 import com.epam.as.bookhotel.dao.Dao;
-import com.epam.as.bookhotel.exception.*;
+import com.epam.as.bookhotel.exception.DatabaseConnectionException;
+import com.epam.as.bookhotel.exception.JdbcDaoException;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.UserExistingException;
 import com.epam.as.bookhotel.model.BaseEntity;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
@@ -15,7 +18,7 @@ import java.util.List;
 abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final String QUERY_PROPERTY_FILE = "query.properties";
-    private static final String USER_EXIST_ERROR_CODE = "23505";
+    private static final String ENTITY_EXIST_ERROR_CODE = "23505";
     private static final String USER_NOT_FOUND_ERROR_CODE = "24000";
     private static final String DATABASE_CONNECT_LOST_ERROR_CODE = "08006";
     private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
@@ -39,7 +42,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             } catch (SQLException e) {
                 if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
                     throw new DatabaseConnectionException(e);
-                if (USER_EXIST_ERROR_CODE.equals(e.getSQLState()))
+                if (ENTITY_EXIST_ERROR_CODE.equals(e.getSQLState()))
                     throw new UserExistingException(e);
                 else
                     throw new JdbcDaoException(e);
@@ -67,12 +70,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         } catch (SQLException e) {
             if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
                 throw new DatabaseConnectionException(e);
-            if (USER_NOT_FOUND_ERROR_CODE.equals(e.getSQLState()))
-                throw new UserNotFoundException(e);
             else
                 throw new JdbcDaoException(e);
         }
-
         return entities;
     }
 

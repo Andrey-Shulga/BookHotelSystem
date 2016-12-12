@@ -58,8 +58,8 @@
 
     <c:if test="${not empty role}">
         <c:if test="${role==MANAGER}">
-            <p><a href="${prefix}/?action=show-manager_order_list"><fmt:message key="sidebar.menu.order.list"/></a></p>
-            <p><a href="${prefix}/?action=show-manager_allorder_list"><fmt:message
+            <p><a href="${prefix}/?action=show-manager-order-list"><fmt:message key="sidebar.menu.order.list"/></a></p>
+            <p><a href="${prefix}/?action=show-manager-allorder-list"><fmt:message
                     key="sidebar.menu.allorder.list"/></a></p>
             <p><a href="${prefix}/?action=show-manager-room-list"><fmt:message key="sidebar.menu.room.list"/></a></p>
 
