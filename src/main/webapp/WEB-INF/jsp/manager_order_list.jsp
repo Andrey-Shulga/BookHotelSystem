@@ -83,11 +83,12 @@
         <hr>
         <h2><fmt:message key="orders.manager.form.message.selectroom"/><br></h2>
 
-        <form action="do/?action=select-room" method="post">
+        <form action="/do/?action=select-room" method="post">
             <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
             <input type="text" name="orderId" placeholder="" value="" required1 autofocus>
             <c:if test="${not empty orderIdErrorMessage}">
-                <div id="errorcolortext"><fmt:message key="${orderIdErrorMessages}"/></div>
+                <div id="errorcolortext">
+                    <fmt:message key="${orderIdErrorMessages}"/></div>
             </c:if>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
