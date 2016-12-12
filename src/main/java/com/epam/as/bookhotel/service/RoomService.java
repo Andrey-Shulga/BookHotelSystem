@@ -7,16 +7,22 @@ import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.Room;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoomService {
+
+    private static final String FIND_ALL_ROOMS_KEY = "find.all.rooms";
+    private static final String FIND_ALL_ROOMS_BY_STATUS_KEY = "find.all.rooms.by.status";
+    private static final String ROOM_FREE_STATUS = "free";
+    private List<String> parameters = new ArrayList<>();
 
     public List<Room> findAllRooms(Room room) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
 
         List<Room> roomList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             RoomDao roomDao = daoFactory.getRoomDao();
-            roomList = roomDao.findAll(room);
+            roomList = roomDao.findByParameters(room, parameters, FIND_ALL_ROOMS_KEY);
         }
         return roomList;
     }
@@ -26,7 +32,8 @@ public class RoomService {
         List<Room> roomList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             RoomDao roomDao = daoFactory.getRoomDao();
-            roomList = roomDao.findAllByParameter(room);
+            parameters.add(ROOM_FREE_STATUS);
+            roomList = roomDao.findByParameters(room, parameters, FIND_ALL_ROOMS_BY_STATUS_KEY);
         }
         return roomList;
     }

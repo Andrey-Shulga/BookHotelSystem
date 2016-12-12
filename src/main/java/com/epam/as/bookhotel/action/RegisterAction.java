@@ -52,10 +52,9 @@ public class RegisterAction implements Action {
                     user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (JdbcDaoException e) {
             req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
-        }
-        if (user.getId() == null) {
             return REGISTER_FORM;
         }
+
         return REDIRECT;
     }
 }

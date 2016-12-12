@@ -16,7 +16,7 @@ public class Order extends BaseEntity {
     private OrderStatus status;
 
 
-    public Order(Integer id, User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, OrderStatus status) {
+    public Order(int id, User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, OrderStatus status) {
         super(id);
         this.user = user;
         this.firstName = firstName;

@@ -11,11 +11,7 @@ import java.util.List;
  */
 public interface Dao<T extends BaseEntity> {
 
-    T save(T entity) throws PropertyManagerException, JdbcDaoException;
+    T save(T entity, String queryKey) throws PropertyManagerException, JdbcDaoException;
 
-    List<T> findAllByParameter(T entity) throws PropertyManagerException, JdbcDaoException;
-
-    List<T> findAll(T entity) throws PropertyManagerException, JdbcDaoException;
-
-    T find(T entity) throws PropertyManagerException, JdbcDaoException;
+    List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws PropertyManagerException, JdbcDaoException;
 }

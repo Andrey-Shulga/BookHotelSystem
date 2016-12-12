@@ -36,13 +36,12 @@ public class LoginAction implements Action {
             logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (JdbcDaoException e) {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
-        }
-        if (user.getId() == null) {
             return LOGIN_FORM;
         }
+
         req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
 
-        logger.debug("User with id \"{}\" and login \"{}\" authorized.", user.getId(), user.getLogin());
+        logger.debug("{} authorized.", user);
         return REDIRECT;
     }
 }

@@ -1,9 +1,10 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.OrderDao;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.model.*;
-import com.epam.as.bookhotel.util.PropertyManager;
+import com.epam.as.bookhotel.model.Bed;
+import com.epam.as.bookhotel.model.Order;
+import com.epam.as.bookhotel.model.OrderStatus;
+import com.epam.as.bookhotel.model.RoomType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,54 +22,9 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         super(connection);
     }
 
-    @Override
-    Order setFindALLQueryRsToField(ResultSet rs, Order entity) throws SQLException {
-        Order newEntity = new Order();
-        newEntity.setId(rs.getInt(1));
-        User user = new User();
-        user.setId(rs.getInt(2));
-        user.setLogin(rs.getString(3));
-        newEntity.setUser(user);
-        newEntity.setFirstName(rs.getString(4));
-        newEntity.setLastName(rs.getString(5));
-        newEntity.setEmail(rs.getString(6));
-        newEntity.setPhone(rs.getString(7));
-        Bed bed = new Bed(rs.getInt(8));
-        newEntity.setBed(bed);
-        RoomType roomType = new RoomType(rs.getString(9));
-        newEntity.setRoomType(roomType);
-        Date checkInDate = rs.getDate(10);
-        Date checkOutDate = rs.getDate(11);
-        newEntity.setCheckIn(checkInDate.toLocalDate());
-        newEntity.setCheckOut(checkOutDate.toLocalDate());
-        OrderStatus status = new OrderStatus(rs.getString(12));
-        newEntity.setStatus(status);
-        return newEntity;
-    }
 
     @Override
-    String getFindAllQuery() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ALL_ORDERS_QUERY));
-        return propertyManager.getPropertyKey(FIND_ALL_ORDERS_QUERY);
-    }
-
-    @Override
-    String getInsertQuery() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(INSERT_ORDER_QUERY));
-        return propertyManager.getPropertyKey(INSERT_ORDER_QUERY);
-    }
-
-    @Override
-    String getFindQuery() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-        logger.debug("Using prepare statement command: {}", propertyManager.getPropertyKey(FIND_ORDERS_BY_ID_QUERY));
-        return propertyManager.getPropertyKey(FIND_ORDERS_BY_ID_QUERY);
-    }
-
-    @Override
-    void setInsertQueryFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
+    void setFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
 
         ps.setInt(1, entity.getUser().getId());
         ps.setString(2, entity.getFirstName());
@@ -83,14 +39,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    void setFindQueryFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
-        logger.debug("{} trying to FIND entities \"{}\" related by entity \"{}\" in database...",
-                this.getClass().getSimpleName(), entity.getClass().getSimpleName(), entity.getUser());
-        ps.setInt(1, entity.getUser().getId());
-    }
-
-    @Override
-    Order setFindQueryRsToField(ResultSet rs, Order entity) throws SQLException {
+    Order setRsToField(ResultSet rs, Order entity) throws SQLException {
         Order newEntity = new Order();
         newEntity.setId(rs.getInt(1));
         newEntity.setUser(entity.getUser());
@@ -98,16 +47,13 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         newEntity.setLastName(rs.getString(4));
         newEntity.setEmail(rs.getString(5));
         newEntity.setPhone(rs.getString(6));
-        Bed bed = new Bed(rs.getInt(7));
-        newEntity.setBed(bed);
-        RoomType roomType = new RoomType(rs.getString(8));
-        newEntity.setRoomType(roomType);
+        newEntity.setBed(new Bed(rs.getInt(7)));
+        newEntity.setRoomType(new RoomType(rs.getString(8)));
         Date checkInDate = rs.getDate(9);
         Date checkOutDate = rs.getDate(10);
         newEntity.setCheckIn(checkInDate.toLocalDate());
         newEntity.setCheckOut(checkOutDate.toLocalDate());
-        OrderStatus status = new OrderStatus(rs.getString(11));
-        newEntity.setStatus(status);
+        newEntity.setStatus(new OrderStatus(rs.getString(11)));
         logger.debug("Found entity: {}", newEntity);
         return newEntity;
     }

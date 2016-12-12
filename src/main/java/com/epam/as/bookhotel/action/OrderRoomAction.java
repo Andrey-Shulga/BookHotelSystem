@@ -69,11 +69,12 @@ public class OrderRoomAction implements Action {
 
         OrderService orderService = new OrderService();
         try {
-            order = orderService.makeOrder(order);
+            orderService.makeOrder(order);
         } catch (JdbcDaoException e) {
             req.setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            return ORDER_FORM;
         }
-        if (order.getId() == null) return ORDER_FORM;
+
         return REDIRECT;
     }
 

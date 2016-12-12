@@ -10,7 +10,7 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(Integer id, String login, String password, UserRole role) {
+    public User(int id, String login, String password, UserRole role) {
         super(id);
         this.login = login;
         this.password = password;
@@ -58,7 +58,7 @@ public class User extends BaseEntity {
     @Override
     public String toString() {
         return "User{" +
-                "id=" +
+                "id=" + this.getId() +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
