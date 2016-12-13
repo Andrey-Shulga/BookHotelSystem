@@ -72,8 +72,8 @@
             <small><fmt:message key="order.make.form.bed.select"/></small>
             <br>
             <select size="1" name="bed">
-                <option disabled><fmt:message key="order.make.form.bed.select.name"/></option>
-                <option value="1" selected>1</option>
+                <option disabled selected><fmt:message key="order.make.form.bed.select.name"/></option>
+                <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -88,9 +88,9 @@
             <small><fmt:message key="order.make.form.roomType.select"/></small>
             <br>
             <select size="1" name="roomType">
-                <option disabled><fmt:message key="order.make.form.roomType.select.name"/></option>
+                <option disabled selected><fmt:message key="order.make.form.roomType.select.name"/></option>
                 <option value="Standard"><fmt:message key="order.make.form.roomType.select.name.standart"/></option>
-                <option value="Junior suit" selected><fmt:message
+                <option value="Junior suit"><fmt:message
                         key="order.make.form.roomType.select.name.jsuit"/></option>
                 <option value="Suit"><fmt:message key="order.make.form.roomType.select.name.suit"/></option>
             </select>

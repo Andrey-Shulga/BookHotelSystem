@@ -13,7 +13,7 @@
     <jsp:body>
         <p><fmt:message key="login.message"/></p>
 
-        <form action="do/?action=login" method="post">
+        <form action="/do/?action=login" method="post">
             <label><b><fmt:message key="register.login"/></b></label><br>
             <input type="text" name="login" placeholder="${loginPlaceholder}" value="manager" required autofocus>
             <br><br>

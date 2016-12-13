@@ -7,11 +7,14 @@ import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.ConfirmationOrder;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.Room;
+import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 public class SelectRoomAction implements Action {
 
@@ -20,24 +23,23 @@ public class SelectRoomAction implements Action {
     private static final String LOGIN_FORM = "login";
     private static final String ORDER_ID_PARAMETER = "orderId";
     private static final String ROOM_ID_PARAMETER = "roomId";
-    private static final String BLANK_FIELD_ERROR_MESSAGE = "blank.field.message";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String BLANK = "";
+    private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
     private static final String REDIRECT = "redirect:/do/?action=show-manager-order-list";
 
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
-        logger.debug("order {}", req.getParameter(ORDER_ID_PARAMETER));
-        if (req.getParameter(ORDER_ID_PARAMETER).equals(BLANK)) {
-            req.setAttribute(ORDER_ID_PARAMETER + ERROR_MESSAGE_SUFFIX, BLANK_FIELD_ERROR_MESSAGE);
+        if (req.getParameter(ORDER_ID_PARAMETER) == null) return MANAGER_ORDER_LIST_FORM;
+        FormValidator confirmationOrderFormValidator = new FormValidator();
+        Map<String, List<String>> fieldErrors = confirmationOrderFormValidator.validate(MANAGER_ORDER_LIST_FORM, req);
+        if (!fieldErrors.isEmpty()) {
+            confirmationOrderFormValidator.setErrorToRequest(req);
+            logger.debug("NOT VALID");
             return REDIRECT;
         }
-        if (req.getParameter(ROOM_ID_PARAMETER).equals(BLANK)) {
-            req.setAttribute(ROOM_ID_PARAMETER + ERROR_MESSAGE_SUFFIX, BLANK_FIELD_ERROR_MESSAGE);
-            return REDIRECT;
-        }
+        logger.debug("Form's parameters are valid.");
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
 

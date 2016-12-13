@@ -6,8 +6,6 @@
 <fmt:message key="orders.show.form.title" var="title"/>
 <c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
 <c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
-<c:set var="orderIdErrorMessage" value="${orderIdErrorMessages}"/>
-<c:set var="roomIdErrorMessage" value="${roomIdErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -85,17 +83,16 @@
 
         <form action="/do/?action=select-room" method="post">
             <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
-            <input type="text" name="orderId" placeholder="" value="" required1 autofocus>
-            <c:if test="${not empty orderIdErrorMessage}">
-                <div id="errorcolortext">
-                    <fmt:message key="${orderIdErrorMessages}"/></div>
-            </c:if>
+            <input type="text" name="orderId" placeholder="" value="" required autofocus>
+            <c:forEach var="errorMessage" items="${orderIdErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
+            </c:forEach>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
-            <input type="text" name="roomId" value="" placeholder="" required1>
-            <c:if test="${not empty roomIdErrorMessage}">
-                <div id="errorcolortext"><fmt:message key="${roomIdErrorMessages}"/></div>
-            </c:if>
+            <input type="text" name="roomId" value="" placeholder="" required>
+            <c:forEach var="errorMessage" items="${roomIdErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
+            </c:forEach>
             <br><br>
             <button type="submit"><fmt:message key="orders.manager.form.select.button.submit"/></button>
             <br>

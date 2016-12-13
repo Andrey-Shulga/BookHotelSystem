@@ -41,6 +41,7 @@ public class OrderRoomAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
 
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
+        if (req.getParameter(FIRST_NAME) == null) return ORDER_FORM;
         FormValidator orderFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
         orderFormValidator.checkParameterOnNull(BED, req);

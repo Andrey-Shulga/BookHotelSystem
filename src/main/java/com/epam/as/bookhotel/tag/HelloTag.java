@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class HelloTag extends TagSupport {
 
-    private final String HELLO = "Hello, ";
+    private static final String BLANK = "";
     private String login;
 
     public void setRole(String role) {
@@ -17,7 +17,8 @@ public class HelloTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
             String welcomeMessage;
-            if (!login.equals("")) {
+            if (!login.equals(BLANK)) {
+                String HELLO = "Hello, ";
                 welcomeMessage = HELLO + login;
                 pageContext.getOut().write(welcomeMessage);
             }

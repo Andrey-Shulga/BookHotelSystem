@@ -31,6 +31,7 @@ public class RegisterAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
 
+        if (req.getParameter(LOGIN_PARAMETER) == null) return REGISTER_FORM;
         FormValidator registerFormValidator = new FormValidator();
         Map<String, List<String>> fieldErrors = registerFormValidator.validate(REGISTER_FORM, req);
         registerFormValidator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);

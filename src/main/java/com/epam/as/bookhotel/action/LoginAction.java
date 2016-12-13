@@ -25,7 +25,7 @@ public class LoginAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
-
+        if (req.getParameter(LOGIN_PARAMETER) == null) return LOGIN_FORM;
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
 

@@ -14,7 +14,7 @@
     <jsp:body>
 
         <p><fmt:message key="register.hello.message"/></p>
-        <form name="registerForm" action="do/?action=register" method="post">
+        <form name="registerForm" action="/do/?action=register" method="post">
             <label><b><fmt:message key="register.login"/></b></label>
             <small><fmt:message key="register.login.range"/></small>
             <br>
@@ -26,15 +26,15 @@
             <label><b><fmt:message key="register.password"/></b></label>
             <small><fmt:message key="register.password.range"/></small>
             <br>
-            <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required1
-                   onchange1="form.confirm_password.pattern = this.value;">
+            <input type="password" name="password" value="" placeholder="${passwordPlaceholder}" required
+                   onchange="form.confirm_password.pattern = this.value;">
             <c:forEach var="errorMessage" items="${passwordErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br>
             <label><b><fmt:message key="register.password.confirm"/></b></label><br>
             <input type="password" name="confirm_password" value="" placeholder="${passwordConfirmPlaceholder}"
-                   required1>
+                   required>
 
             <c:forEach var="errorMessage" items="${confirm_passwordErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>

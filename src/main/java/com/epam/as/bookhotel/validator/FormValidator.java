@@ -43,7 +43,8 @@ public class FormValidator {
 
     public void setErrorToRequest(HttpServletRequest req) {
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
-            req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
+            //req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
+            req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
             for (String errorMessage : entry.getValue()) {
                 logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
             }
@@ -51,6 +52,7 @@ public class FormValidator {
     }
 
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
+        deleteErrorsFromSession(request);
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
             String key = entry.getKey();
@@ -67,6 +69,14 @@ public class FormValidator {
             }
         }
         return fieldErrors;
+    }
+
+    private void deleteErrorsFromSession(HttpServletRequest request) {
+        Enumeration<String> attributeNames = request.getSession().getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            String sessionAttribute = attributeNames.nextElement();
+            if (sessionAttribute.endsWith(ERROR_MESSAGE_SUFFIX)) request.getSession().removeAttribute(sessionAttribute);
+        }
     }
 
     public void checkPasswordsEquals(String password, String confirmPassword, HttpServletRequest request) {
