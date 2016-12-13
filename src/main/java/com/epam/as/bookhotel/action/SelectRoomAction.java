@@ -4,6 +4,9 @@ import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.model.ConfirmationOrder;
+import com.epam.as.bookhotel.model.Order;
+import com.epam.as.bookhotel.model.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +40,12 @@ public class SelectRoomAction implements Action {
         }
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
+
+        Order order = new Order();
+        order.setId(Integer.parseInt(orderId));
+        Room room = new Room();
+        room.setId(Integer.parseInt(roomId));
+        ConfirmationOrder confirmationOrder = new ConfirmationOrder(order, room);
 
         return REDIRECT;
 
