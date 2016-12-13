@@ -30,13 +30,13 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T save(T entity, String queryKey) throws PropertyManagerException, JdbcDaoException {
+
         //insert entity
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-
+        if (entity.getId() == 0) {
             logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
-            try {
-                PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS);
-                setFieldToPs(ps, entity);
+            try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS)) {
+                setFindFieldToPs(ps, entity);
                 ps.executeUpdate();
                 setId(entity, ps);
             } catch (SQLException e) {
@@ -47,6 +47,21 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 else
                     throw new JdbcDaoException(e);
             }
+            //update entity
+        } else {
+            logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
+            try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
+                setUpdateFieldToPs(ps, entity);
+                int result = ps.executeUpdate();
+                if (result != 0)
+                    logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
+            } catch (SQLException e) {
+                if (DATABASE_CONNECT_LOST_ERROR_CODE.equals(e.getSQLState()))
+                    throw new DatabaseConnectionException(e);
+                else
+                    throw new JdbcDaoException(e);
+            }
+        }
         return entity;
     }
 
@@ -56,8 +71,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
         List<T> entities = new ArrayList<>();
         int count = 1;
-        try {
-            PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey));
+        try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
             for (String parameter : parameters) {
                 ps.setString(count, parameter);
                 count++;
@@ -81,11 +95,11 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         generatedId.next();
         int id = generatedId.getInt(1);
         entity.setId(id);
-        ps.close();
         logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
     }
 
-    abstract void setFieldToPs(PreparedStatement ps, T entity) throws SQLException;
+    abstract void setUpdateFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
+    abstract void setFindFieldToPs(PreparedStatement ps, T entity) throws SQLException;
     abstract T setRsToField(ResultSet rs, T entity) throws SQLException;
 }

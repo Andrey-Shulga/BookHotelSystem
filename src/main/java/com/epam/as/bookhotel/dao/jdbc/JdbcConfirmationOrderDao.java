@@ -15,7 +15,14 @@ public class JdbcConfirmationOrderDao extends JdbcDao<ConfirmationOrder> impleme
     }
 
     @Override
-    void setFieldToPs(PreparedStatement ps, ConfirmationOrder entity) throws SQLException {
+    void setUpdateFieldToPs(PreparedStatement ps, ConfirmationOrder entity) throws SQLException {
+
+    }
+
+    @Override
+    void setFindFieldToPs(PreparedStatement ps, ConfirmationOrder entity) throws SQLException {
+        ps.setInt(1, entity.getOrder().getId());
+        ps.setInt(2, entity.getRoom().getId());
 
     }
 

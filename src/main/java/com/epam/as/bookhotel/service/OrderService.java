@@ -10,7 +10,7 @@ import com.epam.as.bookhotel.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderService {
+public class OrderService extends ParentService {
 
     private static final String FIND_ORDER_BY_USER_ID_KEY = "find.orders.by.user.id";
     private static final String FIND_ALL_ORDERS_KEY = "find.all.orders";

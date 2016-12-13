@@ -21,6 +21,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         super(connection);
     }
 
+    @Override
+    void setUpdateFieldToPs(PreparedStatement ps, User entity) {
+
+    }
+
 
     @Override
     User setRsToField(ResultSet rs, User entity) throws SQLException {
@@ -35,7 +40,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    public void setFieldToPs(PreparedStatement ps, User entity) throws SQLException {
+    public void setFindFieldToPs(PreparedStatement ps, User entity) throws SQLException {
         ps.setString(1, entity.getLogin());
         ps.setString(2, entity.getPassword());
         ps.setString(3, entity.getRole().toString());

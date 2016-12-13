@@ -10,7 +10,7 @@ import com.epam.as.bookhotel.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomService {
+public class RoomService extends ParentService {
 
     private static final String FIND_ALL_ROOMS_KEY = "find.all.rooms";
     private static final String FIND_ALL_ROOMS_BY_STATUS_KEY = "find.all.rooms.by.status";

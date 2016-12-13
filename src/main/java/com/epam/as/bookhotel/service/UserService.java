@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService {
+public class UserService extends ParentService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String REGISTER_USER_KEY = "insert.user";

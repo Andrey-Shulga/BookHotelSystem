@@ -22,7 +22,12 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
     }
 
     @Override
-    void setFieldToPs(PreparedStatement ps, Room entity) throws SQLException {
+    void setUpdateFieldToPs(PreparedStatement ps, Room entity) throws SQLException {
+        ps.setString(1, String.valueOf(entity.getId()));
+    }
+
+    @Override
+    void setFindFieldToPs(PreparedStatement ps, Room entity) throws SQLException {
 
     }
 

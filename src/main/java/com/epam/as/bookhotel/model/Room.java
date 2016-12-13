@@ -64,7 +64,8 @@ public class Room extends BaseEntity {
     @Override
     public String toString() {
         return "Room{" +
-                "roomType=" + roomType +
+                "roomId=" + this.getId() +
+                ", roomType=" + roomType +
                 ", bed=" + bed +
                 ", number=" + number +
                 ", roomStatus=" + roomStatus +

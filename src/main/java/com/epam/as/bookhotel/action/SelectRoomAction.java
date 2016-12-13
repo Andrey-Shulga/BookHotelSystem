@@ -7,6 +7,7 @@ import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.ConfirmationOrder;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.Room;
+import com.epam.as.bookhotel.service.ConfirmationOrderService;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,8 @@ public class SelectRoomAction implements Action {
         Room room = new Room();
         room.setId(Integer.parseInt(roomId));
         ConfirmationOrder confirmationOrder = new ConfirmationOrder(order, room);
+        ConfirmationOrderService service = new ConfirmationOrderService();
+        service.confirmOrder(confirmationOrder);
 
         return REDIRECT;
 

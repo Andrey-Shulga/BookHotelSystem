@@ -22,9 +22,14 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         super(connection);
     }
 
+    @Override
+    void setUpdateFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
+        ps.setString(1, String.valueOf(entity.getId()));
+    }
+
 
     @Override
-    void setFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
+    void setFindFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
 
         ps.setInt(1, entity.getUser().getId());
         ps.setString(2, entity.getFirstName());
