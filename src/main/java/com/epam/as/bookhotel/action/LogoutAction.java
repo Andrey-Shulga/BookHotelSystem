@@ -1,9 +1,5 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +14,7 @@ public class LogoutAction implements Action {
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         if (req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME) != null) {
             User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME);
             logger.debug("User with id=\"{}\" and login=\"{}\" logout now.", user.getId(), user.getLogin());

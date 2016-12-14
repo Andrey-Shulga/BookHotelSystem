@@ -30,20 +30,24 @@ public class FormValidator {
     private static Properties formProperties;
     private Map<String, List<String>> fieldErrors = new HashMap<>();
 
-    public FormValidator() throws PropertyManagerException {
+    public FormValidator() throws ValidatorException {
         if (formProperties == null) {
             loadFormProperties();
         }
     }
 
-    private void loadFormProperties() throws PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(FORM_PROPERTY_FILE_NAME);
+    private void loadFormProperties() throws ValidatorException {
+        PropertyManager propertyManager = null;
+        try {
+            propertyManager = new PropertyManager(FORM_PROPERTY_FILE_NAME);
+        } catch (PropertyManagerException e) {
+            throw new ValidatorException(e);
+        }
         formProperties = propertyManager.getProperties();
     }
 
     public void setErrorToRequest(HttpServletRequest req) {
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
-            //req.setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
             req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
             for (String errorMessage : entry.getValue()) {
                 logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);

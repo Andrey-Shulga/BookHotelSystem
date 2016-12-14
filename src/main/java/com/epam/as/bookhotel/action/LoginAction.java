@@ -1,9 +1,6 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.UserService;
 import org.slf4j.Logger;
@@ -24,7 +21,7 @@ public class LoginAction implements Action {
 
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         if (req.getParameter(LOGIN_PARAMETER) == null) return LOGIN_FORM;
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
@@ -34,7 +31,7 @@ public class LoginAction implements Action {
         try {
             user = userService.login(user);
             logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return LOGIN_FORM;
         }

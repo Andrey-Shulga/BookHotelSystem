@@ -2,9 +2,8 @@ package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.OrderDao;
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.DaoException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Order;
 
 import java.util.ArrayList;
@@ -19,42 +18,48 @@ public class OrderService extends ParentService {
     private static final String INSERT_ORDER_KEY = "insert.order";
     private List<String> parameters = new ArrayList<>();
 
-    public Order makeOrder(Order order) throws ConnectionPoolException, PropertyManagerException, JdbcDaoException {
+    public Order makeOrder(Order order) throws ServiceException {
         Order newOrder;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             newOrder = orderDao.save(order, INSERT_ORDER_KEY);
-        } catch (JdbcDaoException e) {
-            throw new JdbcDaoException(e);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
         return newOrder;
     }
 
-    public List<Order> findOrdersByUserId(Order order) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+    public List<Order> findOrdersByUserId(Order order) throws ServiceException {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             parameters.add(String.valueOf(order.getUser().getId()));
             orderList = orderDao.findByParameters(order, parameters, FIND_ORDER_BY_USER_ID_KEY);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
         return orderList;
     }
 
-    public List<Order> findAllOrders(Order order) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+    public List<Order> findAllOrders(Order order) throws ServiceException {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             orderList = orderDao.findByParameters(order, parameters, FIND_ALL_ORDERS_KEY);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
         return orderList;
     }
 
-    public List<Order> findAllOrdersByStatus(Order order) throws ConnectionPoolException, JdbcDaoException, PropertyManagerException {
+    public List<Order> findAllOrdersByStatus(Order order) throws ServiceException {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             parameters.add(ORDERS_STATUS_UNCONFIRMED);
             orderList = orderDao.findByParameters(order, parameters, FIND_ALL_ORDERS_BY_STATUS_KEY);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
         return orderList;
     }

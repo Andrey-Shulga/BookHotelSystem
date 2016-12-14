@@ -12,6 +12,7 @@ import java.util.Properties;
 public class PropertyManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);
+    private static final String PROPERTY_NOT_LOADED_ERROR_MESSAGE = "Properties not loaded.";
     private Properties properties;
 
     public PropertyManager(String propertyFileName) throws PropertyManagerException {
@@ -24,7 +25,7 @@ public class PropertyManager {
     }
 
     public String getPropertyKey(String key) throws PropertyManagerException {
-        if (properties == null) throw new PropertyManagerException("Properties not loaded.");
+        if (properties == null) throw new PropertyManagerException(PROPERTY_NOT_LOADED_ERROR_MESSAGE);
         return properties.getProperty(key);
     }
 

@@ -1,9 +1,6 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.RoomStatus;
@@ -25,24 +22,24 @@ public class ShowNewOrdersManagerAction implements Action {
     private static final String MANAGER_ORDER_LIST = "manager_order_list";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
 
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         OrderService orderService = new OrderService();
         try {
             List<Order> orderList = orderService.findAllOrdersByStatus(new Order());
             req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
 
         RoomService roomService = new RoomService();
+        Room room = new Room();
+        room.setRoomStatus(new RoomStatus(ROOM_FREE_STATUS));
         try {
-            Room room = new Room();
-            room.setRoomStatus(new RoomStatus(ROOM_FREE_STATUS));
             List<Room> roomList = roomService.findAllRoomsByStatus(room);
             req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(ROOMS_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
 

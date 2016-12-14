@@ -1,9 +1,5 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +14,7 @@ public class SetRussianLocaleAction implements Action {
     private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         req.getSession(false).setAttribute(LOCALE_ATTR_NAME, LOCALE);
         String referrer = req.getHeader("referer");
         logger.debug("Locale changed on \"{}\"", LOCALE);

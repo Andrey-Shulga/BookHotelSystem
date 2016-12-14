@@ -1,9 +1,6 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
@@ -24,7 +21,7 @@ public class ShowOrdersUserAction implements Action {
     private static final String USER_ORDER_LIST = "user_order_list";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         User user = (User) req.getSession(false).getAttribute(USER);
         Order order = new Order();
@@ -33,7 +30,7 @@ public class ShowOrdersUserAction implements Action {
         try {
             List<Order> orderList = orderService.findOrdersByUserId(order);
             req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
 

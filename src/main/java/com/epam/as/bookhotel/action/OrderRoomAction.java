@@ -1,8 +1,7 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.ActionException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Bed;
 import com.epam.as.bookhotel.model.Order;
@@ -38,18 +37,23 @@ public class OrderRoomAction implements Action {
     private static final String ROOM_TYPE = "roomType";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         if (req.getParameter(FIRST_NAME) == null) return ORDER_FORM;
-        FormValidator orderFormValidator = new FormValidator();
-        Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
-        orderFormValidator.checkParameterOnNull(BED, req);
-        orderFormValidator.checkParameterOnNull(ROOM_TYPE, req);
+        try {
+            FormValidator orderFormValidator = new FormValidator();
+            Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
 
-        if (!fieldErrors.isEmpty()) {
-            orderFormValidator.setErrorToRequest(req);
-            return ORDER_FORM;
+            orderFormValidator.checkParameterOnNull(BED, req);
+            orderFormValidator.checkParameterOnNull(ROOM_TYPE, req);
+
+            if (!fieldErrors.isEmpty()) {
+                orderFormValidator.setErrorToRequest(req);
+                return ORDER_FORM;
+            }
+        } catch (ValidatorException e) {
+            throw new ActionException(e);
         }
         logger.debug("Form's parameters are valid.");
 
@@ -71,7 +75,7 @@ public class OrderRoomAction implements Action {
         OrderService orderService = new OrderService();
         try {
             orderService.makeOrder(order);
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return ORDER_FORM;
         }

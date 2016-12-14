@@ -1,7 +1,6 @@
 package com.epam.as.bookhotel.dao;
 
 import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.model.BaseEntity;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public interface Dao<T extends BaseEntity> {
 
-    T save(T entity, String queryKey) throws PropertyManagerException, JdbcDaoException;
+    T save(T entity, String queryKey) throws JdbcDaoException;
 
-    List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws PropertyManagerException, JdbcDaoException;
+    List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException;
 }

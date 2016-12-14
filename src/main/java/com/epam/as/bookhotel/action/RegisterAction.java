@@ -1,8 +1,7 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.ActionException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.model.UserRole;
@@ -29,15 +28,20 @@ public class RegisterAction implements Action {
     private static final String CONFIRM_PASSWORD_PARAMETER = "confirm_password";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         if (req.getParameter(LOGIN_PARAMETER) == null) return REGISTER_FORM;
-        FormValidator registerFormValidator = new FormValidator();
-        Map<String, List<String>> fieldErrors = registerFormValidator.validate(REGISTER_FORM, req);
-        registerFormValidator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
-        if (!fieldErrors.isEmpty()) {
-            registerFormValidator.setErrorToRequest(req);
-            return REGISTER_FORM;
+        FormValidator registerFormValidator = null;
+        try {
+            registerFormValidator = new FormValidator();
+            Map<String, List<String>> fieldErrors = registerFormValidator.validate(REGISTER_FORM, req);
+            registerFormValidator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
+            if (!fieldErrors.isEmpty()) {
+                registerFormValidator.setErrorToRequest(req);
+                return REGISTER_FORM;
+            }
+        } catch (ValidatorException e) {
+            throw new ActionException(e);
         }
         logger.debug("Form's parameters are valid.");
 
@@ -51,7 +55,7 @@ public class RegisterAction implements Action {
             user = userService.register(user);
             logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.",
                     user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return REGISTER_FORM;
         }

@@ -84,36 +84,41 @@ public class ConnectionPool {
         return connection;
     }
 
-    public void fillPool() throws ConnectionPoolException, PropertyManagerException {
+    public void fillPool() throws ConnectionPoolException {
 
         poolConfigure();
-
         logger.debug("Maximum limit of connections to database in the pool = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
-            Connection connection = getNewConnection(url, username, password);
+            Connection connection = null;
+            connection = getNewConnection(url, username, password);
             if (connection != null)
                 connections.offer(connection);
         }
         logger.debug("Initial connection pool with {} connections was created.", connections.size());
     }
 
-    private void poolConfigure() throws ConnectionPoolException, PropertyManagerException {
-        PropertyManager propertyManager = new PropertyManager(dbPropertyFileName);
-        String drivers = propertyManager.getPropertyKey("jdbc.drivers");
+    private void poolConfigure() throws ConnectionPoolException {
 
         try {
-            Class.forName(drivers);
-        } catch (ClassNotFoundException e) {
+            PropertyManager propertyManager = new PropertyManager(dbPropertyFileName);
+            String drivers = propertyManager.getPropertyKey("jdbc.drivers");
 
+            try {
+                Class.forName(drivers);
+            } catch (ClassNotFoundException e) {
+
+                throw new ConnectionPoolException(e);
+            }
+            url = propertyManager.getPropertyKey("jdbc.url");
+            username = propertyManager.getPropertyKey("jdbc.username");
+            password = propertyManager.getPropertyKey("jdbc.password");
+            poolStartSize = Integer.parseInt(propertyManager.getPropertyKey("pool.start.size"));
+            poolMaxSize = Integer.parseInt(propertyManager.getPropertyKey("pool.max.size"));
+            pollConnectionTimeout = Long.parseLong(propertyManager.getPropertyKey("pool.pollconnection.timeout"));
+        } catch (PropertyManagerException e) {
             throw new ConnectionPoolException(e);
         }
-        url = propertyManager.getPropertyKey("jdbc.url");
-        username = propertyManager.getPropertyKey("jdbc.username");
-        password = propertyManager.getPropertyKey("jdbc.password");
-        poolStartSize = Integer.parseInt(propertyManager.getPropertyKey("pool.start.size"));
-        poolMaxSize = Integer.parseInt(propertyManager.getPropertyKey("pool.max.size"));
-        pollConnectionTimeout = Long.parseLong(propertyManager.getPropertyKey("pool.pollconnection.timeout"));
         connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
 

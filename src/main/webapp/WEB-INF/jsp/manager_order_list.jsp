@@ -6,6 +6,7 @@
 <fmt:message key="orders.show.form.title" var="title"/>
 <c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
 <c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
+<c:set var="confirmErrorMessage" value="${confirmErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -95,6 +96,9 @@
             </c:forEach>
             <br><br>
             <button type="submit"><fmt:message key="orders.manager.form.select.button.submit"/></button>
+            <c:if test="${not empty confirmErrorMessage}">
+                <div id="errorcolortext"><fmt:message key="${confirmErrorMessages}"/></div>
+            </c:if>
             <br>
 
         </form>

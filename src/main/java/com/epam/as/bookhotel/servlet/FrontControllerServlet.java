@@ -3,7 +3,8 @@ package com.epam.as.bookhotel.servlet;
 
 import com.epam.as.bookhotel.action.Action;
 import com.epam.as.bookhotel.action.ActionFactory;
-import com.epam.as.bookhotel.exception.*;
+import com.epam.as.bookhotel.exception.ActionException;
+import com.epam.as.bookhotel.exception.ActionFactoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +33,8 @@ public class FrontControllerServlet extends HttpServlet {
             actionFactory = new ActionFactory();
         try {
             actionFactory.loadActions();
-        } catch (PropertyManagerException e) {
-            logger.error("PropertyManagerException occurred", e);
+        } catch (ActionFactoryException e) {
+            logger.error("Action Factory error in controller occurred", e);
         }
     }
 
@@ -46,8 +47,8 @@ public class FrontControllerServlet extends HttpServlet {
             logger.debug("Received {} request with command: \"{}\", get action: {}", req.getMethod(), actionName, action.getClass().getSimpleName());
             String view = action.execute(req, resp);
             proceedTo(view, req, resp);
-        } catch (ActionException | PropertyManagerException | ValidatorException | ConnectionPoolException | JdbcDaoException e) {
-            logger.error("Servlet Controller exception occurred", e);
+        } catch (ActionException | ActionFactoryException e) {
+            logger.error("Action exception in controller occurred", e);
         }
     }
 

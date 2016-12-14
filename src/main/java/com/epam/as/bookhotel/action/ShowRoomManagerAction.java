@@ -1,9 +1,6 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.service.RoomService;
 
@@ -20,13 +17,13 @@ public class ShowRoomManagerAction implements Action {
     private static final String ROOM_LIST_JSP = "manager_room_list";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         RoomService roomService = new RoomService();
         try {
             List<Room> roomList = roomService.findAllRooms(new Room());
             req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
-        } catch (JdbcDaoException e) {
+        } catch (ServiceException e) {
             req.setAttribute(ROOMS_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
 

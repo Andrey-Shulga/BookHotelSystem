@@ -17,8 +17,12 @@ public class JdbcDaoFactory extends DaoFactory {
     private static ConnectionPool pool;
     private Connection connection;
 
-    public JdbcDaoFactory() throws ConnectionPoolException {
-        this.connection = pool.getConnection();
+    public JdbcDaoFactory() throws JdbcDaoException {
+        try {
+            this.connection = pool.getConnection();
+        } catch (ConnectionPoolException e) {
+            throw new JdbcDaoException(e);
+        }
     }
 
     public static void setPool(ConnectionPool pool) {
@@ -30,7 +34,7 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
-    public UserDao getUserDao() throws ConnectionPoolException {
+    public UserDao getUserDao() {
         return new JdbcUserDao(connection);
     }
 
@@ -49,21 +53,20 @@ public class JdbcDaoFactory extends DaoFactory {
         return new JdbcConfirmationOrderDao(connection);
     }
 
-
     @Override
-    public void beginTx() throws ConnectionPoolException {
+    public void beginTx() throws JdbcDaoException {
         try {
             if ((!connection.isClosed()) && (connection.getAutoCommit())) {
                 connection.setAutoCommit(false);
                 logger.debug("Transaction open...");
             }
         } catch (SQLException e) {
-            throw new ConnectionPoolException(e);
+            throw new JdbcDaoException(e);
         }
     }
 
     @Override
-    public void rollback() throws ConnectionPoolException {
+    public void rollback() throws JdbcDaoException {
         try {
             if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
                 connection.rollback();
@@ -71,12 +74,12 @@ public class JdbcDaoFactory extends DaoFactory {
                 logger.debug("Transaction rollback.");
             }
         } catch (SQLException e) {
-            throw new ConnectionPoolException(e);
+            throw new JdbcDaoException(e);
         }
     }
 
     @Override
-    public void commit() throws ConnectionPoolException {
+    public void commit() throws JdbcDaoException {
         try {
             if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
                 connection.commit();
@@ -84,12 +87,12 @@ public class JdbcDaoFactory extends DaoFactory {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            throw new ConnectionPoolException(e);
+            throw new JdbcDaoException(e);
         }
     }
 
     @Override
-    public void close() throws JdbcDaoException {
+    public void close() {
         pool.putConnectionToPool(connection);
     }
 }

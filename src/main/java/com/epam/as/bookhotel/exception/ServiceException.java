@@ -5,9 +5,17 @@ import org.slf4j.LoggerFactory;
 
 public class ServiceException extends Exception {
 
-    private static final Logger logger = LoggerFactory.getLogger(ValidatorException.class);
+    private static final Logger logger = LoggerFactory.getLogger(ServiceException.class);
+    private String message;
+
+    ServiceException(String message) {
+        super(message);
+    }
 
     public ServiceException(Exception e) {
-        logger.error("Service exception occurred", e);
+        super(e);
+        this.message = e.getMessage();
     }
+
+
 }

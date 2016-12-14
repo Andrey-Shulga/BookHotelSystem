@@ -3,7 +3,6 @@ package com.epam.as.bookhotel.listener;
 
 import com.epam.as.bookhotel.dao.jdbc.JdbcDaoFactory;
 import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.pool.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class ConnectionPoolListener implements ServletContextListener {
         pool = new ConnectionPool();
         try {
             pool.fillPool();
-        } catch (ConnectionPoolException | PropertyManagerException e) {
+        } catch (ConnectionPoolException e) {
             logger.error("ConnectionPoolException occurred", e);
         }
         JdbcDaoFactory.setPool(pool);

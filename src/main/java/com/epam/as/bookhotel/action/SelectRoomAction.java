@@ -1,8 +1,7 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.ActionException;
+import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.ConfirmationOrder;
 import com.epam.as.bookhotel.model.Order;
@@ -24,22 +23,27 @@ public class SelectRoomAction implements Action {
     private static final String LOGIN_FORM = "login";
     private static final String ORDER_ID_PARAMETER = "orderId";
     private static final String ROOM_ID_PARAMETER = "roomId";
+    private static final String CONFIRM_BUTTON_PARAMETER = "confirm";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
     private static final String REDIRECT = "redirect:/do/?action=show-manager-order-list";
 
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         if (req.getParameter(ORDER_ID_PARAMETER) == null) return MANAGER_ORDER_LIST_FORM;
-        FormValidator confirmationOrderFormValidator = new FormValidator();
-        Map<String, List<String>> fieldErrors = confirmationOrderFormValidator.validate(MANAGER_ORDER_LIST_FORM, req);
-        if (!fieldErrors.isEmpty()) {
-            confirmationOrderFormValidator.setErrorToRequest(req);
-            logger.debug("NOT VALID");
-            return REDIRECT;
+        try {
+            FormValidator confirmationOrderFormValidator = new FormValidator();
+            Map<String, List<String>> fieldErrors = confirmationOrderFormValidator.validate(MANAGER_ORDER_LIST_FORM, req);
+            if (!fieldErrors.isEmpty()) {
+                confirmationOrderFormValidator.setErrorToRequest(req);
+                return REDIRECT;
+            }
+        } catch (ValidatorException e) {
+            throw new ActionException(e);
         }
+
         logger.debug("Form's parameters are valid.");
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
@@ -50,7 +54,11 @@ public class SelectRoomAction implements Action {
         room.setId(Integer.parseInt(roomId));
         ConfirmationOrder confirmationOrder = new ConfirmationOrder(order, room);
         ConfirmationOrderService service = new ConfirmationOrderService();
-        service.confirmOrder(confirmationOrder);
+        try {
+            service.confirmOrder(confirmationOrder);
+        } catch (ServiceException e) {
+            req.getSession().setAttribute(CONFIRM_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());
+        }
 
         return REDIRECT;
 

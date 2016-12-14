@@ -1,28 +1,16 @@
 package com.epam.as.bookhotel.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class JdbcDaoException extends DaoException {
 
-public class JdbcDaoException extends Exception {
-
-    private static final Logger logger = LoggerFactory.getLogger(JdbcDaoException.class);
-    private String message;
-
-    public JdbcDaoException(String message, Exception e) {
-        this.message = message;
-    }
-
-    public JdbcDaoException(String message) {
-        this.message = message;
-    }
+    private static final String DB_CONNECT_ERROR_MSG = "database.connection.failure.msg";
 
     public JdbcDaoException(Exception e) {
-        this.message = e.getMessage();
-
+        super(DB_CONNECT_ERROR_MSG, e);
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+    JdbcDaoException(String message, Exception e) {
+        super(message, e);
     }
+
+
 }

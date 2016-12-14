@@ -1,16 +1,10 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.exception.ConnectionPoolException;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class SetEnglishLocaleAction implements Action {
 
@@ -20,7 +14,7 @@ public class SetEnglishLocaleAction implements Action {
     private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws PropertyManagerException, ValidatorException, ConnectionPoolException, JdbcDaoException, ServletException, IOException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
         req.getSession(false).setAttribute(LOCALE_ATTR_NAME, LOCALE);
         String referrer = req.getHeader("referer");
         logger.debug("Locale changed on \"{}\"", LOCALE);
