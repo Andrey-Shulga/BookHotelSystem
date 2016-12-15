@@ -31,5 +31,4 @@ public abstract class DaoFactory implements AutoCloseable {
 
     public abstract RoomDao getRoomDao();
 
-    public abstract ConfirmationOrderDao getConfirmationOrderDao();
 }

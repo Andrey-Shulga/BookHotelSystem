@@ -13,20 +13,10 @@ import java.sql.*;
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcOrderDao.class);
-    private static final String INSERT_ORDER_QUERY = "insert.order";
-    private static final String FIND_ORDERS_BY_ID_QUERY = "find.orders";
-    private static final String FIND_ALL_ORDERS_QUERY = "find.all.orders";
-
 
     JdbcOrderDao(Connection connection) {
         super(connection);
     }
-
-    @Override
-    void setUpdateFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
-        ps.setString(1, String.valueOf(entity.getId()));
-    }
-
 
     @Override
     void setFindFieldToPs(PreparedStatement ps, Order entity) throws SQLException {

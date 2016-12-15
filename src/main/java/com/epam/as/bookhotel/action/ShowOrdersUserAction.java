@@ -4,8 +4,6 @@ import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +11,6 @@ import java.util.List;
 
 public class ShowOrdersUserAction implements Action {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShowOrdersUserAction.class);
     private static final String USER = "user";
     private static final String LOGIN_FORM = "login";
     private static final String ORDER_LIST_ATTRIBUTE = "orders";

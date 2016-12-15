@@ -17,4 +17,8 @@ public class JdbcDaoException extends DaoException {
     JdbcDaoException(String message, Exception e) {
         super(message, e);
     }
+
+    JdbcDaoException() {
+
+    }
 }

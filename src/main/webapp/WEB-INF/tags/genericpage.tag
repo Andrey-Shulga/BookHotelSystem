@@ -68,6 +68,8 @@
         <c:if test="${role==USER}">
             <p><a href="${prefix}/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>
             <p><a href="${prefix}/?action=show-user-order-list"><fmt:message key="sidebar.menu.user.order.list"/></a>
+            <p><a href="${prefix}/?action=show-user-invoice-list"><fmt:message
+                    key="sidebar.menu.user.invoice.list"/></a>
             </p>
         </c:if>
 

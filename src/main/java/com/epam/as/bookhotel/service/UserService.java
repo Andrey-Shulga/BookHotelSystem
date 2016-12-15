@@ -5,17 +5,15 @@ import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.*;
 import com.epam.as.bookhotel.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserService extends ParentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String REGISTER_USER_KEY = "insert.user";
     private static final String FIND_LOGIN_USER_KEY = "find.user.login";
+    private static final int FIRST_USER_IN_LIST_INDEX = 0;
 
     private List<String> parameters = new ArrayList<>();
 
@@ -46,7 +44,7 @@ public class UserService extends ParentService {
             throw new ServiceException(e);
         }
         if (foundUsers.isEmpty()) throw new UserNotFoundException();
-        return foundUsers.get(0);
+        return foundUsers.get(FIRST_USER_IN_LIST_INDEX);
     }
 
 }

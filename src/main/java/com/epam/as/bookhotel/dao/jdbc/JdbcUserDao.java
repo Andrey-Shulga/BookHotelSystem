@@ -22,12 +22,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    void setUpdateFieldToPs(PreparedStatement ps, User entity) {
-
-    }
-
-
-    @Override
     User setRsToField(ResultSet rs, User entity) throws SQLException {
         User user = new User();
         user.setId(rs.getInt(1));

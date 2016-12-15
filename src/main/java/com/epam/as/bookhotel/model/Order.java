@@ -1,5 +1,6 @@
 package com.epam.as.bookhotel.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Order extends BaseEntity {
@@ -14,24 +15,8 @@ public class Order extends BaseEntity {
     private Bed bed;
     private RoomType roomType;
     private OrderStatus status;
-
-
-    public Order(int id, User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, OrderStatus status) {
-        super(id);
-        this.user = user;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.bed = bed;
-        this.roomType = roomType;
-        this.status = status;
-    }
-
-    public Order() {
-    }
+    private Room room;
+    private BigDecimal fullCost;
 
     public Order(User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType) {
         this.user = user;
@@ -43,6 +28,40 @@ public class Order extends BaseEntity {
         this.checkOut = checkOut;
         this.bed = bed;
         this.roomType = roomType;
+
+    }
+
+    public Order(int id, User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, OrderStatus status, Room room, BigDecimal fullCost) {
+        super(id);
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.bed = bed;
+        this.roomType = roomType;
+        this.status = status;
+        this.room = room;
+        this.fullCost = fullCost;
+    }
+
+    public Order() {
+    }
+
+    public Order(User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, Room room, BigDecimal fullCost) {
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.bed = bed;
+        this.roomType = roomType;
+        this.room = room;
+        this.fullCost = fullCost;
     }
 
     public OrderStatus getStatus() {
@@ -125,6 +144,22 @@ public class Order extends BaseEntity {
         this.roomType = roomType;
     }
 
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public BigDecimal getFullCost() {
+        return fullCost;
+    }
+
+    public void setFullCost(BigDecimal fullCost) {
+        this.fullCost = fullCost;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -139,6 +174,8 @@ public class Order extends BaseEntity {
                 ", bed=" + bed +
                 ", roomType='" + roomType + '\'' +
                 ", status='" + status + '\'' +
+                ", room=" + room +
+                ", fullCost=" + fullCost +
                 '}';
     }
 }

@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.dao.Dao;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.NonUniqueFieldException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.UnableUpdateFieldException;
 import com.epam.as.bookhotel.model.BaseEntity;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
@@ -18,7 +19,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
-    private static final String DATABASE_CONNECT_LOST_ERROR_CODE = "08006";
+    private static final int ZERO = 0;
+    private static final int INITIAL_COUNT = 1;
     private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
     private Connection connection;
 
@@ -29,12 +31,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     @Override
     public T save(T entity, String queryKey) throws JdbcDaoException {
 
-        //insert entity
         PropertyManager propertyManager;
         try {
             propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-
-            if (entity.getId() == 0) {
+            if (entity.getId() == null) {
                 logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
                 try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS)) {
                     setFindFieldToPs(ps, entity);
@@ -43,18 +43,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 } catch (SQLException e) {
                     if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState()))
                         throw new NonUniqueFieldException(e);
-                    throw new JdbcDaoException(e);
-
-                }
-                //update entity
-            } else {
-                logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
-                try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
-                    setUpdateFieldToPs(ps, entity);
-                    int result = ps.executeUpdate();
-                    if (result != 0)
-                        logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
-                } catch (SQLException e) {
                     throw new JdbcDaoException(e);
                 }
             }
@@ -65,13 +53,39 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
+    public T update(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
+
+        logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
+        try {
+            PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+            int count = INITIAL_COUNT;
+            try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
+                for (String parameter : parameters) {
+                    ps.setString(count, parameter);
+                    count++;
+                }
+                int result = ps.executeUpdate();
+                if (result == ZERO) throw new UnableUpdateFieldException();
+                else
+                    logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
+            } catch (SQLException e) {
+                throw new JdbcDaoException(e);
+            }
+        } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+        parameters.clear();
+        return entity;
+    }
+
+    @Override
     public List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
+
         logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
         List<T> entities = new ArrayList<>();
-        PropertyManager propertyManager;
         try {
-            propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-            int count = 1;
+            PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+            int count = INITIAL_COUNT;
             try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
                 for (String parameter : parameters) {
                     ps.setString(count, parameter);
@@ -89,6 +103,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         } catch (PropertyManagerException e) {
             throw new JdbcDaoException(e);
         }
+        parameters.clear();
         return entities;
     }
 
@@ -97,11 +112,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         generatedId.next();
         int id = generatedId.getInt(1);
         entity.setId(id);
-        if (entity.getId() != 0)
+        if (entity.getId() != null)
             logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
     }
 
-    abstract void setUpdateFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
     abstract void setFindFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 

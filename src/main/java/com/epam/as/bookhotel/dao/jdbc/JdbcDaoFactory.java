@@ -1,6 +1,9 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
-import com.epam.as.bookhotel.dao.*;
+import com.epam.as.bookhotel.dao.DaoFactory;
+import com.epam.as.bookhotel.dao.OrderDao;
+import com.epam.as.bookhotel.dao.RoomDao;
+import com.epam.as.bookhotel.dao.UserDao;
 import com.epam.as.bookhotel.exception.ConnectionPoolException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.pool.ConnectionPool;
@@ -46,11 +49,6 @@ public class JdbcDaoFactory extends DaoFactory {
     @Override
     public RoomDao getRoomDao() {
         return new JdbcRoomDao(connection);
-    }
-
-    @Override
-    public ConfirmationOrderDao getConfirmationOrderDao() {
-        return new JdbcConfirmationOrderDao(connection);
     }
 
     @Override
