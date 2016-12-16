@@ -31,13 +31,13 @@ public class RegisterAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         if (req.getParameter(LOGIN_PARAMETER) == null) return REGISTER_FORM;
-        FormValidator registerFormValidator = null;
+
         try {
-            registerFormValidator = new FormValidator();
-            Map<String, List<String>> fieldErrors = registerFormValidator.validate(REGISTER_FORM, req);
-            registerFormValidator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
+            FormValidator validator = new FormValidator();
+            Map<String, List<String>> fieldErrors = validator.validate(REGISTER_FORM, req);
+            validator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
             if (!fieldErrors.isEmpty()) {
-                registerFormValidator.setErrorToRequest(req);
+                validator.setErrorToRequest(req);
                 return REGISTER_FORM;
             }
         } catch (ValidatorException e) {

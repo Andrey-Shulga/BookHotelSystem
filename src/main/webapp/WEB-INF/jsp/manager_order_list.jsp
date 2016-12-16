@@ -109,6 +109,32 @@
         </div>
         <hr>
 
+        <div align="left"><p>
+                <fmt:message key="orders.manager.form.select.date.message.room"/>
+        </div>
+
+        <form action="/do/?action=show-free-room-on-date" method="post">
+            <label><b><fmt:message key="orders.manager.form.select.date.chekIn"/></b></label>
+            <input type="date" name="checkIn" placeholder="" value="" required autofocus>
+            <small><fmt:message key="orders.manager.form.select.date.chekIn.rules"/></small>
+            <c:forEach var="errorMessage" items="${checkInErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
+            </c:forEach>
+            <br><br>
+            <label><b><fmt:message key="orders.manager.form.select.date.chekOut"/></b></label>
+            <input type="date" name="checkOut" value="" placeholder="" required>
+            <small><fmt:message key="orders.manager.form.select.date.chekOut.rules"/></small>
+            <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
+            </c:forEach>
+            <br><br>
+            <button type="submit"><fmt:message key="orders.manager.form.button.search"/></button>
+            <c:if test="${not empty searchErrorMessage}">
+                <div id="errorcolortext"><fmt:message key="${searchErrorMessages}"/></div>
+            </c:if>
+            <br>
+
+        </form>
 
         <div align="center">
             <table border='2'>

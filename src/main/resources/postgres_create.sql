@@ -154,7 +154,7 @@ INSERT INTO "Room_status"
 (room_status) VALUES ('free'), ('occupied');
 
 INSERT INTO "Room"
-(type_id, bed_id, room_number, status_id, room_price)
+(type_id, bed_id, room_number, room_price)
 VALUES
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
@@ -162,132 +162,115 @@ VALUES
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '1'), '1',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '1000'),
+   '1000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Standard'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '2'), '2',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '2000'),
+   '2000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Standard'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '3'), '3',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '3000'),
+   '3000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Standard'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '4'), '4',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '4000'),
+   '4000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Standard'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '5'), '5',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '5000'),
+   '5000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Junior suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '1'), '6',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '1500'),
+   '1500'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Junior suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '2'), '7',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '2500'),
+   '2500'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Junior suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '3'), '8',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '3500'),
+   '3500'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Junior suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '4'), '9',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '4500'),
+   '4500'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Junior suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '5'), '10',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '5500'),
+   '5500'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '1'), '11',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '2000'),
+   '2000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '2'), '12',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '3000'),
+   '3000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '3'), '13',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '4000'),
+   '4000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '4'), '14',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '5000'),
+   '5000'),
   ((SELECT "Room_type".type_id
     FROM public."Room_type"
     WHERE "Room_type".type_name = 'Suit'),
    (SELECT "Room_bed".bed_id
     FROM public."Room_bed"
     WHERE "Room_bed".bed_number = '5'), '15',
-   (SELECT "Room_status".status_id
-    FROM public."Room_status"
-    WHERE "Room_status".room_status = 'free'), '6000');
+   '6000');
+
+CREATE VIEW public.Rooms AS
+  SELECT
+    "Room".room_id,
+    "Room_type".type_name,
+    "Room_bed".bed_number,
+    "Room".room_number,
+    "Room".room_price
+  FROM public."Room"
+    INNER JOIN public."Room_type"
+      ON "Room".type_id = "Room_type".type_id
+    INNER JOIN public."Room_bed"
+      ON "Room".bed_id = "Room_bed".bed_id;
