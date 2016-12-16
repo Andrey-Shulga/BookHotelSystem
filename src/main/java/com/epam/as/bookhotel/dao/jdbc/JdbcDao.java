@@ -37,7 +37,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             if (entity.getId() == null) {
                 logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
                 try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS)) {
-                    setFindFieldToPs(ps, entity);
+                    setFieldToPs(ps, entity);
                     ps.execute();
                     setId(entity, ps);
                 } catch (SQLException e) {
@@ -58,12 +58,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
         try {
             PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-            int count = INITIAL_COUNT;
             try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
-                for (String parameter : parameters) {
-                    ps.setString(count, parameter);
-                    count++;
-                }
+                setParametersToPs(parameters, ps);
                 int result = ps.executeUpdate();
                 if (result == ZERO) throw new UnableUpdateFieldException();
                 else
@@ -79,23 +75,16 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
+    public List<List<Object>> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
 
         logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
-        List<T> entities = new ArrayList<>();
+        List<List<Object>> resultList;
         try {
             PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-            int count = INITIAL_COUNT;
             try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
-                for (String parameter : parameters) {
-                    ps.setString(count, parameter);
-                    count++;
-                }
+                setParametersToPs(parameters, ps);
                 ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    entity = setRsToField(rs, entity);
-                    entities.add(entity);
-                }
+                resultList = extractRsToList(rs);
             } catch (SQLException e) {
 
                 throw new JdbcDaoException(e);
@@ -104,7 +93,34 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             throw new JdbcDaoException(e);
         }
         parameters.clear();
-        return entities;
+        return resultList;
+    }
+
+    private void setParametersToPs(List<String> parameters, PreparedStatement ps) throws SQLException {
+        int count = INITIAL_COUNT;
+        for (String parameter : parameters) {
+            ps.setString(count, parameter);
+            count++;
+        }
+    }
+
+    private List<List<Object>> extractRsToList(ResultSet rs) throws JdbcDaoException {
+        List<List<Object>> resultList = new ArrayList<>();
+        try {
+            ResultSetMetaData meta = rs.getMetaData();
+            int columns = meta.getColumnCount();
+            while (rs.next()) {
+                List<Object> rows = new ArrayList<>();
+                for (int i = 1; i <= columns; i++) {
+                    Object value = rs.getObject(i);
+                    rows.add(value);
+                }
+                resultList.add(rows);
+            }
+        } catch (SQLException e) {
+            throw new JdbcDaoException(e);
+        }
+        return resultList;
     }
 
     private void setId(T entity, PreparedStatement ps) throws SQLException {
@@ -117,7 +133,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
 
-    abstract void setFindFieldToPs(PreparedStatement ps, T entity) throws SQLException;
+    abstract void setFieldToPs(PreparedStatement ps, T entity) throws SQLException;
 
-    abstract T setRsToField(ResultSet rs, T entity) throws SQLException;
 }

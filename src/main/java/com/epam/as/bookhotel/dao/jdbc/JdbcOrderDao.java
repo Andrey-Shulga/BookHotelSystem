@@ -1,14 +1,14 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.OrderDao;
-import com.epam.as.bookhotel.model.Bed;
 import com.epam.as.bookhotel.model.Order;
-import com.epam.as.bookhotel.model.OrderStatus;
-import com.epam.as.bookhotel.model.RoomType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
@@ -19,7 +19,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    void setFindFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
+    void setFieldToPs(PreparedStatement ps, Order entity) throws SQLException {
 
         ps.setInt(1, entity.getUser().getId());
         ps.setString(2, entity.getFirstName());
@@ -33,23 +33,5 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     }
 
-    @Override
-    Order setRsToField(ResultSet rs, Order entity) throws SQLException {
-        Order newEntity = new Order();
-        newEntity.setId(rs.getInt(1));
-        newEntity.setUser(entity.getUser());
-        newEntity.setFirstName(rs.getString(3));
-        newEntity.setLastName(rs.getString(4));
-        newEntity.setEmail(rs.getString(5));
-        newEntity.setPhone(rs.getString(6));
-        newEntity.setBed(new Bed(rs.getInt(7)));
-        newEntity.setRoomType(new RoomType(rs.getString(8)));
-        Date checkInDate = rs.getDate(9);
-        Date checkOutDate = rs.getDate(10);
-        newEntity.setCheckIn(checkInDate.toLocalDate());
-        newEntity.setCheckOut(checkOutDate.toLocalDate());
-        newEntity.setStatus(new OrderStatus(rs.getString(11)));
-        logger.debug("Found entity: {}", newEntity);
-        return newEntity;
-    }
+
 }

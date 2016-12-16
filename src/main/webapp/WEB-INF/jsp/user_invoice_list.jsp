@@ -22,16 +22,16 @@
             <table border='2'>
                 <thead>
                 <tr>
-                    <th scope='colgroup' width="70px"><fmt:message key="userorderlist.table.orderid"/></th>
-                    <th scope='colgroup' width="200px"><fmt:message key="userorderlist.table.firstname"/></th>
-                    <th scope='colgroup' width="200px"><fmt:message key="userorderlist.table.lastname"/></th>
-                    <th scope='colgroup' width="200px"><fmt:message key="userorderlist.table.email"/></th>
-                    <th scope='colgroup' width="150px"><fmt:message key="userorderlist.table.phone"/></th>
-                    <th scope='colgroup' width="50px"><fmt:message key="userorderlist.table.bed"/></th>
-                    <th scope='colgroup' width="100px"><fmt:message key="userorderlist.table.roomtype"/></th>
-                    <th scope='colgroup' width="100px"><fmt:message key="userorderlist.table.checkin"/></th>
-                    <th scope='colgroup' width="100px"><fmt:message key="userorderlist.table.checkout"/></th>
-                    <th scope='colgroup' width="110px"><fmt:message key="userorderlist.table.status"/></th>
+                    <th scope='colgroup' width="70px"><fmt:message key="user.order.list.table.orderId"/></th>
+                    <th scope='colgroup' width="200px"><fmt:message key="user.order.list.table.firstName"/></th>
+                    <th scope='colgroup' width="200px"><fmt:message key="user.order.list.table.lastName"/></th>
+                    <th scope='colgroup' width="200px"><fmt:message key="user.order.list.table.email"/></th>
+                    <th scope='colgroup' width="150px"><fmt:message key="user.order.list.table.phone"/></th>
+                    <th scope='colgroup' width="50px"><fmt:message key="user.order.list.table.bed"/></th>
+                    <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.roomtype"/></th>
+                    <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkIn"/></th>
+                    <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkOut"/></th>
+                    <th scope='colgroup' width="110px"><fmt:message key="user.order.list.table.status"/></th>
                 </tr>
                 </thead>
                 <c:forEach var="order" items="${orders}">

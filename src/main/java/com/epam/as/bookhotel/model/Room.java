@@ -7,14 +7,12 @@ public class Room extends BaseEntity {
     private RoomType roomType;
     private Bed bed;
     private int number;
-    private RoomStatus roomStatus;
     private BigDecimal price;
 
-    public Room(RoomType roomType, Bed bed, int number, RoomStatus roomStatus, BigDecimal price) {
+    public Room(RoomType roomType, Bed bed, int number, BigDecimal price) {
         this.roomType = roomType;
         this.bed = bed;
         this.number = number;
-        this.roomStatus = roomStatus;
         this.price = price;
     }
 
@@ -45,14 +43,6 @@ public class Room extends BaseEntity {
         this.number = number;
     }
 
-    public RoomStatus getRoomStatus() {
-        return roomStatus;
-    }
-
-    public void setRoomStatus(RoomStatus roomStatus) {
-        this.roomStatus = roomStatus;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -68,7 +58,6 @@ public class Room extends BaseEntity {
                 ", roomType=" + roomType +
                 ", bed=" + bed +
                 ", number=" + number +
-                ", roomStatus=" + roomStatus +
                 ", price=" + price +
                 '}';
     }

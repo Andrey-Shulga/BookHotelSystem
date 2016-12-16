@@ -14,6 +14,6 @@ public interface Dao<T extends BaseEntity> {
 
     T update(T entity, List<String> parameters, String queryKey) throws JdbcDaoException;
 
-    List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException;
+    List<List<Object>> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException;
 
 }

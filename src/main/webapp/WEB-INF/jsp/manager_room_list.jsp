@@ -21,12 +21,11 @@
             <table border='2'>
                 <thead>
                 <tr>
-                    <th scope='colgroup' width="70px"><fmt:message key="roomlist.table.roomid"/></th>
-                    <th scope='colgroup' width="100px"><fmt:message key="userorderlist.table.roomtype"/></th>
-                    <th scope='colgroup' width="60px"><fmt:message key="userorderlist.table.bed"/></th>
-                    <th scope='colgroup' width="75px"><fmt:message key="roomlist.table.roomnumber"/></th>
-                    <th scope='colgroup' width="80px"><fmt:message key="roomlist.table.roomstatus"/></th>
-                    <th scope='colgroup' width="90px"><fmt:message key="roomlist.table.roomprice"/></th>
+                    <th scope='colgroup' width="70px"><fmt:message key="room.list.table.roomId"/></th>
+                    <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.roomtype"/></th>
+                    <th scope='colgroup' width="60px"><fmt:message key="user.order.list.table.bed"/></th>
+                    <th scope='colgroup' width="75px"><fmt:message key="room.list.table.roomNumber"/></th>
+                    <th scope='colgroup' width="90px"><fmt:message key="room.list.table.roomPrice"/></th>
 
                 </tr>
                 </thead>
@@ -45,9 +44,7 @@
                         <td>
                                 ${room.number}
                         </td>
-                        <td>
-                                ${room.roomStatus}
-                        </td>
+
                         <td>
                                 ${room.price}
                         </td>
