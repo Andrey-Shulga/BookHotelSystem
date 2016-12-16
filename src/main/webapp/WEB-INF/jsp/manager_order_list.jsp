@@ -7,6 +7,7 @@
 <c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
 <c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
 <c:set var="confirmErrorMessage" value="${confirmErrorMessages}"/>
+<c:set var="searchErrorMessage" value="${searchErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -144,7 +145,7 @@
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.roomtype"/></th>
                     <th scope='colgroup' width="60px"><fmt:message key="user.order.list.table.bed"/></th>
                     <th scope='colgroup' width="75px"><fmt:message key="room.list.table.roomNumber"/></th>
-                    <th scope='colgroup' width="80px"><fmt:message key="room.list.table.room.status"/></th>
+
                     <th scope='colgroup' width="90px"><fmt:message key="room.list.table.roomPrice"/></th>
 
                 </tr>
@@ -164,9 +165,7 @@
                         <td>
                                 ${room.number}
                         </td>
-                        <td>
-                                ${room.roomStatus}
-                        </td>
+
                         <td>
                                 ${room.price}
                         </td>

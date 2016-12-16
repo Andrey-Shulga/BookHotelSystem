@@ -42,6 +42,8 @@ public class RoomService extends ParentService {
             RoomDao roomDao = daoFactory.getRoomDao();
             parameters.add(checkIn);
             parameters.add(checkOut);
+            parameters.add(checkIn);
+            parameters.add(checkOut);
             resultList = roomDao.findByParameters(room, parameters, FIND_ALL_FREE_ROOMS_BY_DATE_KEY);
         } catch (DaoException e) {
             throw new ServiceException(e);

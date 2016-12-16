@@ -50,7 +50,7 @@ public class FindRoomsByDateAction implements Action {
         RoomService roomService = new RoomService();
         try {
             List<Room> roomList = roomService.findAllFreeRoomsOnBookingDate(checkIn, checkOut);
-            req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
+            req.getSession().setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
         } catch (ServiceException e) {
             req.getSession().setAttribute(SEARCH_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
