@@ -127,6 +127,7 @@ public class OrderService extends ParentService {
 
             OrderDao orderDao = daoFactory.getOrderDao();
             parameters.add(String.valueOf(order.getRoom().getId()));
+            parameters.add(String.valueOf(order.getRoom().getId()));
             parameters.add(String.valueOf(order.getId()));
             orderDao.update(order, parameters, UPDATE_ORDER_ROOM_ID_KEY);
 
