@@ -19,7 +19,12 @@ public class RoomService extends ParentService {
     private static final Logger logger = LoggerFactory.getLogger(RoomService.class);
     private static final String FIND_ALL_ROOMS_KEY = "find.all.rooms";
     private static final String FIND_ALL_FREE_ROOMS_BY_DATE_KEY = "find.free.rooms.on.date.range";
-    private List<String> parameters = new ArrayList<>();
+    private static final int INDEX_0 = 0;
+    private static final int INDEX_1 = 1;
+    private static final int INDEX_2 = 2;
+    private static final int INDEX_3 = 3;
+    private static final int INDEX_4 = 4;
+    private static final List<String> parameters = new ArrayList<>();
 
     public List<Room> findAllRooms(Room room) throws ServiceException {
 
@@ -56,11 +61,11 @@ public class RoomService extends ParentService {
     private void setRowsToRoom(List<List<Object>> resultList, List<Room> roomList) {
         for (List<Object> rows : resultList) {
             Room foundRoom = new Room();
-            foundRoom.setId((Integer) rows.get(0));
-            foundRoom.setRoomType(new RoomType((String) rows.get(1)));
-            foundRoom.setBed(new Bed((Integer) rows.get(2)));
-            foundRoom.setNumber((Integer) rows.get(3));
-            foundRoom.setPrice((BigDecimal) rows.get(4));
+            foundRoom.setId((Integer) rows.get(INDEX_0));
+            foundRoom.setRoomType(new RoomType((String) rows.get(INDEX_1)));
+            foundRoom.setBed(new Bed((Integer) rows.get(INDEX_2)));
+            foundRoom.setNumber((Integer) rows.get(INDEX_3));
+            foundRoom.setPrice((BigDecimal) rows.get(INDEX_4));
             roomList.add(foundRoom);
             logger.debug("Found entity: {}", foundRoom);
         }

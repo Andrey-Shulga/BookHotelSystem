@@ -18,9 +18,10 @@ public class UserService extends ParentService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String REGISTER_USER_KEY = "insert.user";
     private static final String FIND_LOGIN_USER_KEY = "find.user.login";
-    private static final int FIRST_USER_IN_LIST_INDEX = 0;
-
-    private List<String> parameters = new ArrayList<>();
+    private static final int INDEX_0 = 0;
+    private static final int INDEX_1 = 1;
+    private static final int INDEX_2 = 2;
+    private static final List<String> parameters = new ArrayList<>();
 
     public User register(User user) throws ServiceException {
 
@@ -50,9 +51,9 @@ public class UserService extends ParentService {
             throw new ServiceException(e);
         }
         for (List<Object> rows : resultList) {
-            user.setId((Integer) rows.get(0));
-            user.setLogin((String) rows.get(1));
-            user.setPassword((String) rows.get(2));
+            user.setId((Integer) rows.get(INDEX_0));
+            user.setLogin((String) rows.get(INDEX_1));
+            user.setPassword((String) rows.get(INDEX_2));
             UserRole userRole = new UserRole(UserType.valueOf((String) rows.get(3)));
             user.setRole(userRole);
             logger.debug("Search success. Entity {} found in database.", user);

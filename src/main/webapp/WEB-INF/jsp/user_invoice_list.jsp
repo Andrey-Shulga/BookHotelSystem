@@ -6,7 +6,7 @@
 
 <fmt:setBundle basename="lang"/>
 <fmt:message key="user.invoice.list.title" var="title"/>
-<c:set var="invoiceListErrorMessage" value="${invoicesErrorMessages}"/>
+<c:set var="invoiceListErrorMessage" value="${invoiceErrorMessages}"/>
 
 
 <t:genericpage title="${title}">
@@ -32,6 +32,7 @@
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkIn"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkOut"/></th>
                     <th scope='colgroup' width="110px"><fmt:message key="user.order.list.table.status"/></th>
+                    <th scope='colgroup' width="70px"><fmt:message key="manager.all.order.list.table.fullCost"/></th>
                 </tr>
                 </thead>
                 <c:forEach var="order" items="${orders}">
@@ -66,13 +67,16 @@
                         <td>
                                 ${order.status}
                         </td>
+                        <td>
+                                ${order.fullCost}
+                        </td>
                     </tr>
 
                 </c:forEach>
             </table>
         </div>
         <c:if test="${not empty invoiceListErrorMessage}">
-            <div id="errorcolortext"><fmt:message key="${invoicesErrorMessages}"/></div>
+            <div id="errorcolortext"><fmt:message key="${invoiceErrorMessages}"/></div>
         </c:if>
 
     </jsp:body>

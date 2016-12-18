@@ -152,7 +152,7 @@
         });
         constructor.prototype = $.widget.extend(basePrototype, {
 
-            // TODO: remove support for widgetEventPrefix
+
             // always use the name + a colon as the prefix, e.g., draggable:start
             // don't prefix for widgets that aren't DOM-based
             widgetEventPrefix: existingConstructor ? ( basePrototype.widgetEventPrefix || name ) : name
@@ -1860,7 +1860,7 @@
         //Keep track of the maximum number of rows displayed (see #7043)
         maxRows: 4,
 
-        // TODO rename to "widget" when switching to widget factory
+
         _widgetDatepicker: function () {
             return this.dpDiv;
         },
