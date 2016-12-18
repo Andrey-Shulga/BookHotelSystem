@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Order extends BaseEntity {
 
@@ -10,15 +10,15 @@ public class Order extends BaseEntity {
     private String lastName;
     private String email;
     private String phone;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
+    private Date checkIn;
+    private Date checkOut;
     private Bed bed;
     private RoomType roomType;
     private OrderStatus status;
     private Room room;
     private BigDecimal fullCost;
 
-    public Order(User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType) {
+    public Order(User user, String firstName, String lastName, String email, String phone, Date checkIn, Date checkOut, Bed bed, RoomType roomType) {
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,7 +31,7 @@ public class Order extends BaseEntity {
 
     }
 
-    public Order(int id, User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, OrderStatus status, Room room, BigDecimal fullCost) {
+    public Order(int id, User user, String firstName, String lastName, String email, String phone, Date checkIn, Date checkOut, Bed bed, RoomType roomType, OrderStatus status, Room room, BigDecimal fullCost) {
         super(id);
         this.user = user;
         this.firstName = firstName;
@@ -50,7 +50,7 @@ public class Order extends BaseEntity {
     public Order() {
     }
 
-    public Order(User user, String firstName, String lastName, String email, String phone, LocalDate checkIn, LocalDate checkOut, Bed bed, RoomType roomType, Room room, BigDecimal fullCost) {
+    public Order(User user, String firstName, String lastName, String email, String phone, Date checkIn, Date checkOut, Bed bed, RoomType roomType, Room room, BigDecimal fullCost) {
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -112,19 +112,19 @@ public class Order extends BaseEntity {
         this.phone = phone;
     }
 
-    public LocalDate getCheckIn() {
+    public Date getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(LocalDate checkIn) {
+    public void setCheckIn(Date checkIn) {
         this.checkIn = checkIn;
     }
 
-    public LocalDate getCheckOut() {
+    public Date getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckOut(LocalDate checkOut) {
+    public void setCheckOut(Date checkOut) {
         this.checkOut = checkOut;
     }
 

@@ -23,6 +23,7 @@ public class SelectRoomAction implements Action {
     private static final String ORDER_ID_PARAMETER = "orderId";
     private static final String ROOM_ID_PARAMETER = "roomId";
     private static final String CONFIRM_BUTTON_PARAMETER = "confirm";
+    private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
     private static final String REDIRECT = "redirect:/do/?action=show-manager-order-list";
@@ -56,6 +57,7 @@ public class SelectRoomAction implements Action {
         OrderService orderService = new OrderService();
         try {
             orderService.confirmRoomForOrder(order);
+            req.getSession().removeAttribute(ROOMS_LIST_ATTRIBUTE);
         } catch (ServiceException e) {
             req.getSession().setAttribute(CONFIRM_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }

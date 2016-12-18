@@ -14,8 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -65,8 +66,8 @@ public class OrderRoomAction implements Action {
         String phone = req.getParameter(PHONE);
         String checkIn = req.getParameter(CHECK_IN);
         String checkOut = req.getParameter(CHECK_OUT);
-        LocalDate checkInDate = getLocalDate(checkIn);
-        LocalDate checkOutDate = getLocalDate(checkOut);
+        Date checkInDate = getSqlDate(checkIn);
+        Date checkOutDate = getSqlDate(checkOut);
         Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
         RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
@@ -79,14 +80,20 @@ public class OrderRoomAction implements Action {
             req.setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return ORDER_FORM;
         }
-        if (order.getId() == 0) return ORDER_FORM;
+        if (order.getId() == null) return ORDER_FORM;
         return REDIRECT;
     }
 
-    private LocalDate getLocalDate(String date) {
-        String datePattern = "dd/MM/uuuu";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(datePattern);
-        return LocalDate.parse(date, formatter);
+    private Date getSqlDate(String parameter) throws ActionException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date sqlDate;
+        try {
+            java.util.Date date = format.parse(parameter);
+            sqlDate = new Date(date.getTime());
+        } catch (ParseException e) {
+            throw new ActionException(e);
+        }
+        return sqlDate;
     }
 }
 

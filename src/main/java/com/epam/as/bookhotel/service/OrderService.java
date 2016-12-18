@@ -23,7 +23,6 @@ public class OrderService extends ParentService {
 
     private static final String UPDATE_ORDER_ROOM_ID_KEY = "update.order.room.id";
     private static final String UPDATE_ORDER_STATUS_KEY = "change.order.status";
-    private static final String UPDATE_ROOM_STATUS_KEY = "change.room.status";
     private static final String UPDATE_ORDER_FULL_COST_KEY = "update.order.full.cost";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
     private List<String> parameters = new ArrayList<>();
@@ -64,8 +63,8 @@ public class OrderService extends ParentService {
         foundOrder.setRoomType(new RoomType((String) rows.get(7)));
         Date checkInDate = (Date) rows.get(8);
         Date checkOutDate = (Date) rows.get(9);
-        foundOrder.setCheckIn(checkInDate.toLocalDate());
-        foundOrder.setCheckOut(checkOutDate.toLocalDate());
+        foundOrder.setCheckIn(checkInDate);
+        foundOrder.setCheckOut(checkOutDate);
         foundOrder.setStatus(new OrderStatus((String) rows.get(10)));
     }
 
@@ -123,6 +122,7 @@ public class OrderService extends ParentService {
     public Order confirmRoomForOrder(Order order) throws ServiceException {
 
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+
             daoFactory.beginTx();
 
             OrderDao orderDao = daoFactory.getOrderDao();
@@ -141,6 +141,7 @@ public class OrderService extends ParentService {
             orderDao.update(order, parameters, UPDATE_ORDER_FULL_COST_KEY);
 
             daoFactory.commit();
+
         } catch (UnableUpdateFieldException e) {
 
             throw new UnableConfirmOrderException(e);

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
@@ -28,8 +27,8 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         ps.setString(5, entity.getPhone());
         ps.setInt(6, entity.getBed().getBed());
         ps.setString(7, entity.getRoomType().getRoomType());
-        ps.setObject(8, entity.getCheckIn(), Types.DATE);
-        ps.setObject(9, entity.getCheckOut(), Types.DATE);
+        ps.setDate(8, entity.getCheckIn());
+        ps.setDate(9, entity.getCheckOut());
 
     }
 
