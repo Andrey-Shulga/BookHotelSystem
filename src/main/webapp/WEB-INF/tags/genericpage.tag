@@ -13,8 +13,8 @@
 <%@attribute name="menu" fragment="true" %>
 <%@attribute name="sidebar" fragment="true" %>
 
-<c:set var="prefix" value="/do"/>
-<c:set var="role" value="${user.role}"/>
+<c:set var="prefix" value="${pageContext.request.contextPath}"/>
+<c:set var="role" value="${sessionScope.user.role}"/>
 <c:set var="USER" value="USER"/>
 <c:set var="MANAGER" value="MANAGER"/>
 
@@ -23,8 +23,13 @@
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="${prefix}/css/style.css">
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+    <script type="text/javascript" src="${prefix}/js/jquery.js"></script>
+    <script type="text/javascript" src="${prefix}/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="${prefix}/js/datepicker.js"></script>
+    <link href="${prefix}/js/jquery-ui.css" rel="stylesheet">
+
     <title>${title}</title>
 
 </head>
@@ -35,45 +40,44 @@
     <jsp:invoke fragment="header"/>
     <h1><fmt:message key="index.header.message"/></h1>
     <div align="left">
-        <a href="${prefix}/?action=en" style="color: white">English</a>
-        <a href="${prefix}/?action=ru" style="color: white">Русский</a>
+        <a href="${prefix}/do/?action=en" style="color: white">English</a>
+        <a href="${prefix}/do/?action=ru" style="color: white">Русский</a>
     </div>
     <br>
     <div align="left">
-        <b><ctg:hello role="${user.login}"/></b>
+        <b><ctg:hello role="${sessionScope.user.login}"/></b>
     </div>
-
-
 </div>
 
 <div id="sidebar">
     <jsp:invoke fragment="sidebar"/>
 
-    <p><a href="${prefix}/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
+    <p><a href="${prefix}/do/?action=show-index"><fmt:message key="sidebar.menu.main"/></a></p>
 
     <c:if test="${empty role}">
-        <p><a href="${prefix}/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
-        <p><a href="${prefix}/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
+        <p><a href="${prefix}/do/?action=show-register-form"><fmt:message key="sidebar.menu.register"/></a></p>
+        <p><a href="${prefix}/do/?action=show-login-form"><fmt:message key="sidebar.menu.login"/></a></p>
     </c:if>
 
     <c:if test="${not empty role}">
         <c:if test="${role==MANAGER}">
-            <p><a href="${prefix}/?action=show-manager-order-list"><fmt:message key="sidebar.menu.order.list"/></a></p>
-            <p><a href="${prefix}/?action=show-manager-allorder-list"><fmt:message
+            <p><a href="${prefix}/do/?action=show-manager-order-list"><fmt:message key="sidebar.menu.order.list"/></a>
+            </p>
+            <p><a href="${prefix}/do/?action=show-manager-allorder-list"><fmt:message
                     key="sidebar.menu.allorder.list"/></a></p>
-            <p><a href="${prefix}/?action=show-manager-room-list"><fmt:message key="sidebar.menu.room.list"/></a></p>
+            <p><a href="${prefix}/do/?action=show-manager-room-list"><fmt:message key="sidebar.menu.room.list"/></a></p>
 
         </c:if>
 
         <c:if test="${role==USER}">
-            <p><a href="${prefix}/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>
-            <p><a href="${prefix}/?action=show-user-order-list"><fmt:message key="sidebar.menu.user.order.list"/></a>
-            <p><a href="${prefix}/?action=show-user-invoice-list"><fmt:message
+            <p><a href="${prefix}/do/?action=show-order-form"><fmt:message key="sidebar.menu.make.order"/></a></p>
+            <p><a href="${prefix}/do/?action=show-user-order-list"><fmt:message key="sidebar.menu.user.order.list"/></a>
+            <p><a href="${prefix}/do/?action=show-user-invoice-list"><fmt:message
                     key="sidebar.menu.user.invoice.list"/></a>
             </p>
         </c:if>
 
-        <p><a href="${prefix}/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
+        <p><a href="${prefix}/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
     </c:if>
 
 </div>
@@ -86,6 +90,7 @@
     <jsp:invoke fragment="footer"/>
     <p id="copyright"><fmt:message key="index.footer.copryght"/></p>
 </div>
+
 
 </body>
 </html>

@@ -116,14 +116,14 @@
 
         <form action="/do/?action=show-free-room-on-date" method="post">
             <label><b><fmt:message key="orders.manager.form.select.date.chekIn"/></b></label>
-            <input type="date" name="checkIn" placeholder="" value="" required autofocus>
+            <input type="date" readonly id="from" name="checkIn" placeholder="" value="" required autofocus>
             <small><fmt:message key="orders.manager.form.select.date.chekIn.rules"/></small>
             <c:forEach var="errorMessage" items="${checkInErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.date.chekOut"/></b></label>
-            <input type="date" name="checkOut" value="" placeholder="" required>
+            <input type="date" readonly id="to" name="checkOut" value="" placeholder="" required>
             <small><fmt:message key="orders.manager.form.select.date.chekOut.rules"/></small>
             <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>

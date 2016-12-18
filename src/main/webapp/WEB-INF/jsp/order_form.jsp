@@ -6,7 +6,6 @@
 <fmt:message key="order.make.title" var="title"/>
 <c:set var="orderErrorMessage" value="${order_formErrorMessages}"/>
 
-
 <t:genericpage title="${title}">
 
     <jsp:body>
@@ -53,7 +52,7 @@
             <label><b><fmt:message key="order.make.form.checkin"/></b></label>
             <small><fmt:message key="order.make.form.checkin.rule"/></small>
             <br>
-            <input type="date" name="checkIn" required value="25/12/2017">
+            <input type="date" readonly name="checkIn" id="from" required value="">
             <c:forEach var="errorMessage" items="${checkInErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -62,7 +61,7 @@
             <label><b><fmt:message key="order.make.form.checkout"/></b></label>
             <small><fmt:message key="order.make.form.checkout.rule"/></small>
             <br>
-            <input type="date" name="checkOut" required value="29/12/2017">
+            <input type="date" readonly name="checkOut" id="to" required value="">
             <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
