@@ -103,14 +103,14 @@ public class OrderService extends ParentService {
 
     public Order confirmRoomForOrder(Order order) throws ServiceException {
 
+        parameters.add(String.valueOf(order.getRoom().getNumber()));
+        parameters.add(String.valueOf(order.getId()));
+        parameters.add(String.valueOf(order.getId()));
+        parameters.add(String.valueOf(order.getRoom().getNumber()));
+        parameters.add(String.valueOf(order.getRoom().getNumber()));
+        parameters.add(String.valueOf(order.getId()));
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            parameters.add(String.valueOf(order.getRoom().getNumber()));
-            parameters.add(String.valueOf(order.getId()));
-            parameters.add(String.valueOf(order.getId()));
-            parameters.add(String.valueOf(order.getRoom().getNumber()));
-            parameters.add(String.valueOf(order.getRoom().getNumber()));
-            parameters.add(String.valueOf(order.getId()));
             daoFactory.beginTx();
             orderDao.update(order, parameters, UPDATE_ORDER_ROOM_NUMBER_KEY);
             daoFactory.commit();
