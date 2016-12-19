@@ -1,5 +1,6 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.UserService;
@@ -21,7 +22,7 @@ public class LoginAction implements Action {
 
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
         if (req.getParameter(LOGIN_PARAMETER) == null) return LOGIN_FORM;
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
@@ -30,12 +31,11 @@ public class LoginAction implements Action {
         UserService userService = new UserService();
         try {
             user = userService.login(user);
-            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" found in database.", user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
         } catch (ServiceException e) {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return LOGIN_FORM;
         }
-        if (user.getId() == 0) return LOGIN_FORM;
+        if (user.getId() == null) return LOGIN_FORM;
         req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
         logger.debug("{} authorized.", user);
         return REDIRECT;

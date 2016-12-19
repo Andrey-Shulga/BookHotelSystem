@@ -10,6 +10,11 @@ public class User extends BaseEntity {
     public User() {
     }
 
+    public User(String login) {
+
+        this.login = login;
+    }
+
     public User(int id, String login, String password, UserRole role) {
         super(id);
         this.login = login;

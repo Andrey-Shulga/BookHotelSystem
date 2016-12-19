@@ -48,7 +48,6 @@ public class RegisterAction implements Action {
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
         UserRole userRole = new UserRole(UserType.USER);
-
         User user = new User(login, password, userRole);
         UserService userService = new UserService();
         try {
