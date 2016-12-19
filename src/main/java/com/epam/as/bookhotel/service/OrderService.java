@@ -4,8 +4,6 @@ import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.OrderDao;
 import com.epam.as.bookhotel.exception.*;
 import com.epam.as.bookhotel.model.Order;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -15,29 +13,14 @@ import java.util.List;
 
 public class OrderService extends ParentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
     private static final String FIND_ORDER_BY_USER_ID_KEY = "find.orders.by.user.id";
     private static final String FIND_ALL_ORDERS_KEY = "find.all.orders";
     private static final String FIND_ALL_ORDERS_BY_STATUS_KEY = "find.all.orders.by.status";
     private static final String INSERT_ORDER_KEY = "insert.order";
-    private static final String UPDATE_ORDER_ROOM_ID_KEY = "update.order.room.id";
+    private static final String UPDATE_ORDER_ROOM_NUMBER_KEY = "update.order.room.number";
     private static final String UPDATE_ORDER_STATUS_KEY = "change.order.status";
     private static final String UPDATE_ORDER_FULL_COST_KEY = "update.order.full.cost";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
-    private static final int INDEX_0 = 0;
-    private static final int INDEX_2 = 2;
-    private static final int INDEX_3 = 3;
-    private static final int INDEX_4 = 4;
-    private static final int INDEX_5 = 5;
-    private static final int INDEX_6 = 6;
-    private static final int INDEX_7 = 7;
-    private static final int INDEX_8 = 8;
-    private static final int INDEX_9 = 9;
-    private static final int INDEX_10 = 10;
-    private static final int INDEX_11 = 11;
-    private static final int INDEX_12 = 12;
-    private static final int INDEX_13 = 13;
-    private static final int INDEX_14 = 14;
     private static final List<String> parameters = new ArrayList<>();
 
     public Order makeOrder(Order order) throws ServiceException {
@@ -61,7 +44,8 @@ public class OrderService extends ParentService {
     }
 
     private String getDateToStr(Date date) {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        final String DATE_PATTERN = "dd/MM/yyyy";
+        DateFormat df = new SimpleDateFormat(DATE_PATTERN);
         return df.format(date);
     }
 
@@ -120,26 +104,16 @@ public class OrderService extends ParentService {
     public Order confirmRoomForOrder(Order order) throws ServiceException {
 
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
-
-            daoFactory.beginTx();
-
             OrderDao orderDao = daoFactory.getOrderDao();
             parameters.add(String.valueOf(order.getRoom().getNumber()));
-            parameters.add(String.valueOf(order.getRoom().getNumber()));
-            parameters.add(String.valueOf(order.getId()));
-            orderDao.update(order, parameters, UPDATE_ORDER_ROOM_ID_KEY);
-
-            parameters.add(String.valueOf(order.getId()));
-            orderDao.update(order, parameters, UPDATE_ORDER_STATUS_KEY);
-
             parameters.add(String.valueOf(order.getId()));
             parameters.add(String.valueOf(order.getId()));
             parameters.add(String.valueOf(order.getRoom().getNumber()));
+            parameters.add(String.valueOf(order.getRoom().getNumber()));
             parameters.add(String.valueOf(order.getId()));
-            orderDao.update(order, parameters, UPDATE_ORDER_FULL_COST_KEY);
-
+            daoFactory.beginTx();
+            orderDao.update(order, parameters, UPDATE_ORDER_ROOM_NUMBER_KEY);
             daoFactory.commit();
-
         } catch (UnableUpdateFieldException e) {
 
             throw new UnableConfirmOrderException(e);

@@ -49,7 +49,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         room.setNumber(rs.getInt(INDEX_13));
         room.setPrice(rs.getBigDecimal(INDEX_14));
         newOrder.setRoom(room);
-        logger.debug("Found entity: {}", order);
+        logger.debug("Found entity: {}", newOrder);
         return newOrder;
     }
 

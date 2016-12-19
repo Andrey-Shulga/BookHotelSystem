@@ -72,13 +72,17 @@
                         </td>
 
                         <td>
+                            <c:if test="${order.room.number!=0}">
                                 ${order.room.number}
+                            </c:if>
                         </td>
                         <td>
                                 ${order.room.price}
                         </td>
                         <td>
+                            <c:if test="${order.fullCost!=0}">
                                 ${order.fullCost}
+                            </c:if>
                         </td>
                     </tr>
 
