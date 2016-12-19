@@ -274,3 +274,26 @@ CREATE VIEW public.Rooms AS
       ON "Room".type_id = "Room_type".type_id
     INNER JOIN public."Room_bed"
       ON "Room".bed_id = "Room_bed".bed_id;
+
+CREATE VIEW public.Order_v AS
+  SELECT
+    "Order".order_id,
+    "Order".user_id,
+    "Order".first_name,
+    "Order".last_name,
+    "Order".email,
+    "Order".phone,
+    "Room_type".type_name,
+    "Room_bed".bed_number,
+    "Order".check_in,
+    "Order".check_out,
+    "Order_status".order_status,
+    "Order".room_number,
+    "Order".full_cost
+  FROM public."Order"
+    INNER JOIN public."Room_type"
+      ON "Order".type_id = "Room_type".type_id
+    INNER JOIN public."Room_bed"
+      ON "Order".bed_id = "Room_bed".bed_id
+    INNER JOIN public."Order_status"
+      ON "Order".status_id = "Order_status".status_id

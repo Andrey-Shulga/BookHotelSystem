@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.Room;
+import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
@@ -45,14 +46,16 @@ public class SelectRoomAction implements Action {
         }
 
         logger.debug("Form's parameters are valid.");
+        User user = (User) req.getSession(false).getAttribute(USER);
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
 
         Room room = new Room();
-        room.setId(Integer.parseInt(roomId));
+        room.setNumber(Integer.parseInt(roomId));
         Order order = new Order();
         order.setId(Integer.parseInt(orderId));
         order.setRoom(room);
+        order.setUser(user);
 
         OrderService orderService = new OrderService();
         try {

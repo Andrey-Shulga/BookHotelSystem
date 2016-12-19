@@ -81,6 +81,7 @@ public class OrderRoomAction implements Action {
             return ORDER_FORM;
         }
         if (order.getId() == null) return ORDER_FORM;
+        logger.debug("Make action order success.");
         return REDIRECT;
     }
 

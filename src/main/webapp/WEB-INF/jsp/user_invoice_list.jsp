@@ -32,6 +32,7 @@
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkIn"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkOut"/></th>
                     <th scope='colgroup' width="110px"><fmt:message key="user.order.list.table.status"/></th>
+                    <th scope='colgroup' width="110px"><fmt:message key="room.list.table.roomNumber"/></th>
                     <th scope='colgroup' width="70px"><fmt:message key="manager.all.order.list.table.fullCost"/></th>
                 </tr>
                 </thead>
@@ -66,6 +67,10 @@
                         </td>
                         <td>
                                 ${order.status}
+                        </td>
+
+                        <td>
+                                ${order.room.number}
                         </td>
                         <td>
                                 ${order.fullCost}

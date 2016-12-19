@@ -56,4 +56,5 @@ public class FindRoomsByDateAction implements Action {
         }
         return REDIRECT;
     }
+
 }
