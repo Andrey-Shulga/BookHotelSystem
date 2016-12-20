@@ -23,21 +23,19 @@ public class LocaleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
+
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        String locale;
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            session = request.getSession();
+        String locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
+        ;
+        HttpSession session = request.getSession();
+        if (locale == null) {
             locale = DEFAULT_LOCALE;
             session.setAttribute(LOCALE_ATTR_NAME, locale);
-        } else {
-            locale = (String) request.getSession().getAttribute(LOCALE_ATTR_NAME);
+            logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }
-        if (locale != null) {
-            Locale currentLocale = new Locale(locale);
-            Config.set(session, Config.FMT_LOCALE, currentLocale);
-        }
+        Locale currentLocale = new Locale(locale);
+        Config.set(session, Config.FMT_LOCALE, currentLocale);
         filterChain.doFilter(request, response);
     }
 

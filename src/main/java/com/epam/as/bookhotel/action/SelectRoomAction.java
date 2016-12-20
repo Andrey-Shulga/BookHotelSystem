@@ -39,10 +39,7 @@ public class SelectRoomAction implements Action {
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_LIST_FORM, req);
-            if (!fieldErrors.isEmpty()) {
-                validator.setErrorsToSession(req);
-                return REDIRECT;
-            }
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }
@@ -71,4 +68,6 @@ public class SelectRoomAction implements Action {
 
         return REDIRECT;
     }
+
+
 }

@@ -43,6 +43,16 @@ public class FormValidator {
         formProperties = propertyManager.getProperties();
     }
 
+    public boolean hasFieldsErrors(HttpServletRequest req, Map<String, List<String>> fieldErrors) {
+
+        boolean isError = false;
+        if (!fieldErrors.isEmpty()) {
+            setErrorsToSession(req);
+            isError = true;
+        }
+        return isError;
+    }
+
     public void setErrorsToSession(HttpServletRequest req) {
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
             req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());

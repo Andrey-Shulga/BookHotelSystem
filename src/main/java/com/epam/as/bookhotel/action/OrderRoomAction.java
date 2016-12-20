@@ -51,11 +51,8 @@ public class OrderRoomAction implements Action {
             //check if form's dropdown list item not selected
             validator.checkDropDownListOnSelect(BED, req);
             validator.checkDropDownListOnSelect(ROOM_TYPE, req);
+            if (validator.hasFieldsErrors(req, fieldErrors)) return ORDER_FORM;
 
-            if (!fieldErrors.isEmpty()) {
-                validator.setErrorsToSession(req);
-                return ORDER_FORM;
-            }
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }

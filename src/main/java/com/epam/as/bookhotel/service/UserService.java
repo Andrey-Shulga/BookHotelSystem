@@ -32,6 +32,7 @@ public class UserService extends ParentService {
         parameters.add(user.getLogin());
         parameters.add(user.getPassword());
         parameters.add(user.getRole().toString());
+        parameters.add(user.getLocale().getLocaleName());
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             userDao.save(user, parameters, REGISTER_USER_KEY);

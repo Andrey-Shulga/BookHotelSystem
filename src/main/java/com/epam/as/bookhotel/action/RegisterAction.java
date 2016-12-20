@@ -4,6 +4,7 @@ import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.model.UserLocale;
 import com.epam.as.bookhotel.model.UserRole;
 import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.service.UserService;
@@ -30,6 +31,7 @@ public class RegisterAction implements Action {
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
     private static final String CONFIRM_PASSWORD_PARAMETER = "confirm_password";
+    private static final String LOCALE_SESSION_ATTR_NAME = "locale";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -39,10 +41,7 @@ public class RegisterAction implements Action {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(REGISTER_FORM, req);
             validator.checkFieldsOnEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
-            if (!fieldErrors.isEmpty()) {
-                validator.setErrorsToSession(req);
-                return REGISTER_FORM;
-            }
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REGISTER_FORM;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }
@@ -51,12 +50,13 @@ public class RegisterAction implements Action {
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
         UserRole userRole = new UserRole(UserType.USER);
-        User user = new User(login, password, userRole);
+        String locale = (String) req.getSession().getAttribute(LOCALE_SESSION_ATTR_NAME);
+        UserLocale userLocale = new UserLocale(locale);
+        User user = new User(login, password, userRole, userLocale);
         UserService userService = new UserService();
         try {
             user = userService.register(user);
-            logger.debug("User with id=\"{}\", login=\"{}\", password=\"{}\", role=\"{}\" inserted into database.",
-                    user.getId(), user.getLogin(), user.getPassword(), user.getRole().toString());
+            logger.debug("{} inserted into database.", user);
         } catch (ServiceException e) {
             req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return REGISTER_FORM;

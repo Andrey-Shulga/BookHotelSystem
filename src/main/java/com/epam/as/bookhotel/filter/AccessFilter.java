@@ -62,6 +62,7 @@ public class AccessFilter implements Filter {
         List<String> actionList = getActionList(user);
         if (!actionList.contains(actionName)) {
             resp.sendError(HttpServletResponse.SC_FORBIDDEN, ACCESS_ERROR_MESSAGE);
+            logger.debug("Not authorized attempt to application content from user {}", user);
             return;
         }
 

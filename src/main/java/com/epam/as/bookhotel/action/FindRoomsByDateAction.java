@@ -36,10 +36,7 @@ public class FindRoomsByDateAction implements Action {
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_FORM, req);
-            if (!fieldErrors.isEmpty()) {
-                validator.setErrorsToSession(req);
-                return REDIRECT;
-            }
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }

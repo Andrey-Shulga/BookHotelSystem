@@ -6,6 +6,7 @@ public class User extends BaseEntity {
     private String login;
     private String password;
     private UserRole role;
+    private UserLocale locale;
 
     public User() {
     }
@@ -34,6 +35,12 @@ public class User extends BaseEntity {
 
     }
 
+    public User(String login, String password, UserRole userRole, UserLocale userLocale) {
+        this.login = login;
+        this.password = password;
+        this.role = userRole;
+        this.locale = userLocale;
+    }
 
 
     public String getLogin() {
@@ -60,6 +67,14 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
+    public UserLocale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(UserLocale locale) {
+        this.locale = locale;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -67,6 +82,7 @@ public class User extends BaseEntity {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", locale=" + locale +
                 '}';
     }
 }
