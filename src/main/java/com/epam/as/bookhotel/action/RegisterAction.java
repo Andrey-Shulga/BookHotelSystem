@@ -34,8 +34,6 @@ public class RegisterAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        if (req.getParameter(LOGIN_PARAMETER) == null) return REGISTER_FORM;
-
         //validate form's fields by rules
         try {
             FormValidator validator = new FormValidator();

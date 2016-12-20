@@ -59,8 +59,7 @@ public class UserService extends ParentService {
         }
         final String correctHash = user.getPassword();
         try {
-            logger.debug("User's password validation result = {}", PasswordStorage.verifyPassword(testPassword, correctHash));
-            if (usersList.isEmpty() || !(PasswordStorage.verifyPassword(testPassword, correctHash))) {
+            if ((usersList.isEmpty()) || (!PasswordStorage.verifyPassword(testPassword, correctHash))) {
                 throw new UserNotFoundException();
             }
         } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException | UserNotFoundException e) {
