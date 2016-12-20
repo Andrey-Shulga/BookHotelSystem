@@ -23,6 +23,7 @@ public class LoginAction implements Action {
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+    private static final String LOCALE_SESSION_ATTRIBUTE_NAME = "locale";
 
 
     @Override
@@ -40,8 +41,9 @@ public class LoginAction implements Action {
             return LOGIN_FORM;
         }
 
-        //save user in session
+        //save user and his locale in session
         req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
+        req.getSession().setAttribute(LOCALE_SESSION_ATTRIBUTE_NAME, user.getLocale().getLocaleName());
         logger.debug("User \"{}\" authorized.", user.getLogin());
         return REDIRECT;
     }

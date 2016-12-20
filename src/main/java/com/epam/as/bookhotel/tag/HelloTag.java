@@ -16,11 +16,9 @@ public class HelloTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         try {
-            String welcomeMessage;
             if (!login.equals(BLANK)) {
-                String HELLO = "Hello, ";
-                welcomeMessage = HELLO + login;
-                pageContext.getOut().write(welcomeMessage);
+
+                pageContext.getOut().write(login);
             }
         } catch (IOException e) {
             throw new JspException(e.getMessage());

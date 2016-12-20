@@ -17,20 +17,5 @@
         </attribute>
     </tag>
 
-    <tag>
-        <name>table-order</name>
-        <tag-class>com.epam.as.bookhotel.tag.OrderTableTag</tag-class>
-        <body-content>scriptless</body-content>
-        <attribute>
-            <name>rows</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>head</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
 
 </taglib>

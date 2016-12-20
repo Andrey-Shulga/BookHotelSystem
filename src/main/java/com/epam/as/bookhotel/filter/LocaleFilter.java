@@ -26,8 +26,8 @@ public class LocaleFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
+
         String locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
-        ;
         HttpSession session = request.getSession();
         if (locale == null) {
             locale = DEFAULT_LOCALE;

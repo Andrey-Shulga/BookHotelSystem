@@ -45,7 +45,9 @@
     </div>
     <br>
     <div align="left">
-        <b><ctg:hello role="${sessionScope.user.login}"/></b>
+        <c:if test="${not empty sessionScope.user.login}">
+            <b><fmt:message key="generic.page.login.name"/></b><ctg:hello role="${sessionScope.user.login}"/>
+        </c:if>
     </div>
 </div>
 
