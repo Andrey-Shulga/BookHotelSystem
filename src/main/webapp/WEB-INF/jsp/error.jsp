@@ -9,12 +9,9 @@
 
 <t:genericpage title="${title}">
     <jsp:body>
-        Error code: ${pageContext.errorData.statusCode}<br>
-        Message: ${pageContext.exception.getMessage}<br>
-        Exception: ${pageContext.exception}<br>
 
-        <c:forEach var="trace" items="${pageContext.exception.stackTrace}">
-            <p>${trace}</p>
-        </c:forEach>
+        <b><fmt:message key="access.error.message.label"/></b> <fmt:message key="access.error.message"/><br>
+        <b> <fmt:message key="access.error.code.label"/></b> ${pageContext.errorData.statusCode}<br>
+
     </jsp:body>
 </t:genericpage>

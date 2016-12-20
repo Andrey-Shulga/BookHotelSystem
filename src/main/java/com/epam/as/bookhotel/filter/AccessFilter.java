@@ -19,6 +19,7 @@ public class AccessFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(AccessFilter.class);
     private static final String ACTION_PARAMETER_NAME = "action";
+    private static final String USER_ATTRIBUTE = "user";
     private static final String ANONIM_ACTION_FILE_NAME = "anonim-actions.properties";
     private static final String USER_ACTION_FILE_NAME = "user-actions.properties";
     private static final String MANAGER_ACTION_FILE_NAME = "manager-actions.properties";
@@ -57,7 +58,7 @@ public class AccessFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String actionName = req.getParameter(ACTION_PARAMETER_NAME);
 
-        User user = (User) req.getSession().getAttribute("user");
+        User user = (User) req.getSession().getAttribute(USER_ATTRIBUTE);
         List<String> actionList = getActionList(user);
         if (!actionList.contains(actionName)) {
             resp.sendError(HttpServletResponse.SC_FORBIDDEN, ACCESS_ERROR_MESSAGE);

@@ -39,11 +39,10 @@ public class LoginAction implements Action {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return LOGIN_FORM;
         }
-        //check if user has id.
-        if (user.getId() == null) return LOGIN_FORM;
+
         //save user in session
         req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
-        logger.debug("{} authorized.", user);
+        logger.debug("User \"{}\" authorized.", user.getLogin());
         return REDIRECT;
     }
 }

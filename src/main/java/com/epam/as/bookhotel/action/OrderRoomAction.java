@@ -28,7 +28,6 @@ import java.util.Map;
 public class OrderRoomAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderRoomAction.class);
-    private static final String LOGIN_FORM = "login";
     private static final String ORDER_FORM = "order_form";
     private static final String REDIRECT = "redirect:/do/?action=show-user-order-list";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
@@ -45,18 +44,16 @@ public class OrderRoomAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
-        if (req.getParameter(FIRST_NAME) == null) return ORDER_FORM;
         try {
-            FormValidator orderFormValidator = new FormValidator();
-            Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
+            FormValidator validator = new FormValidator();
+            Map<String, List<String>> fieldErrors = validator.validate(ORDER_FORM, req);
 
-            //check if form's dropdown list with parameters not selected
-            orderFormValidator.checkParameterOnNull(BED, req);
-            orderFormValidator.checkParameterOnNull(ROOM_TYPE, req);
+            //check if form's dropdown list item not selected
+            validator.checkDropDownListOnSelect(BED, req);
+            validator.checkDropDownListOnSelect(ROOM_TYPE, req);
 
             if (!fieldErrors.isEmpty()) {
-                orderFormValidator.setErrorToRequest(req);
+                validator.setErrorsToSession(req);
                 return ORDER_FORM;
             }
         } catch (ValidatorException e) {

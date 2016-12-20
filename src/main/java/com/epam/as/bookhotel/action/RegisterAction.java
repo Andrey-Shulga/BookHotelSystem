@@ -38,9 +38,9 @@ public class RegisterAction implements Action {
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(REGISTER_FORM, req);
-            validator.checkPasswordsEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
+            validator.checkFieldsOnEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
             if (!fieldErrors.isEmpty()) {
-                validator.setErrorToRequest(req);
+                validator.setErrorsToSession(req);
                 return REGISTER_FORM;
             }
         } catch (ValidatorException e) {

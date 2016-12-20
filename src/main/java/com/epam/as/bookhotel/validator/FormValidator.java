@@ -21,12 +21,9 @@ public class FormValidator {
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
-    private static final String REGEX_NUMBER = "[0-9]*";
-    private static final String CONFIRM_PASSWORD_ERROR_MESSAGE = "register.confirm_password.1.message";
-    private static final String BED = "bed";
-    private static final String ROOM_TYPE = "roomType";
-    private static final String BED_NOT_SELECTED_MESSAGE = "order_form.bed.2.message";
-    private static final String ROOM_TYPE_NOT_SELECTED_MESSAGE = "order_form.roomType.2.message";
+    private static final String REGEX_FOR_NUMBER = "[0-9]*";
+    private static final String FIELDS_NOT_EQUAL_ERROR_MESSAGE = "fields.not.equal.message";
+    private static final String LIST_NOT_SELECTED_ERROR_MESSAGE = "drop.down.list.item.not.select";
     private static Properties formProperties;
     private Map<String, List<String>> fieldErrors = new HashMap<>();
 
@@ -37,7 +34,7 @@ public class FormValidator {
     }
 
     private void loadFormProperties() throws ValidatorException {
-        PropertyManager propertyManager = null;
+        PropertyManager propertyManager;
         try {
             propertyManager = new PropertyManager(FORM_PROPERTY_FILE_NAME);
         } catch (PropertyManagerException e) {
@@ -46,7 +43,7 @@ public class FormValidator {
         formProperties = propertyManager.getProperties();
     }
 
-    public void setErrorToRequest(HttpServletRequest req) {
+    public void setErrorsToSession(HttpServletRequest req) {
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
             req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
             for (String errorMessage : entry.getValue()) {
@@ -83,30 +80,22 @@ public class FormValidator {
         }
     }
 
-    public void checkPasswordsEquals(String password, String confirmPassword, HttpServletRequest request) {
-        if ((request.getParameter(password) != null) && (!request.getParameter(password).equals(request.getParameter(confirmPassword)))) {
-            List<String> errorsConfirmPasswordMessages = new ArrayList<>();
-            String errorMessage = formProperties.getProperty(CONFIRM_PASSWORD_ERROR_MESSAGE);
-            errorsConfirmPasswordMessages.add(errorMessage);
-            fieldErrors.put(confirmPassword, errorsConfirmPasswordMessages);
+    public void checkFieldsOnEquals(String field, String otherField, HttpServletRequest request) {
+        if ((request.getParameter(field) != null) && (!request.getParameter(field).equals(request.getParameter(otherField)))) {
+            List<String> errorFieldMessages = new ArrayList<>();
+            String errorMessage = formProperties.getProperty(FIELDS_NOT_EQUAL_ERROR_MESSAGE);
+            errorFieldMessages.add(errorMessage);
+            fieldErrors.put(otherField, errorFieldMessages);
         }
     }
 
-    public void checkParameterOnNull(String parameter, HttpServletRequest req) {
+    public void checkDropDownListOnSelect(String parameter, HttpServletRequest req) {
 
         if (req.getParameter(parameter) == null) {
-            String errorMessage;
             List<String> errorMessages = new ArrayList<>();
-            if (BED.equals(parameter)) {
-                errorMessage = formProperties.getProperty(BED_NOT_SELECTED_MESSAGE);
-                errorMessages.add(errorMessage);
-                fieldErrors.put(BED, errorMessages);
-            }
-            if (ROOM_TYPE.equals(parameter)) {
-                errorMessage = formProperties.getProperty(ROOM_TYPE_NOT_SELECTED_MESSAGE);
-                errorMessages.add(errorMessage);
-                fieldErrors.put(ROOM_TYPE, errorMessages);
-            }
+            String errorMessage = formProperties.getProperty(LIST_NOT_SELECTED_ERROR_MESSAGE);
+            errorMessages.add(errorMessage);
+            fieldErrors.put(parameter, errorMessages);
         }
     }
 
@@ -133,7 +122,7 @@ public class FormValidator {
             String key = (String) property.getKey();
             String value = (String) property.getValue();
             String validatorNameNumber = key.substring(key.length() - DEFINE_VALIDATOR_NUMBER, key.length());
-            if ((key.startsWith(formFieldName)) && (validatorNameNumber.matches(REGEX_NUMBER))) {
+            if ((key.startsWith(formFieldName)) && (validatorNameNumber.matches(REGEX_FOR_NUMBER))) {
                 validator = getValidator(validatorNameNumber, formFieldName, value);
                 validators.add(validator);
             }
@@ -182,7 +171,7 @@ public class FormValidator {
     }
 
     private Object parseValue(String value) {
-        if (value.matches(REGEX_NUMBER)) return new Integer(value);
+        if (value.matches(REGEX_FOR_NUMBER)) return new Integer(value);
         return value;
     }
 }

@@ -19,9 +19,10 @@ public class LogoutAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) {
+
         if (req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME) != null) {
             User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME);
-            logger.debug("User with id=\"{}\" and login=\"{}\" logout now.", user.getId(), user.getLogin());
+            logger.debug("User with id=\"{}\" and login=\"{}\" is logout now.", user.getId(), user.getLogin());
             req.getSession().invalidate();
         }
         return INDEX_JSP;
