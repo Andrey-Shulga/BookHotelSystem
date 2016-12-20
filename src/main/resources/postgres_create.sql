@@ -140,8 +140,9 @@ ALTER DATABASE dbase SET datestyle TO "ISO, DMY";
 
 INSERT INTO "User_role" (role_name) VALUES ('MANAGER'), ('USER');
 
-INSERT INTO "User" (login, password, role_id) VALUES ('manager', 'manager', (SELECT "User_role".role_id
-																																						 FROM public."User_role"
+INSERT INTO "User" (login, password, role_id) VALUES
+  ('manager', 'sha1:64000:18:FOdw2nTbT1onyZ1pvSzrAqp7lv4SLsRg:/nfKBryn5pGfhJwi3udHLVRA', (SELECT "User_role".role_id
+                                                                                          FROM public."User_role"
 																																						 WHERE "User_role".role_name = 'MANAGER'));
 
 INSERT INTO "Order_status" (order_status) VALUES ('unconfirmed'), ('confirmed'), ('canceled');

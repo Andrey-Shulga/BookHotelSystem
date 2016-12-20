@@ -6,6 +6,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action set russian localization for web application interface.
+ * Save locale name to user session.
+ */
+
 public class SetRussianLocaleAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(SetRussianLocaleAction.class);

@@ -4,6 +4,10 @@ package com.epam.as.bookhotel.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action show main page.
+ */
+
 public class ShowIndexAction implements Action {
 
     private static final String INDEX_JSP = "index";

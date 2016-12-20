@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Action selects room for order by order id and room number
+ * Change status order's status "unconfirmed"->"confirmed".
+ */
+
 public class SelectRoomAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(SelectRoomAction.class);
@@ -32,6 +37,7 @@ public class SelectRoomAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         if (req.getParameter(ORDER_ID_PARAMETER) == null) return MANAGER_ORDER_LIST_FORM;
         try {

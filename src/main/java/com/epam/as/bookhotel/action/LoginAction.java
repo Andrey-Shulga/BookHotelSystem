@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action for login and authorization user in application
+ */
+
 public class LoginAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
@@ -23,6 +27,7 @@ public class LoginAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+
         if (req.getParameter(LOGIN_PARAMETER) == null) return LOGIN_FORM;
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
@@ -35,7 +40,9 @@ public class LoginAction implements Action {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return LOGIN_FORM;
         }
+        //check if user has id.
         if (user.getId() == null) return LOGIN_FORM;
+        //save user in session
         req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
         logger.debug("{} authorized.", user);
         return REDIRECT;

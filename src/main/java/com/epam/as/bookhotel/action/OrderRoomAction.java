@@ -20,6 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * User action for booking room in hotel.
+ * Save user's order in database.
+ */
+
 public class OrderRoomAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderRoomAction.class);
@@ -46,6 +51,7 @@ public class OrderRoomAction implements Action {
             FormValidator orderFormValidator = new FormValidator();
             Map<String, List<String>> fieldErrors = orderFormValidator.validate(ORDER_FORM, req);
 
+            //check if form's dropdown list with parameters not selected
             orderFormValidator.checkParameterOnNull(BED, req);
             orderFormValidator.checkParameterOnNull(ROOM_TYPE, req);
 
@@ -81,12 +87,21 @@ public class OrderRoomAction implements Action {
             return ORDER_FORM;
         }
         if (order.getId() == null) return ORDER_FORM;
-        logger.debug("Make action order success.");
+        logger.debug("Make order action success.");
         return REDIRECT;
     }
 
+    /**
+     * Convert received parameter from string to sql date type
+     *
+     * @param parameter date in string type
+     * @return the date in java.sql.Date type
+     * @throws ActionException general exception for throwing exceptions in actions.
+     */
     private Date getSqlDate(String parameter) throws ActionException {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        final String DATE_PATTERN = "dd/MM/yyyy";
+        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         Date sqlDate;
         try {
             java.util.Date date = format.parse(parameter);

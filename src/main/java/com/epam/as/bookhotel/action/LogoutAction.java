@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This action logout user by invalidate user's session and return it on main page.
+ */
+
 public class LogoutAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(LogoutAction.class);

@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action show page with all orders for user with manager rights in application
+ */
+
 public class ShowAllOrdersManagerAction implements Action {
 
     private static final String USER = "user";

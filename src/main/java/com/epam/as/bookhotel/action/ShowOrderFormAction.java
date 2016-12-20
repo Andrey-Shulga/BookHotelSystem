@@ -3,6 +3,10 @@ package com.epam.as.bookhotel.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action show page with form for the order
+ */
+
 public class ShowOrderFormAction implements Action {
 
     private static final String BOOK_ORDER_JSP = "order_form";

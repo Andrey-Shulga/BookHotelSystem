@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Action for registration user in application
+ * Save user in database.
+ */
 
 public class RegisterAction implements Action {
 
@@ -32,6 +36,7 @@ public class RegisterAction implements Action {
 
         if (req.getParameter(LOGIN_PARAMETER) == null) return REGISTER_FORM;
 
+        //validate form's fields by rules
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(REGISTER_FORM, req);
@@ -58,7 +63,7 @@ public class RegisterAction implements Action {
             req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return REGISTER_FORM;
         }
-
+        logger.debug("Register action success.");
         return REDIRECT;
     }
 }

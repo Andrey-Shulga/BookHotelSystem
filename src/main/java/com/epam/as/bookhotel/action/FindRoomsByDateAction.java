@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This action searches all free (not booked) rooms in the hotel on special date range.
+ */
+
 public class FindRoomsByDateAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(FindRoomsByDateAction.class);
@@ -32,6 +36,8 @@ public class FindRoomsByDateAction implements Action {
 
         if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
         if (req.getParameter(CHECK_IN_PARAMETER) == null) return MANAGER_ORDER_FORM;
+
+        //validate form's fields by rules
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_FORM, req);

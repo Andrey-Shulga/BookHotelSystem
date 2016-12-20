@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action show page with new unconfirmed orders for user with manager rights.
+ */
+
 public class ShowNewOrdersManagerAction implements Action {
 
     private static final String USER = "user";

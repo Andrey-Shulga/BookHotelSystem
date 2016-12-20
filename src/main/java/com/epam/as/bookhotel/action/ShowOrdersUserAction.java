@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action show page for current authorized user with its orders.
+ */
+
 public class ShowOrdersUserAction implements Action {
 
     private static final String USER = "user";

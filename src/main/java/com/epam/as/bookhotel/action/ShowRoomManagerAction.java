@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action show page with all rooms in hotel for user with manager rights.
+ */
+
 public class ShowRoomManagerAction implements Action {
 
     private static final String USER = "user";

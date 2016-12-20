@@ -3,6 +3,9 @@ package com.epam.as.bookhotel.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action show page with login form.
+ */
 
 public class ShowLoginFormAction implements Action {
 

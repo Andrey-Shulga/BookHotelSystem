@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Action show page with user's confirmation orders with the amount to pay for them.
+ */
+
 public class ShowInvoiceUserAction implements Action {
 
     private static final String USER_INVOICE_LIST = "user_invoice_list";

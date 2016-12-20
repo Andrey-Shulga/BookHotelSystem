@@ -6,6 +6,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Action set english localization for web application interface.
+ * Save locale name to user session
+ */
+
 public class SetEnglishLocaleAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(SetEnglishLocaleAction.class);
@@ -15,6 +20,7 @@ public class SetEnglishLocaleAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) {
+
         req.getSession(false).setAttribute(LOCALE_ATTR_NAME, LOCALE);
         String referrer = req.getHeader("referer");
         logger.debug("Locale changed on \"{}\"", LOCALE);
