@@ -17,8 +17,8 @@ public class UserService extends ParentService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String REGISTER_USER_KEY = "insert.user";
     private static final String FIND_LOGIN_USER_KEY = "find.user.login";
+    private static final String UPDATE_USER_LOCALE_KEY = "update.user.locale";
     private static final List<String> parameters = new ArrayList<>();
-    private static final int INDEX_0 = 0;
 
     public User register(User user) throws ServiceException {
 
@@ -70,4 +70,16 @@ public class UserService extends ParentService {
         return user;
     }
 
+    public User saveUserLocale(User user) throws ServiceException {
+
+        parameters.add(user.getLocale().getLocaleName());
+        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+            UserDao userDao = daoFactory.getUserDao();
+            userDao.update(user, parameters, UPDATE_USER_LOCALE_KEY);
+        } catch (DaoException e) {
+
+            throw new ServiceException(e);
+        }
+        return user;
+    }
 }
