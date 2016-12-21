@@ -19,6 +19,7 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
     private static final int INDEX_3 = 3;
     private static final int INDEX_4 = 4;
     private static final int INDEX_5 = 5;
+    private static final int INDEX_6 = 6;
 
     JdbcRoomDao(Connection connection) {
         super(connection);
@@ -26,12 +27,16 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
 
     @Override
     Room setRsToField(ResultSet rs, Room room) throws SQLException {
+
         Room newRoom = new Room();
         newRoom.setId(rs.getInt(INDEX_1));
-        newRoom.setRoomType(new RoomType(rs.getString(INDEX_2)));
-        newRoom.setBed(new Bed(rs.getInt(INDEX_3)));
-        newRoom.setNumber(rs.getInt(INDEX_4));
-        newRoom.setPrice(rs.getBigDecimal(INDEX_5));
+        RoomType roomType = new RoomType();
+        roomType.setRoomTypeEn(rs.getString(INDEX_2));
+        roomType.setRoomTypeRu(rs.getString(INDEX_3));
+        newRoom.setRoomType(roomType);
+        newRoom.setBed(new Bed(rs.getInt(INDEX_4)));
+        newRoom.setNumber(rs.getInt(INDEX_5));
+        newRoom.setPrice(rs.getBigDecimal(INDEX_6));
         logger.debug("Found entity: {}", newRoom);
         return newRoom;
     }

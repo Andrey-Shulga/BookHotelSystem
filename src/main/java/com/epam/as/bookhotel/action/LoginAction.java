@@ -35,7 +35,7 @@ public class LoginAction implements Action {
         User user = new User(login, password);
         UserService userService = new UserService();
         try {
-            user = userService.login(user);
+            userService.login(user);
         } catch (ServiceException e) {
             req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return LOGIN_FORM;

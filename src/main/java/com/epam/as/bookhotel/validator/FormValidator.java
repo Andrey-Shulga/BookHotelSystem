@@ -53,7 +53,7 @@ public class FormValidator {
         return isError;
     }
 
-    public void setErrorsToSession(HttpServletRequest req) {
+    private void setErrorsToSession(HttpServletRequest req) {
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
             req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
             for (String errorMessage : entry.getValue()) {

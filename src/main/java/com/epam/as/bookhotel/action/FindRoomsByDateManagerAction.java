@@ -4,6 +4,7 @@ import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Room;
+import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.RoomService;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
@@ -18,9 +19,10 @@ import java.util.Map;
  * This action searches all free (not booked) rooms in the hotel on special date range.
  */
 
-public class FindRoomsByDateAction implements Action {
+public class FindRoomsByDateManagerAction implements Action {
 
-    private static final Logger logger = LoggerFactory.getLogger(FindRoomsByDateAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(FindRoomsByDateManagerAction.class);
+    private static final String USER_ATTR_NAME = "user";
     private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String CHECK_IN_PARAMETER = "checkIn";
@@ -42,12 +44,14 @@ public class FindRoomsByDateAction implements Action {
         }
 
         logger.debug("Form's parameters are valid.");
+
+        User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
         String checkIn = req.getParameter(CHECK_IN_PARAMETER);
         String checkOut = req.getParameter(CHECK_OUT_PARAMETER);
 
         RoomService roomService = new RoomService();
         try {
-            List<Room> roomList = roomService.findAllFreeRoomsOnBookingDate(checkIn, checkOut);
+            List<Room> roomList = roomService.findAllFreeRoomsOnBookingDate(checkIn, checkOut, user);
             req.getSession().setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
         } catch (ServiceException e) {
             req.getSession().setAttribute(SEARCH_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());

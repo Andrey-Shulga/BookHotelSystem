@@ -21,9 +21,9 @@ import java.util.Map;
  * Change status order's status "unconfirmed"->"confirmed".
  */
 
-public class SelectRoomAction implements Action {
+public class SelectRoomManagerAction implements Action {
 
-    private static final Logger logger = LoggerFactory.getLogger(SelectRoomAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(SelectRoomManagerAction.class);
     private static final String USER = "user";
     private static final String ORDER_ID_PARAMETER = "orderId";
     private static final String ROOM_ID_PARAMETER = "roomId";

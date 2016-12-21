@@ -25,6 +25,8 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     private static final int INDEX_12 = 12;
     private static final int INDEX_13 = 13;
     private static final int INDEX_14 = 14;
+    private static final int INDEX_15 = 15;
+
 
     JdbcOrderDao(Connection connection) {
         super(connection);
@@ -32,22 +34,25 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     @Override
     Order setRsToField(ResultSet rs, Order order) throws SQLException {
+
         Order newOrder = new Order();
         newOrder.setId(rs.getInt(INDEX_1));
-        newOrder.setUser(order.getUser());
         newOrder.setFirstName(rs.getString(INDEX_3));
         newOrder.setLastName(rs.getString(INDEX_4));
         newOrder.setEmail(rs.getString(INDEX_5));
         newOrder.setPhone(rs.getString(INDEX_6));
         newOrder.setBed(new Bed(rs.getInt(INDEX_7)));
-        newOrder.setRoomType(new RoomType(rs.getString(INDEX_8)));
-        newOrder.setCheckIn(rs.getDate(INDEX_9));
-        newOrder.setCheckOut(rs.getDate(INDEX_10));
-        newOrder.setStatus(new OrderStatus(rs.getString(INDEX_11)));
-        newOrder.setFullCost(rs.getBigDecimal(INDEX_12));
+        RoomType roomType = new RoomType();
+        roomType.setRoomTypeEn(rs.getString(INDEX_8));
+        roomType.setRoomTypeRu(rs.getString(INDEX_9));
+        newOrder.setRoomType(roomType);
+        newOrder.setCheckIn(rs.getDate(INDEX_10));
+        newOrder.setCheckOut(rs.getDate(INDEX_11));
+        newOrder.setStatus(new OrderStatus(rs.getString(INDEX_12)));
+        newOrder.setFullCost(rs.getBigDecimal(INDEX_13));
         Room room = new Room();
-        room.setNumber(rs.getInt(INDEX_13));
-        room.setPrice(rs.getBigDecimal(INDEX_14));
+        room.setNumber(rs.getInt(INDEX_14));
+        room.setPrice(rs.getBigDecimal(INDEX_15));
         newOrder.setRoom(room);
         logger.debug("Found entity: {}", newOrder);
         return newOrder;

@@ -89,9 +89,9 @@
             <select size="1" name="roomType">
                 <option disabled selected><fmt:message key="order.make.form.roomType.select.name"/></option>
                 <option value="Standard"><fmt:message key="order.make.form.roomType.select.name.standart"/></option>
-                <option value="Junior suit"><fmt:message
+                <option value="Junior suite"><fmt:message
                         key="order.make.form.roomType.select.name.jsuit"/></option>
-                <option value="Suit"><fmt:message key="order.make.form.roomType.select.name.suit"/></option>
+                <option value="Suite"><fmt:message key="order.make.form.roomType.select.name.suit"/></option>
             </select>
             <c:forEach var="errorMessage" items="${roomTypeErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>

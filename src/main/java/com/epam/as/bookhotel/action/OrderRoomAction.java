@@ -8,6 +8,7 @@ import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.RoomType;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
+import com.epam.as.bookhotel.util.DateConverter;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -66,8 +65,9 @@ public class OrderRoomAction implements Action {
         String phone = req.getParameter(PHONE);
         String checkIn = req.getParameter(CHECK_IN);
         String checkOut = req.getParameter(CHECK_OUT);
-        Date checkInDate = getSqlDate(checkIn);
-        Date checkOutDate = getSqlDate(checkOut);
+        DateConverter converter = new DateConverter();
+        Date checkInDate = converter.getStrToDate(checkIn);
+        Date checkOutDate = converter.getStrToDate(checkOut);
         Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
         RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
@@ -85,25 +85,5 @@ public class OrderRoomAction implements Action {
         return REDIRECT;
     }
 
-    /**
-     * Convert received parameter from string to sql date type
-     *
-     * @param parameter date in string type
-     * @return the date in java.sql.Date type
-     * @throws ActionException general exception for throwing exceptions in actions.
-     */
-    private Date getSqlDate(String parameter) throws ActionException {
-
-        final String DATE_PATTERN = "dd/MM/yyyy";
-        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
-        Date sqlDate;
-        try {
-            java.util.Date date = format.parse(parameter);
-            sqlDate = new Date(date.getTime());
-        } catch (ParseException e) {
-            throw new ActionException(e);
-        }
-        return sqlDate;
-    }
 }
 
