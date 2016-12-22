@@ -4,6 +4,7 @@ import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.OrderDao;
 import com.epam.as.bookhotel.exception.*;
 import com.epam.as.bookhotel.model.Order;
+import com.epam.as.bookhotel.model.OrderStatus;
 import com.epam.as.bookhotel.model.RoomType;
 import com.epam.as.bookhotel.util.DateConverter;
 
@@ -89,10 +90,14 @@ public class OrderService extends ParentService {
             if (USER_LOCALE_EN.equals(userLocale)) {
                 String roomTypeEn = ord.getRoomType().getRoomTypeEn();
                 ord.setRoomType(new RoomType(roomTypeEn));
+                String statusEn = ord.getStatus().getStatusEn();
+                ord.setStatus(new OrderStatus(statusEn));
             }
             if (USER_LOCALE_RU.equals(userLocale)) {
                 String roomTypeRu = ord.getRoomType().getRoomTypeRu();
                 ord.setRoomType(new RoomType(roomTypeRu));
+                String statusRu = ord.getStatus().getStatusRu();
+                ord.setStatus(new OrderStatus(statusRu));
             }
         }
     }

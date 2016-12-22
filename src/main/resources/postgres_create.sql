@@ -148,7 +148,8 @@ INSERT INTO "User" (login, password, role_id, locale_id) VALUES
     FROM public."User_role"
     WHERE "User_role".role_name = 'MANAGER'), 'en');
 
-INSERT INTO "Order_status" (order_status) VALUES ('unconfirmed'), ('confirmed'), ('canceled');
+INSERT INTO "Order_status" (order_status_en, order_status_ru)
+VALUES ('unconfirmed', 'не подтверждён'), ('confirmed', 'подтверждён'), ('canceled', 'отменён');
 
 INSERT INTO "Room_type" (type_name_en, type_name_ru)
 VALUES ('Standard', 'Стандарт'), ('Junior suite', 'Полулюкс'), ('Suite', 'Люкс');
@@ -294,7 +295,7 @@ CREATE VIEW public.Order_v AS
     "Room_bed".bed_number,
     "Order".check_in,
     "Order".check_out,
-    "Order_status".order_status,
+    "Order_status".order_status_en,
     "Order".room_number,
     "Order".full_cost
   FROM public."Order"

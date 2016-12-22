@@ -26,6 +26,7 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     private static final int INDEX_13 = 13;
     private static final int INDEX_14 = 14;
     private static final int INDEX_15 = 15;
+    private static final int INDEX_16 = 16;
 
 
     JdbcOrderDao(Connection connection) {
@@ -48,11 +49,14 @@ class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         newOrder.setRoomType(roomType);
         newOrder.setCheckIn(rs.getDate(INDEX_10));
         newOrder.setCheckOut(rs.getDate(INDEX_11));
-        newOrder.setStatus(new OrderStatus(rs.getString(INDEX_12)));
-        newOrder.setFullCost(rs.getBigDecimal(INDEX_13));
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setStatusEn(rs.getString(INDEX_12));
+        orderStatus.setStatusRu(rs.getString(INDEX_13));
+        newOrder.setStatus(orderStatus);
+        newOrder.setFullCost(rs.getBigDecimal(INDEX_14));
         Room room = new Room();
-        room.setNumber(rs.getInt(INDEX_14));
-        room.setPrice(rs.getBigDecimal(INDEX_15));
+        room.setNumber(rs.getInt(INDEX_15));
+        room.setPrice(rs.getBigDecimal(INDEX_16));
         newOrder.setRoom(room);
         logger.debug("Found entity: {}", newOrder);
         return newOrder;
