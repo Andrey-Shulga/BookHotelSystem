@@ -17,5 +17,18 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>filedSum</name>
+        <tag-class>com.epam.as.bookhotel.tag.FieldTotalSum</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>orders</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.util.List</type>
+        </attribute>
+
+    </tag>
+
 
 </taglib>
