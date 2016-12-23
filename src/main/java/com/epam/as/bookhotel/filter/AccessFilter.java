@@ -66,7 +66,7 @@ public class AccessFilter implements Filter {
 
         if (!allActionList.contains((actionName))) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            logger.debug("The requested resource from action {} not found", actionName);
+            logger.debug("The requested action {} not found", actionName);
             return;
         } else {
             if (!actionList.contains(actionName)) {
