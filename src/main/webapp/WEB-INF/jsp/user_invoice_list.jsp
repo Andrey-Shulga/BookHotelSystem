@@ -82,7 +82,7 @@
         </div>
         <br>
         <div align="center">
-            <h2><fmt:message key="order.list.total.message"/><ctg:filedSum orders="${order}"/></h2>
+            <h2><fmt:message key="order.list.total.message"/><ctg:filedSum orders="${orders}"/></h2>
         </div>
         <c:if test="${not empty invoiceListErrorMessage}">
             <div id="errorcolortext"><fmt:message key="${invoiceErrorMessages}"/></div>

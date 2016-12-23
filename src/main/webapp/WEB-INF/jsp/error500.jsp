@@ -5,7 +5,7 @@
 
 <fmt:setBundle basename="lang"/>
 
-<fmt:message key="error.title" var="title"/>
+<fmt:message key="error.title.500" var="title"/>
 
 <t:genericpage title="${title}">
     <jsp:body>

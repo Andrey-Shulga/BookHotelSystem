@@ -26,7 +26,8 @@ public class ErrorHandlerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Integer errorStatusCode = (Integer) req.getAttribute(ERROR_STATUS_CODE_ATTRIBUTE);
-        logger.debug("Received Error with code {}, will be forwarded to proper error page", errorStatusCode);
+        Throwable exception = (Throwable) req.getAttribute("javax.servlet.error.exception");
+        logger.error("Received Error with code {}, will be forwarded to proper error page.\nException: ", errorStatusCode, exception);
         if (errorStatusCode == ERROR_403_CODE)
             req.getRequestDispatcher(PATH_TO_JSP + ERROR_403_PAGE + FILE_JSP).forward(req, resp);
         if (errorStatusCode == ERROR_500_CODE)
