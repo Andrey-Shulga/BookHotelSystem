@@ -5,12 +5,12 @@
 
 <fmt:setBundle basename="lang"/>
 
-<fmt:message key="error.title.403" var="title"/>
+<fmt:message key="error.title.404" var="title"/>
 
 <t:genericpage title="${title}">
     <jsp:body>
 
-        <b><fmt:message key="access.error.message.label"/></b> <fmt:message key="access.error.message"/><br>
+        <b><fmt:message key="access.error.message.label"/></b> <fmt:message key="not.found.error.message"/><br>
         <b> <fmt:message key="access.error.code.label"/></b> ${pageContext.errorData.statusCode}<br>
 
     </jsp:body>

@@ -19,8 +19,10 @@ public class ErrorHandlerServlet extends HttpServlet {
     private static final String ERROR_STATUS_CODE_ATTRIBUTE = "javax.servlet.error.status_code";
     private static final String ERROR_403_PAGE = "error403";
     private static final String ERROR_500_PAGE = "error500";
+    private static final String ERROR_404_PAGE = "error404";
     private static final int ERROR_500_CODE = 500;
     private static final int ERROR_403_CODE = 403;
+    private static final int ERROR_404_CODE = 404;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,10 +30,18 @@ public class ErrorHandlerServlet extends HttpServlet {
         Integer errorStatusCode = (Integer) req.getAttribute(ERROR_STATUS_CODE_ATTRIBUTE);
         Throwable exception = (Throwable) req.getAttribute("javax.servlet.error.exception");
         logger.error("Received Error with code {}, will be forwarded to proper error page.\nException: ", errorStatusCode, exception);
-        if (errorStatusCode == ERROR_403_CODE)
-            req.getRequestDispatcher(PATH_TO_JSP + ERROR_403_PAGE + FILE_JSP).forward(req, resp);
-        if (errorStatusCode == ERROR_500_CODE)
-            req.getRequestDispatcher(PATH_TO_JSP + ERROR_500_PAGE + FILE_JSP).forward(req, resp);
+        switch (errorStatusCode) {
+            case ERROR_403_CODE:
+                req.getRequestDispatcher(PATH_TO_JSP + ERROR_403_PAGE + FILE_JSP).forward(req, resp);
+                break;
+            case ERROR_404_CODE:
+                req.getRequestDispatcher(PATH_TO_JSP + ERROR_404_PAGE + FILE_JSP).forward(req, resp);
+                break;
+            case ERROR_500_CODE:
+                req.getRequestDispatcher(PATH_TO_JSP + ERROR_500_PAGE + FILE_JSP).forward(req, resp);
+                break;
+        }
+
     }
 
     @Override

@@ -28,12 +28,14 @@ public class FormValidator {
     private Map<String, List<String>> fieldErrors = new HashMap<>();
 
     public FormValidator() throws ValidatorException {
+
         if (formProperties == null) {
             loadFormProperties();
         }
     }
 
     private void loadFormProperties() throws ValidatorException {
+
         PropertyManager propertyManager;
         try {
             propertyManager = new PropertyManager(FORM_PROPERTY_FILE_NAME);
@@ -54,6 +56,7 @@ public class FormValidator {
     }
 
     private void setErrorsToSession(HttpServletRequest req) {
+
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
             req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
             for (String errorMessage : entry.getValue()) {
@@ -63,6 +66,7 @@ public class FormValidator {
     }
 
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
+
         deleteErrorsFromSession(request);
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
@@ -83,6 +87,7 @@ public class FormValidator {
     }
 
     private void deleteErrorsFromSession(HttpServletRequest request) {
+
         Enumeration<String> attributeNames = request.getSession().getAttributeNames();
         while (attributeNames.hasMoreElements()) {
             String sessionAttribute = attributeNames.nextElement();
@@ -91,6 +96,7 @@ public class FormValidator {
     }
 
     public void checkFieldsOnEquals(String field, String otherField, HttpServletRequest request) {
+
         if ((request.getParameter(field) != null) && (!request.getParameter(field).equals(request.getParameter(otherField)))) {
             List<String> errorFieldMessages = new ArrayList<>();
             String errorMessage = formProperties.getProperty(FIELDS_NOT_EQUAL_ERROR_MESSAGE);
@@ -110,6 +116,7 @@ public class FormValidator {
     }
 
     private Map<String, List<Validator>> getParameterValidatorsMap(String formName, HttpServletRequest request) throws ValidatorException {
+
         Map<String, List<Validator>> fieldValidators = new HashMap<>();
         List<Validator> validators;
         Enumeration<String> attributeNames = request.getParameterNames();
@@ -125,6 +132,7 @@ public class FormValidator {
     }
 
     private List<Validator> getValidators(String formFieldName) throws ValidatorException {
+
         final int DEFINE_VALIDATOR_NUMBER = 1;
         List<Validator> validators = new ArrayList<>();
         Validator validator;
@@ -141,6 +149,7 @@ public class FormValidator {
     }
 
     private Validator getValidator(String validatorNumberName, String formFiledName, String validatorName) throws ValidatorException {
+
         Class validatorClass;
         Validator validator;
         try {
@@ -156,6 +165,7 @@ public class FormValidator {
     }
 
     private void validatorSetFields(Class validatorClass, Validator validator, String validatorNumberName, String formFiledName) throws ValidatorException {
+
         for (Map.Entry<?, ?> property : formProperties.entrySet()) {
             String key = (String) property.getKey();
             String value = (String) property.getValue();
@@ -181,6 +191,7 @@ public class FormValidator {
     }
 
     private Object parseValue(String value) {
+
         if (value.matches(REGEX_FOR_NUMBER)) return new Integer(value);
         return value;
     }

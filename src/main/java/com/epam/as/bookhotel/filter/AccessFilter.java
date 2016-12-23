@@ -23,10 +23,12 @@ public class AccessFilter implements Filter {
     private static final String ANONIM_ACTION_FILE_NAME = "anonim-actions.properties";
     private static final String USER_ACTION_FILE_NAME = "user-actions.properties";
     private static final String MANAGER_ACTION_FILE_NAME = "manager-actions.properties";
-    private static final String ACCESS_ERROR_MESSAGE = "Access denied";
+    private static final String ALL_ACTION_FILE_NAME = "all-actions.properties";
+    private static final String REFERRER = "REFERRER";
     private List<String> anonimActionList = new ArrayList<>();
     private List<String> userActionList = new ArrayList<>();
     private List<String> managerActionList = new ArrayList<>();
+    private List<String> allActionList = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -35,6 +37,7 @@ public class AccessFilter implements Filter {
             anonimActionList = getListFromFile(ANONIM_ACTION_FILE_NAME);
             userActionList = getListFromFile(USER_ACTION_FILE_NAME);
             managerActionList = getListFromFile(MANAGER_ACTION_FILE_NAME);
+            allActionList = getListFromFile(ALL_ACTION_FILE_NAME);
         } catch (IOException e) {
             logger.error("Unable to open and load access actions from file.", e);
         }
@@ -60,10 +63,17 @@ public class AccessFilter implements Filter {
 
         User user = (User) req.getSession().getAttribute(USER_ATTRIBUTE);
         List<String> actionList = getActionList(user);
-        if (!actionList.contains(actionName)) {
-            resp.sendError(HttpServletResponse.SC_FORBIDDEN, ACCESS_ERROR_MESSAGE);
-            logger.debug("Not authorized attempt to application content from user {}", user);
+
+        if (!allActionList.contains((actionName))) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            logger.debug("The requested resource from action {} not found", actionName);
             return;
+        } else {
+            if (!actionList.contains(actionName)) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                logger.debug("Not authorized attempt to application content from user {}", user);
+                return;
+            }
         }
 
         filterChain.doFilter(req, resp);
