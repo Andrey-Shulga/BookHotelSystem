@@ -16,14 +16,14 @@ import java.util.List;
 public class ShowOrdersUserAction implements Action {
 
     private static final String USER = "user";
-    private static final String LOGIN_FORM = "login";
     private static final String ORDER_LIST_ATTRIBUTE = "orders";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String USER_ORDER_LIST = "user_order_list";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) {
-        if (req.getSession(false).getAttribute(USER) == null) return LOGIN_FORM;
+
+
         User user = (User) req.getSession(false).getAttribute(USER);
         Order order = new Order();
         order.setUser(user);

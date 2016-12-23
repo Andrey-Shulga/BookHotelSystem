@@ -16,6 +16,12 @@ public abstract class DaoFactory implements AutoCloseable {
 
     public abstract UserDao getUserDao();
 
+    public abstract OrderDao getOrderDao();
+
+    public abstract RoomDao getRoomDao();
+
+    public abstract BedDao getBedDao();
+
     public abstract void beginTx() throws JdbcDaoException;
 
     public abstract void rollback() throws JdbcDaoException;
@@ -27,8 +33,6 @@ public abstract class DaoFactory implements AutoCloseable {
 
     }
 
-    public abstract OrderDao getOrderDao();
 
-    public abstract RoomDao getRoomDao();
 
 }

@@ -72,12 +72,12 @@
             <br>
             <select size="1" name="bed">
                 <option disabled selected><fmt:message key="order.make.form.bed.select.name"/></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+
+                <c:forEach items="${bedList}" var="bed">
+                    <option value="${bed.bed}">${bed.bed}</option>
+                </c:forEach>
             </select>
+
             <c:forEach var="errorMessage" items="${bedErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>

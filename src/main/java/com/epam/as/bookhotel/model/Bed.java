@@ -8,6 +8,10 @@ public class Bed extends BaseEntity {
         this.bed = bed;
     }
 
+    public Bed() {
+
+    }
+
     public int getBed() {
         return bed;
     }
