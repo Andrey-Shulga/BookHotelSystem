@@ -30,13 +30,10 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
 
         Room newRoom = new Room();
         newRoom.setId(rs.getInt(INDEX_1));
-        RoomType roomType = new RoomType();
-        roomType.setRoomTypeEn(rs.getString(INDEX_2));
-        roomType.setRoomTypeRu(rs.getString(INDEX_3));
-        newRoom.setRoomType(roomType);
-        newRoom.setBed(new Bed(rs.getInt(INDEX_4)));
-        newRoom.setNumber(rs.getInt(INDEX_5));
-        newRoom.setPrice(rs.getBigDecimal(INDEX_6));
+        newRoom.setRoomType(new RoomType(rs.getString(INDEX_2)));
+        newRoom.setBed(new Bed(rs.getInt(INDEX_3)));
+        newRoom.setNumber(rs.getInt(INDEX_4));
+        newRoom.setPrice(rs.getBigDecimal(INDEX_5));
         logger.debug("Found entity: {}", newRoom);
         return newRoom;
     }

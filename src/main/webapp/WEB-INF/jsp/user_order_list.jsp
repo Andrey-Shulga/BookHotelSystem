@@ -31,7 +31,7 @@
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.roomtype"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkIn"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkOut"/></th>
-                    <th scope='colgroup' width="110px"><fmt:message key="user.order.list.table.status"/></th>
+                    <th scope='colgroup' width="130px"><fmt:message key="user.order.list.table.status"/></th>
                 </tr>
                 </thead>
                 <c:forEach var="order" items="${orders}">

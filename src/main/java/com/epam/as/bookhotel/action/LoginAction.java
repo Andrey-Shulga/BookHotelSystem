@@ -3,6 +3,7 @@ package com.epam.as.bookhotel.action;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.model.UserLocale;
 import com.epam.as.bookhotel.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +32,9 @@ public class LoginAction implements Action {
 
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
+        String locale = req.getParameter(LOCALE_SESSION_ATTRIBUTE_NAME);
 
-        User user = new User(login, password);
+        User user = new User(login, password, new UserLocale(locale));
         UserService userService = new UserService();
         try {
             userService.login(user);

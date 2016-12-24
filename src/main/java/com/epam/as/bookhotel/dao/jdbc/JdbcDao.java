@@ -31,12 +31,11 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     @Override
     public T save(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
 
-        PropertyManager propertyManager;
         try {
-            propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
             if (entity.getId() == null) {
                 logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
-                try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS)) {
+                try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS)) {
                     setParametersToPs(parameters, ps);
                     ps.execute();
                     setId(entity, ps);
@@ -58,8 +57,8 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
         logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
         try {
-            PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-            try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
+            try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(queryKey))) {
                 setParametersToPs(parameters, ps);
                 int result = ps.executeUpdate();
                 if (result == ZERO) throw new UnableUpdateFieldException();
@@ -76,13 +75,14 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findByParameters(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
+    public List<T> findByParameters(T entity, List<String> parameters, String queryKey, String locale) throws JdbcDaoException {
 
         logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
         List<T> entities = new ArrayList<>();
         try {
-            PropertyManager propertyManager = new PropertyManager(QUERY_PROPERTY_FILE);
-            try (PreparedStatement ps = connection.prepareStatement(propertyManager.getPropertyKey(queryKey))) {
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
+            String localeQuery = getQueryByLocale(pm.getPropertyKey(queryKey), locale);
+            try (PreparedStatement ps = connection.prepareStatement(localeQuery)) {
                 setParametersToPs(parameters, ps);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -100,9 +100,15 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return entities;
     }
 
+    private String getQueryByLocale(String query, String locale) {
+
+        return String.format(query, locale, locale);
+    }
+
     abstract T setRsToField(ResultSet rs, T entity) throws SQLException;
 
     private void setParametersToPs(List<String> parameters, PreparedStatement ps) throws SQLException {
+
         int count = INITIAL_COUNT;
         for (String parameter : parameters) {
             ps.setString(count, parameter);

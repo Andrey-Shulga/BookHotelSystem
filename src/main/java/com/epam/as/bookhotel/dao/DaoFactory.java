@@ -22,6 +22,8 @@ public abstract class DaoFactory implements AutoCloseable {
 
     public abstract BedDao getBedDao();
 
+    public abstract RoomTypeDao getRoomTypeDao();
+
     public abstract void beginTx() throws JdbcDaoException;
 
     public abstract void rollback() throws JdbcDaoException;

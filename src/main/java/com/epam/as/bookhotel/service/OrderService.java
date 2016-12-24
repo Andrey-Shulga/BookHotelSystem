@@ -4,8 +4,6 @@ import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.OrderDao;
 import com.epam.as.bookhotel.exception.*;
 import com.epam.as.bookhotel.model.Order;
-import com.epam.as.bookhotel.model.OrderStatus;
-import com.epam.as.bookhotel.model.RoomType;
 import com.epam.as.bookhotel.util.DateConverter;
 
 import java.util.ArrayList;
@@ -19,8 +17,6 @@ public class OrderService extends ParentService {
     private static final String INSERT_ORDER_KEY = "insert.order";
     private static final String UPDATE_ORDER_ROOM_NUMBER_KEY = "update.order.room.number";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
-    private static final String USER_LOCALE_EN = "en";
-    private static final String USER_LOCALE_RU = "ru";
     private static final List<String> parameters = new ArrayList<>();
 
     public Order makeOrder(Order order) throws ServiceException {
@@ -72,34 +68,15 @@ public class OrderService extends ParentService {
     }
 
     private List<Order> getOrdersList(Order order, List<String> parameters, String key) throws ServiceException {
+
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            orderList = orderDao.findByParameters(order, parameters, key);
-            setParametersFromUserLocale(orderList, order);
+            orderList = orderDao.findByParameters(order, parameters, key, order.getUser().getLocale().getLocaleName());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderList;
-    }
-
-    private void setParametersFromUserLocale(List<Order> orderList, Order order) {
-
-        for (Order ord : orderList) {
-            String userLocale = order.getUser().getLocale().getLocaleName();
-            if (USER_LOCALE_EN.equals(userLocale)) {
-                String roomTypeEn = ord.getRoomType().getRoomTypeEn();
-                ord.setRoomType(new RoomType(roomTypeEn));
-                String statusEn = ord.getStatus().getStatusEn();
-                ord.setStatus(new OrderStatus(statusEn));
-            }
-            if (USER_LOCALE_RU.equals(userLocale)) {
-                String roomTypeRu = ord.getRoomType().getRoomTypeRu();
-                ord.setRoomType(new RoomType(roomTypeRu));
-                String statusRu = ord.getStatus().getStatusRu();
-                ord.setStatus(new OrderStatus(statusRu));
-            }
-        }
     }
 
     public Order confirmRoomForOrder(Order order) throws ServiceException {

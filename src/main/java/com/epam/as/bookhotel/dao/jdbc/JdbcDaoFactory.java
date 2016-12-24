@@ -54,6 +54,11 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
+    public RoomTypeDao getRoomTypeDao() {
+        return new JdbcRoomTypeDao(connection);
+    }
+
+    @Override
     public void beginTx() throws JdbcDaoException {
         try {
             if ((!connection.isClosed()) && (connection.getAutoCommit())) {

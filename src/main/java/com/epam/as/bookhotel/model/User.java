@@ -17,6 +17,7 @@ public class User extends BaseEntity {
     }
 
     public User(int id, String login, String password, UserRole role) {
+
         super(id);
         this.login = login;
         this.password = password;
@@ -24,21 +25,31 @@ public class User extends BaseEntity {
     }
 
     public User(String login, String password, UserRole role) {
+
         this.login = login;
         this.password = password;
         this.role = role;
     }
 
     public User(String login, String password) {
+
         this.login = login;
         this.password = password;
 
     }
 
     public User(String login, String password, UserRole userRole, UserLocale userLocale) {
+
         this.login = login;
         this.password = password;
         this.role = userRole;
+        this.locale = userLocale;
+    }
+
+    public User(String login, String password, UserLocale userLocale) {
+
+        this.login = login;
+        this.password = password;
         this.locale = userLocale;
     }
 

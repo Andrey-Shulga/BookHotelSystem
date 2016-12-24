@@ -12,6 +12,7 @@ import java.util.List;
 public class BedService extends ParentService {
 
     private static final String FIND_ALL_BED = "find.all.bed";
+    private static final String BLANK_LOCALE = "";
     private static final List<String> parameters = new ArrayList<>();
 
 
@@ -20,7 +21,7 @@ public class BedService extends ParentService {
         List<Bed> bedList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             BedDao bedDao = daoFactory.getBedDao();
-            bedList = bedDao.findByParameters(bed, parameters, FIND_ALL_BED);
+            bedList = bedDao.findByParameters(bed, parameters, FIND_ALL_BED, BLANK_LOCALE);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
