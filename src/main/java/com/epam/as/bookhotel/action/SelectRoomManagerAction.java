@@ -36,13 +36,7 @@ public class SelectRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        try {
-            FormValidator validator = new FormValidator();
-            Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_LIST_FORM, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
-        } catch (ValidatorException e) {
-            throw new ActionException(e);
-        }
+        if (checkForm(req)) return REDIRECT;
 
         logger.debug("Form's parameters are valid.");
         User user = (User) req.getSession(false).getAttribute(USER);
@@ -67,6 +61,19 @@ public class SelectRoomManagerAction implements Action {
         }
 
         return REDIRECT;
+    }
+
+    boolean checkForm(HttpServletRequest req) throws ActionException {
+
+        boolean checkResult = false;
+        try {
+            FormValidator validator = new FormValidator();
+            Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_LIST_FORM, req);
+            if (validator.hasFieldsErrors(req, fieldErrors)) checkResult = true;
+        } catch (ValidatorException e) {
+            throw new ActionException(e);
+        }
+        return checkResult;
     }
 
 

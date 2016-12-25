@@ -28,6 +28,13 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         this.connection = connection;
     }
 
+    JdbcDao() {
+    }
+
+    static String getQueryPropertyFile() {
+        return QUERY_PROPERTY_FILE;
+    }
+
     @Override
     public T save(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
 
@@ -105,8 +112,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return String.format(query, locale, locale);
     }
 
-    abstract T setRsToField(ResultSet rs, T entity) throws SQLException;
-
     private void setParametersToPs(List<String> parameters, PreparedStatement ps) throws SQLException {
 
         int count = INITIAL_COUNT;
@@ -117,7 +122,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         parameters.clear();
     }
 
-    private void setId(T entity, PreparedStatement ps) throws SQLException {
+    void setId(T entity, PreparedStatement ps) throws SQLException {
         ResultSet generatedId = ps.getGeneratedKeys();
         generatedId.next();
         int id = generatedId.getInt(1);
@@ -125,5 +130,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         if (entity.getId() != null)
             logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
     }
+
+    abstract T setRsToField(ResultSet rs, T entity) throws SQLException;
 
 }

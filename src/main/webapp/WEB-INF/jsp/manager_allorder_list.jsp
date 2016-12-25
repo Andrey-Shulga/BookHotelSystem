@@ -29,7 +29,7 @@
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.roomtype"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkIn"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.checkOut"/></th>
-                    <th scope='colgroup' width="110px"><fmt:message key="user.order.list.table.status"/></th>
+                    <th scope='colgroup' width="135px"><fmt:message key="user.order.list.table.status"/></th>
 
                     <th scope='colgroup' width="75px"><fmt:message key="manager.all.order.list.table.roomNumber"/></th>
                     <th scope='colgroup' width="70px"><fmt:message key="manager.all.order.list.table.roomPrice"/></th>

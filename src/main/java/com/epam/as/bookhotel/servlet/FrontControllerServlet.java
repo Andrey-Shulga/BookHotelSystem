@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "FrontControllerServlet", urlPatterns = "/do/*")
-@MultipartConfig
+@MultipartConfig(maxFileSize = 3072000)
 public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);

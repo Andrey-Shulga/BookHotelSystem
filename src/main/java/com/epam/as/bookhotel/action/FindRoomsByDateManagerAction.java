@@ -2,18 +2,15 @@ package com.epam.as.bookhotel.action;
 
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.RoomService;
-import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This action searches all free (not booked) rooms in the hotel on special date range.
@@ -29,19 +26,12 @@ public class FindRoomsByDateManagerAction implements Action {
     private static final String CHECK_OUT_PARAMETER = "checkOut";
     private static final String SEARCH_BUTTON_PARAMETER = "search";
     private static final String REDIRECT = "redirect:/do/?action=show-manager-order-list";
-    private static final String MANAGER_ORDER_FORM = "manager_order_list";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
-        //TODO do smth. with duplicate
-        //validate form's fields by rules
-        try {
-            FormValidator validator = new FormValidator();
-            Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_FORM, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
-        } catch (ValidatorException e) {
-            throw new ActionException(e);
-        }
+
+        SelectRoomManagerAction action = new SelectRoomManagerAction();
+        if (action.checkForm(req)) return REDIRECT;
 
         logger.debug("Form's parameters are valid.");
 

@@ -1,5 +1,6 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.User;
@@ -21,7 +22,7 @@ public class ShowAllRoomsManagerAction implements Action {
     private static final String ROOM_LIST_JSP = "manager_room_list";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) {
+    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
         RoomService roomService = new RoomService();
@@ -30,6 +31,13 @@ public class ShowAllRoomsManagerAction implements Action {
             req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
         } catch (ServiceException e) {
             req.setAttribute(ROOMS_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
+        }
+
+        ShowOrderFormAction action = new ShowOrderFormAction();
+        try {
+            action.execute(req, res);
+        } catch (ActionException e) {
+            throw new ActionException(e);
         }
 
         return ROOM_LIST_JSP;
