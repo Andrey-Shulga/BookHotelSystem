@@ -77,7 +77,6 @@ public class Room extends BaseEntity {
                 ", bed=" + bed +
                 ", number=" + number +
                 ", price=" + price +
-                ", photoPart=" + photoPart.toString() +
                 '}';
     }
 }

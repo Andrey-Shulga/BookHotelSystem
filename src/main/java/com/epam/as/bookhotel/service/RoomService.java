@@ -58,7 +58,9 @@ public class RoomService extends ParentService {
                 parameters.add(room.getPrice().toString());
                 roomDao.save(room, parameters, ADD_ROOM_NO_PHOTO);
             } else {
+                daoFactory.beginTx();
                 roomDao.addRoomWithPhoto(room);
+                daoFactory.commit();
             }
         } catch (NonUniqueFieldException e) {
 

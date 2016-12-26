@@ -21,7 +21,7 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
     private static final Logger logger = LoggerFactory.getLogger(JdbcRoomDao.class);
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
     private static final String QUERY_PROPERTY_FILE = getQueryPropertyFile();
-    private static final String ADD_ROOM_WITH_PHOTO = "add.room.no.photo";
+    private static final String ADD_ROOM_WITH_PHOTO = "add.room.with.photo";
     private static final int INDEX_1 = 1;
     private static final int INDEX_2 = 2;
     private static final int INDEX_3 = 3;
@@ -55,7 +55,6 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
             String query = pm.getPropertyKey(ADD_ROOM_WITH_PHOTO);
             if (room.getId() == null) {
-                if (connection == null) logger.debug("conn null");
                 logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), room);
                 try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                     ps.setInt(INDEX_1, room.getNumber());
@@ -63,9 +62,9 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
                     ps.setString(INDEX_3, room.getRoomType().getRoomType());
                     ps.setBigDecimal(INDEX_4, room.getPrice());
                     InputStream in = room.getPhotoPart().getInputStream();
-                    ps.setBlob(INDEX_5, in);
+                    ps.setBinaryStream(INDEX_5, in);
                     ps.execute();
-                    setId(room, ps);
+                    //setId(room, ps);
                 } catch (SQLException e) {
                     if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState()))
                         throw new NonUniqueFieldException(e);

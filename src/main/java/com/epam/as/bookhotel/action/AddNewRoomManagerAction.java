@@ -45,7 +45,7 @@ public class AddNewRoomManagerAction implements Action {
         Room room;
         try {
             Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
-            if (photoPart.getSize() == ZERO_SIZE) {
+            if (photoPart.getSize() != ZERO_SIZE) {
                 photoPart = req.getPart(ROOM_PHOTO_ATTR);
                 room = new Room(new RoomType(roomType), new Bed(Integer.parseInt(roomBed)), Integer.parseInt(roomNumber),
                         new BigDecimal(roomPriceDouble), photoPart);
