@@ -1,6 +1,5 @@
 package com.epam.as.bookhotel.model;
 
-import javax.servlet.http.Part;
 import java.math.BigDecimal;
 
 public class Room extends BaseEntity {
@@ -9,22 +8,26 @@ public class Room extends BaseEntity {
     private Bed bed;
     private int number;
     private BigDecimal price;
-    private Part photoPart;
+    private Photo photo;
+
 
     public Room(RoomType roomType, Bed bed, int number, BigDecimal price) {
+
         this.roomType = roomType;
         this.bed = bed;
         this.number = number;
         this.price = price;
     }
 
-    public Room(RoomType roomType, Bed bed, int number, BigDecimal price, Part photoPart) {
+    public Room(RoomType roomType, Bed bed, int number, BigDecimal price, Photo photo) {
+
         this.roomType = roomType;
         this.bed = bed;
         this.number = number;
         this.price = price;
-        this.photoPart = photoPart;
+        this.photo = photo;
     }
+
 
     public Room() {
     }
@@ -61,12 +64,12 @@ public class Room extends BaseEntity {
         this.price = price;
     }
 
-    public Part getPhotoPart() {
-        return photoPart;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public void setPhotoPart(Part photoPart) {
-        this.photoPart = photoPart;
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
 
     @Override

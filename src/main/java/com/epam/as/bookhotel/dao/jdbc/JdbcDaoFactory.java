@@ -59,6 +59,11 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
+    public PhotoDao getPhotoDao() {
+        return new JdbcPhotoDao(connection);
+    }
+
+    @Override
     public void beginTx() throws JdbcDaoException {
         try {
             if ((!connection.isClosed()) && (connection.getAutoCommit())) {

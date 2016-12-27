@@ -1,6 +1,7 @@
 package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
+import com.epam.as.bookhotel.dao.PhotoDao;
 import com.epam.as.bookhotel.dao.RoomDao;
 import com.epam.as.bookhotel.exception.DaoException;
 import com.epam.as.bookhotel.exception.NonUniqueFieldException;
@@ -16,8 +17,8 @@ public class RoomService extends ParentService {
 
     private static final String FIND_ALL_ROOMS_KEY = "find.all.rooms";
     private static final String FIND_ALL_FREE_ROOMS_BY_DATE_KEY = "find.free.rooms.on.date.range";
-    private static final String ADD_ROOM_NO_PHOTO = "add.room.no.photo";
-    private static final int ZERO_SIZE = 0;
+    private static final String INSERT_ROOM_NO_PHOTO_KEY = "insert.room.no.photo";
+    private static final String INSERT_ROOM_WITH_PHOTO_KEY = "insert.room.with.photo";
     private static final List<String> parameters = new ArrayList<>();
 
     public List<Room> findAllRooms(Room room, User user) throws ServiceException {
@@ -50,17 +51,29 @@ public class RoomService extends ParentService {
     public Room addRoom(Room room) throws ServiceException {
 
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+
             RoomDao roomDao = daoFactory.getRoomDao();
-            if (room.getPhotoPart().getSize() == ZERO_SIZE) {
+            if (room.getPhoto() == null) {
+
                 parameters.add(String.valueOf(room.getNumber()));
                 parameters.add(String.valueOf(room.getBed().getBed()));
                 parameters.add(room.getRoomType().getRoomType());
                 parameters.add(room.getPrice().toString());
-                roomDao.save(room, parameters, ADD_ROOM_NO_PHOTO);
+                roomDao.save(room, parameters, INSERT_ROOM_NO_PHOTO_KEY);
+
             } else {
+
                 daoFactory.beginTx();
-                roomDao.addRoomWithPhoto(room);
+                PhotoDao photoDao = daoFactory.getPhotoDao();
+                photoDao.addPhoto(room.getPhoto());
+                parameters.add(String.valueOf(room.getNumber()));
+                parameters.add(String.valueOf(room.getBed().getBed()));
+                parameters.add(room.getRoomType().getRoomType());
+                parameters.add(room.getPrice().toString());
+                parameters.add(room.getPhoto().getId().toString());
+                roomDao.save(room, parameters, INSERT_ROOM_WITH_PHOTO_KEY);
                 daoFactory.commit();
+
             }
         } catch (NonUniqueFieldException e) {
 

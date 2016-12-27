@@ -3,6 +3,7 @@ package com.epam.as.bookhotel.action;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Bed;
+import com.epam.as.bookhotel.model.Photo;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.RoomType;
 import com.epam.as.bookhotel.service.RoomService;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 
 public class AddNewRoomManagerAction implements Action {
@@ -42,26 +44,39 @@ public class AddNewRoomManagerAction implements Action {
         String roomType = req.getParameter(ROOM_TYPE_ATTR);
         String roomPrice = req.getParameter(ROOM_PRICE_ATTR);
         Double roomPriceDouble = Double.parseDouble(roomPrice);
+        InputStream in = null;
         Room room;
         try {
             Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
             if (photoPart.getSize() != ZERO_SIZE) {
-                photoPart = req.getPart(ROOM_PHOTO_ATTR);
+                in = photoPart.getInputStream();
                 room = new Room(new RoomType(roomType), new Bed(Integer.parseInt(roomBed)), Integer.parseInt(roomNumber),
-                        new BigDecimal(roomPriceDouble), photoPart);
+                        new BigDecimal(roomPriceDouble), new Photo(in));
+
             } else
                 room = new Room(new RoomType(roomType), new Bed(Integer.parseInt(roomBed)), Integer.parseInt(roomNumber),
                         new BigDecimal(roomPriceDouble));
-        } catch (IOException | ServletException e) {
-            throw new ActionException(e);
-        }
+            RoomService roomService = new RoomService();
+            try {
+                roomService.addRoom(room);
+            } catch (ServiceException e) {
 
-        RoomService service = new RoomService();
-        try {
-            service.addRoom(room);
-        } catch (ServiceException e) {
-            req.getSession().setAttribute(ROOM_FORM_JSP + ERROR_MESSAGE_SUFFIX, e.getMessage());
-            return REDIRECT;
+                req.getSession().setAttribute(ROOM_FORM_JSP + ERROR_MESSAGE_SUFFIX, e.getMessage());
+                return REDIRECT;
+
+            } finally {
+                if (in != null) in.close();
+            }
+
+        } catch (IOException | ServletException e) {
+
+            throw new ActionException(e);
+        } finally {
+            if (in != null) try {
+                in.close();
+            } catch (IOException e) {
+                throw new ActionException(e);
+            }
         }
 
         logger.debug("Add room action success.");
