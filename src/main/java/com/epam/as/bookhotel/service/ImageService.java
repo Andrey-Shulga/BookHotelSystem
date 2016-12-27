@@ -18,7 +18,7 @@ public class ImageService extends ParentService {
     private static final String BLANK_LOCALE = "";
     private static final List<String> parameters = new ArrayList<>();
 
-    public synchronized Photo findPhotoById(Photo photo) throws ServiceException {
+    public Photo findPhotoById(Photo photo) throws ServiceException {
 
         parameters.add(photo.getId().toString());
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {

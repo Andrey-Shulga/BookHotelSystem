@@ -25,8 +25,6 @@ public class ImageServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (!ZERO.equals(req.getParameter(ID_PREFIX_ATTR))) {
-
             String id = req.getParameter(ID_PREFIX_ATTR);
             logger.debug("id = {}", id);
             Photo photo = new Photo(Integer.parseInt(id));
@@ -40,13 +38,13 @@ public class ImageServlet extends HttpServlet {
                     resp.reset();
                     resp.setContentType("image/jpeg");
                     resp.setContentLength(bytes.length);
-                    resp.getOutputStream().write(bytes.length);
+                    resp.getOutputStream().write(bytes);
                 }
 
             } catch (ServiceException e) {
                 logger.error("Exception in ImageServlet occurred", e);
             }
-        }
+
 
     }
 

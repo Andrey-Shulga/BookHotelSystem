@@ -51,7 +51,7 @@
                         </td>
 
                         <td>
-                            <img src="${prefix}/image?id=${room.photo.id}"/>
+                            <img src="${prefix}/image/?id=${room.photo.id}"/>
                         </td>
 
                     </tr>

@@ -112,7 +112,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return String.format(query, locale, locale);
     }
 
-    private synchronized void setParametersToPs(List<String> parameters, PreparedStatement ps) throws SQLException {
+    private void setParametersToPs(List<String> parameters, PreparedStatement ps) throws SQLException {
 
         int count = INITIAL_COUNT;
         for (String parameter : parameters) {
