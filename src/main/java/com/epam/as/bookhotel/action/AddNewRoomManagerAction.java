@@ -50,8 +50,10 @@ public class AddNewRoomManagerAction implements Action {
             Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
             if (photoPart.getSize() != ZERO_SIZE) {
                 in = photoPart.getInputStream();
+                String contentType = photoPart.getContentType();
+                Long contentLength = photoPart.getSize();
                 room = new Room(new RoomType(roomType), new Bed(Integer.parseInt(roomBed)), Integer.parseInt(roomNumber),
-                        new BigDecimal(roomPriceDouble), new Photo(in));
+                        new BigDecimal(roomPriceDouble), new Photo(in, contentType, contentLength));
 
             } else
                 room = new Room(new RoomType(roomType), new Bed(Integer.parseInt(roomBed)), Integer.parseInt(roomNumber),

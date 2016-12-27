@@ -5,14 +5,15 @@ import com.epam.as.bookhotel.model.Photo;
 import com.epam.as.bookhotel.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.IOUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 
 @WebServlet("/image/*")
 public class ImageServlet extends HttpServlet {
@@ -25,27 +26,36 @@ public class ImageServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if (!ZERO.equals(req.getParameter(ID_PREFIX_ATTR))) {
             String id = req.getParameter(ID_PREFIX_ATTR);
-            logger.debug("id = {}", id);
             Photo photo = new Photo(Integer.parseInt(id));
             ImageService service = new ImageService();
             try {
                 service.findPhotoById(photo);
                 if (photo.getImageStream() != null) {
-                    boolean readAll = true;
-                    byte[] bytes = IOUtils.readFully(photo.getImageStream(), Integer.MAX_VALUE, readAll);
-                    photo.getImageStream().close();
                     resp.reset();
-                    resp.setContentType("image/jpeg");
-                    resp.setContentLength(bytes.length);
-                    resp.getOutputStream().write(bytes);
+                    resp.setContentType(photo.getContentType());
+                    resp.setContentLength(18031);
+                    writeImage(photo.getImageStream(), resp);
                 }
-
             } catch (ServiceException e) {
                 logger.error("Exception in ImageServlet occurred", e);
             }
+        }
+    }
 
+    private void writeImage(InputStream in, HttpServletResponse response) throws IOException {
 
+        final int bufferSize = 10240;
+        final int ZERO = 0;
+        byte[] buffer = new byte[bufferSize];
+        try (InputStream input = in;
+             ServletOutputStream output = response.getOutputStream()) {
+            int length;
+            while ((length = input.read(buffer)) > ZERO) {
+                output.write(buffer, ZERO, length);
+            }
+        }
     }
 
     @Override

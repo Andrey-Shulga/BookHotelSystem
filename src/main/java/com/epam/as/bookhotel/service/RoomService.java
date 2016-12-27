@@ -19,6 +19,7 @@ public class RoomService extends ParentService {
     private static final String FIND_ALL_FREE_ROOMS_BY_DATE_KEY = "find.free.rooms.on.date.range";
     private static final String INSERT_ROOM_NO_PHOTO_KEY = "insert.room.no.photo";
     private static final String INSERT_ROOM_WITH_PHOTO_KEY = "insert.room.with.photo";
+    private static final String INSERT_PHOTO_KEY = "insert.photo";
     private static final List<String> parameters = new ArrayList<>();
 
     public List<Room> findAllRooms(Room room, User user) throws ServiceException {
@@ -65,7 +66,7 @@ public class RoomService extends ParentService {
 
                 daoFactory.beginTx();
                 PhotoDao photoDao = daoFactory.getPhotoDao();
-                photoDao.addPhoto(room.getPhoto());
+                photoDao.addPhoto(room.getPhoto(), parameters, INSERT_PHOTO_KEY);
                 parameters.add(String.valueOf(room.getNumber()));
                 parameters.add(String.valueOf(room.getBed().getBed()));
                 parameters.add(room.getRoomType().getRoomType());

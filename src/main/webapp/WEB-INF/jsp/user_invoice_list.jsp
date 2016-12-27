@@ -6,6 +6,7 @@
 
 <fmt:setBundle basename="lang"/>
 <fmt:message key="user.invoice.list.title" var="title"/>
+<c:set var="prefix" value="${pageContext.request.contextPath}"/>
 <c:set var="invoiceListErrorMessage" value="${invoiceErrorMessages}"/>
 
 
@@ -34,6 +35,7 @@
                     <th scope='colgroup' width="110px"><fmt:message key="user.order.list.table.status"/></th>
                     <th scope='colgroup' width="110px"><fmt:message key="room.list.table.roomNumber"/></th>
                     <th scope='colgroup' width="70px"><fmt:message key="manager.all.order.list.table.fullCost"/></th>
+                    <th scope='colgroup' width="90px"><fmt:message key="room.list.table.roomPhoto"/></th>
                 </tr>
                 </thead>
                 <c:forEach var="order" items="${orders}">
@@ -74,6 +76,9 @@
                         </td>
                         <td>
                                 ${order.fullCost}
+                        </td>
+                        <td>
+                            <img src="${prefix}/image/?id=${order.room.photo.id}"/>
                         </td>
                     </tr>
 

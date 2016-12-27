@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="orders.show.form.title" var="title"/>
+<c:set var="prefix" value="${pageContext.request.contextPath}"/>
 <c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
 <c:set var="roomListErrorMessage" value="${roomsErrorMessages}"/>
 <c:set var="confirmErrorMessage" value="${confirmErrorMessages}"/>
@@ -144,9 +145,8 @@
                     <th scope='colgroup' width="75px"><fmt:message key="room.list.table.roomNumber"/></th>
                     <th scope='colgroup' width="100px"><fmt:message key="user.order.list.table.roomtype"/></th>
                     <th scope='colgroup' width="60px"><fmt:message key="user.order.list.table.bed"/></th>
-
-
                     <th scope='colgroup' width="90px"><fmt:message key="room.list.table.roomPrice"/></th>
+                    <th scope='colgroup' width="90px"><fmt:message key="room.list.table.roomPhoto"/></th>
 
                 </tr>
                 </thead>
@@ -166,6 +166,9 @@
 
                         <td>
                                 ${room.price}
+                        </td>
+                        <td>
+                            <img src="${prefix}/image/?id=${room.photo.id}"/>
                         </td>
 
                     </tr>

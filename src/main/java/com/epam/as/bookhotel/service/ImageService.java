@@ -23,7 +23,6 @@ public class ImageService extends ParentService {
         parameters.add(photo.getId().toString());
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             PhotoDao photoDao = daoFactory.getPhotoDao();
-            logger.debug("size = {}", parameters.size());
             photoDao.findByParameters(photo, parameters, FIND_PHOTO_BY_ID_KEY, BLANK_LOCALE);
         } catch (DaoException e) {
             throw new ServiceException(e);
