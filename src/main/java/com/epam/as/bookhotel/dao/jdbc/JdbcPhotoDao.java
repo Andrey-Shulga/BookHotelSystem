@@ -8,6 +8,7 @@ import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.sql.*;
 
 class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
@@ -25,12 +26,12 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
     }
 
     @Override
-    Photo setRsToField(ResultSet rs, Photo entity) throws SQLException {
+    Photo setRsToField(ResultSet rs, Photo photo) throws SQLException {
 
-        Photo newPhoto = new Photo();
-        newPhoto.setId(rs.getInt(INDEX_1));
-        logger.debug("Found entity: {}", newPhoto);
-        return newPhoto;
+        InputStream in = rs.getBinaryStream(INDEX_1);
+        photo.setImageStream(in);
+        logger.debug("Found entity: {}", photo);
+        return photo;
     }
 
     @Override

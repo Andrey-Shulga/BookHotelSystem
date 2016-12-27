@@ -22,7 +22,7 @@ public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ACTION_PREFIX = "action";
+    private static final String ACTION_PREFIX_ATTR = "action";
     private static final String PATH_TO_JSP = "/WEB-INF/jsp/";
     private static final String FILE_JSP = ".jsp";
     private ActionFactory actionFactory;
@@ -48,7 +48,7 @@ public class FrontControllerServlet extends HttpServlet {
             String view = action.execute(req, resp);
             proceedTo(view, req, resp);
         } catch (ActionException | ActionFactoryException e) {
-            logger.error("Action exception in controller occurred", e);
+            logger.error("Exception in controller occurred", e);
         }
     }
 
@@ -62,7 +62,7 @@ public class FrontControllerServlet extends HttpServlet {
     }
 
     private String getActionName(HttpServletRequest req) {
-        return req.getParameter(ACTION_PREFIX);
+        return req.getParameter(ACTION_PREFIX_ATTR);
     }
 
     @Override
