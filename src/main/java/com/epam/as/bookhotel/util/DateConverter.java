@@ -2,10 +2,10 @@ package com.epam.as.bookhotel.util;
 
 import com.epam.as.bookhotel.exception.ActionException;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateConverter {
 
@@ -27,13 +27,12 @@ public class DateConverter {
 
         final String DATE_PATTERN = "dd/MM/yyyy";
         SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
-        Date sqlDate;
+        Date date;
         try {
-            java.util.Date date = format.parse(parameter);
-            sqlDate = new Date(date.getTime());
+            date = format.parse(parameter);
         } catch (ParseException e) {
             throw new ActionException(e);
         }
-        return sqlDate;
+        return date;
     }
 }
