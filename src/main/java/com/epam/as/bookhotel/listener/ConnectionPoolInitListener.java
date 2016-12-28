@@ -12,10 +12,14 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
-public class ConnectionPoolListener implements ServletContextListener {
+public class ConnectionPoolInitListener implements ServletContextListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolListener.class);
-    private ConnectionPool pool;
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolInitListener.class);
+    private static ConnectionPool pool;
+
+    public static ConnectionPool getPool() {
+        return pool;
+    }
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

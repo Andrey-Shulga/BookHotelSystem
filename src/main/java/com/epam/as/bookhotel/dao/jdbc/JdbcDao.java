@@ -2,10 +2,8 @@ package com.epam.as.bookhotel.dao.jdbc;
 
 
 import com.epam.as.bookhotel.dao.Dao;
-import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.exception.NonUniqueFieldException;
-import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.exception.UnableUpdateFieldException;
+import com.epam.as.bookhotel.exception.*;
+import com.epam.as.bookhotel.listener.ConnectionPoolInitListener;
 import com.epam.as.bookhotel.model.BaseEntity;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
@@ -19,6 +17,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
+    private static final String DATABASE_CONNECTION_FAILURE_ERROR_CODE = "08006";
     private static final int ZERO = 0;
     private static final int INITIAL_COUNT = 1;
     private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
@@ -46,6 +45,13 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 } catch (SQLException e) {
                     if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState()))
                         throw new NonUniqueFieldException(e);
+                    try {
+                        if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
+                            getUpConnectionPool();
+                        }
+                    } catch (SQLException ex) {
+                        throw new JdbcDaoException(ex);
+                    }
                     throw new JdbcDaoException(e);
                 }
             }
@@ -69,6 +75,13 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 else
                     logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
             } catch (SQLException e) {
+                try {
+                    if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
+                        getUpConnectionPool();
+                    }
+                } catch (SQLException ex) {
+                    throw new JdbcDaoException(ex);
+                }
                 throw new JdbcDaoException(e);
             }
         } catch (PropertyManagerException e) {
@@ -95,6 +108,14 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 }
             } catch (SQLException e) {
 
+                try {
+                    if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
+                        getUpConnectionPool();
+                    }
+                } catch (SQLException ex) {
+                    throw new JdbcDaoException(ex);
+                }
+
                 throw new JdbcDaoException(e);
             }
         } catch (PropertyManagerException e) {
@@ -102,6 +123,18 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
 
         return entities;
+    }
+
+    private void getUpConnectionPool() throws JdbcDaoException {
+
+        logger.debug("Connection is invalid. Perhaps database downed. Trying to initialize and fill connection pool again.");
+        try {
+            ConnectionPoolInitListener.getPool().close();
+            ConnectionPoolInitListener.getPool().fillPool();
+        } catch (ConnectionPoolException e) {
+            throw new JdbcDaoException(e);
+        }
+
     }
 
     private String getQueryByLocale(String query, String locale) {

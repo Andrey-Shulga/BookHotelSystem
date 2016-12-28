@@ -18,8 +18,10 @@ public class JdbcDaoFactory extends DaoFactory {
     private Connection connection;
 
     public JdbcDaoFactory() throws JdbcDaoException {
+
         try {
             this.connection = pool.getConnection();
+
         } catch (ConnectionPoolException e) {
             throw new JdbcDaoException(e);
         }
@@ -102,7 +104,13 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
-    public void close() {
-        pool.putConnectionToPool(connection);
+    public void close() throws JdbcDaoException {
+        try {
+            if (connection.isClosed()) logger.debug("Connection is closed and will not be returned to the pool.");
+            else
+                pool.putConnectionToPool(connection);
+        } catch (SQLException e) {
+            throw new JdbcDaoException(e);
+        }
     }
 }

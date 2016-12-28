@@ -43,6 +43,7 @@ public class ConnectionPool {
 
 
     public void putConnectionToPool(Connection returnedConnection) {
+
         if (returnedConnection != null) {
             connections.offer(returnedConnection);
             logger.debug("Factory returned connection back to pool, now total connections in pool = {}", connections.size());
@@ -50,6 +51,7 @@ public class ConnectionPool {
     }
 
     public void close() throws ConnectionPoolException {
+
         for (Connection con : connections)
             try {
                 if (!con.isClosed())
@@ -90,7 +92,7 @@ public class ConnectionPool {
         logger.debug("Maximum limit of connections to database in the pool = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         for (int i = 0; i < poolStartSize; i++) {
-            Connection connection = null;
+            Connection connection;
             connection = getNewConnection(url, username, password);
             if (connection != null)
                 connections.offer(connection);
