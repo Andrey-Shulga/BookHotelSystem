@@ -50,7 +50,7 @@ public class Photo extends BaseEntity {
     public String toString() {
         return "Photo{" +
                 "id=" + this.getId() +
-                ", contentType=" + contentType + '\'' +
+                ", contentType=" + contentType +
                 ", contentLength=" + contentLength +
                 '}';
     }

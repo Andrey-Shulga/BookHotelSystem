@@ -5,15 +5,12 @@ import com.epam.as.bookhotel.dao.PhotoDao;
 import com.epam.as.bookhotel.exception.DaoException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Photo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageService extends ParentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
     private static final String FIND_PHOTO_BY_ID_KEY = "find.photo.by.id";
     private static final String BLANK_LOCALE = "";
     private static final List<String> parameters = new ArrayList<>();

@@ -31,7 +31,7 @@ public class ShowOrderFormAction implements Action {
         BedService service = new BedService();
         try {
             List<Bed> bedList = service.findAllBeds(new Bed());
-            req.setAttribute(BED_LIST_ATTRIBUTE, bedList);
+            req.getSession().setAttribute(BED_LIST_ATTRIBUTE, bedList);
         } catch (ServiceException e) {
             throw new ActionException(e);
         }
@@ -39,7 +39,7 @@ public class ShowOrderFormAction implements Action {
         RoomTypeService roomTypeService = new RoomTypeService();
         try {
             List<RoomType> roomTypeList = roomTypeService.findAllRoomTypes(new RoomType(), user.getLocale().getLocaleName());
-            req.setAttribute(ROOM_TYPE_LIST_ATTRIBUTE, roomTypeList);
+            req.getSession().setAttribute(ROOM_TYPE_LIST_ATTRIBUTE, roomTypeList);
         } catch (ServiceException e) {
             throw new ActionException(e);
         }

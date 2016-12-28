@@ -68,8 +68,7 @@
             <h1><fmt:message key="room.list.add.room.notice"/></h1>
         </div>
 
-        <form action="/do/?action=add-room" method="post" enctype="multipart/form-data" name="addRoom"
-              onsubmit="check()">
+        <form action="/do/?action=add-room" method="post" enctype="multipart/form-data" name="addRoom">
 
             <label><b><fmt:message key="add.room.number.label"/></b></label>
             <small><fmt:message key="add.room.number.label.rules"/></small>
@@ -113,7 +112,9 @@
             </c:forEach>
             <label><b><fmt:message key="add.room.image.label"/></b></label><br>
             <input type="file" name="photo" value="" accept="image/*"/><br><br>
-
+            <c:forEach var="errorMessage" items="${photoErrorMessages}">
+                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
+            </c:forEach>
 
             <button type="submit"><fmt:message key="add.room.button.submit"/></button>
             <br>
