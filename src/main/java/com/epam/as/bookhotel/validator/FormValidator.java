@@ -4,6 +4,7 @@ package com.epam.as.bookhotel.validator;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.util.PropertyManager;
+import com.epam.as.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,6 @@ import java.util.*;
 public class FormValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(FormValidator.class);
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_FOR_NUMBER = "[0-9]*";
@@ -55,25 +55,17 @@ public class FormValidator {
 
         boolean isError = false;
         if (!fieldErrors.isEmpty()) {
-            setErrorsToSession(req);
+            ValidatorHelper validatorHelper = new ValidatorHelper();
+            validatorHelper.setErrorsToSession(req, fieldErrors);
             isError = true;
         }
         return isError;
     }
 
-    private void setErrorsToSession(HttpServletRequest req) {
-
-        for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
-            req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
-            for (String errorMessage : entry.getValue()) {
-                logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
-            }
-        }
-    }
-
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
 
-        deleteErrorsFromSession(request);
+        ValidatorHelper validatorHelper = new ValidatorHelper();
+        validatorHelper.deleteValidatorsErrorsFromSession(request);
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
             String key = entry.getKey();
@@ -90,15 +82,6 @@ public class FormValidator {
             }
         }
         return fieldErrors;
-    }
-
-    private void deleteErrorsFromSession(HttpServletRequest request) {
-
-        Enumeration<String> attributeNames = request.getSession().getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            String sessionAttribute = attributeNames.nextElement();
-            if (sessionAttribute.endsWith(ERROR_MESSAGE_SUFFIX)) request.getSession().removeAttribute(sessionAttribute);
-        }
     }
 
     public void checkFieldsOnEquals(String field, String otherField, HttpServletRequest request) {
@@ -134,7 +117,6 @@ public class FormValidator {
                     List<String> errorMessages = new ArrayList<>();
                     String errorMessage = formProperties.getProperty(WRONG_CONTENT_TYPE_ERROR_MESSAGE);
                     errorMessages.add(errorMessage);
-                    logger.debug("err mes = {}", errorMessage);
                     fieldErrors.put(ROOM_PHOTO_ATTR, errorMessages);
                 }
                 logger.debug("Result is {}", validator.isValid(contentType));
