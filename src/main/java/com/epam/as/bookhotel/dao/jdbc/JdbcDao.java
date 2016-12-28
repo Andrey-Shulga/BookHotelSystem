@@ -28,15 +28,12 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         this.connection = connection;
     }
 
-    JdbcDao() {
-    }
-
     static String getQueryPropertyFile() {
         return QUERY_PROPERTY_FILE;
     }
 
     @Override
-    public T save(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
+    public T save(T entity, List<Object> parameters, String queryKey) throws JdbcDaoException {
 
         try {
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
@@ -60,7 +57,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public T update(T entity, List<String> parameters, String queryKey) throws JdbcDaoException {
+    public T update(T entity, List<Object> parameters, String queryKey) throws JdbcDaoException {
 
         logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
         try {
@@ -82,7 +79,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public List<T> findByParameters(T entity, List<String> parameters, String queryKey, String locale) throws JdbcDaoException {
+    public List<T> findByParameters(T entity, List<Object> parameters, String queryKey, String locale) throws JdbcDaoException {
 
         logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
         List<T> entities = new ArrayList<>();
@@ -112,12 +109,12 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return String.format(query, locale, locale);
     }
 
-    private void setParametersToPs(List<String> parameters, PreparedStatement ps) throws SQLException {
+    private void setParametersToPs(List<Object> parameters, PreparedStatement ps) throws SQLException {
 
         int count = INITIAL_COUNT;
-        for (String parameter : parameters) {
+        for (Object parameter : parameters) {
             logger.debug("param = {}", parameter);
-            ps.setString(count, parameter);
+            ps.setObject(count, parameter);
             count++;
         }
         parameters.clear();

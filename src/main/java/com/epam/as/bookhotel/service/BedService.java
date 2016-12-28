@@ -13,7 +13,7 @@ public class BedService extends ParentService {
 
     private static final String FIND_ALL_BED = "find.all.bed";
     private static final String BLANK_LOCALE = "";
-    private final List<String> parameters = new ArrayList<>();
+    private final List<Object> parameters = new ArrayList<>();
 
 
     public List<Bed> findAllBeds(Bed bed) throws ServiceException {

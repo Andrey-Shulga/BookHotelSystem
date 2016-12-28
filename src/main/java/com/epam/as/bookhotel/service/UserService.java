@@ -15,7 +15,7 @@ public class UserService extends ParentService {
     private static final String REGISTER_USER_KEY = "insert.user";
     private static final String FIND_LOGIN_USER_KEY = "find.user.login";
     private static final String UPDATE_USER_LOCALE_KEY = "update.user.locale";
-    private final List<String> parameters = new ArrayList<>();
+    private final List<Object> parameters = new ArrayList<>();
 
     public User register(User user) throws ServiceException {
 
@@ -73,7 +73,7 @@ public class UserService extends ParentService {
         parameters.add(user.getLogin());
         parameters.add((user.getPassword()));
         parameters.add(user.getLocale().getLocaleName());
-        parameters.add(String.valueOf(user.getId()));
+        parameters.add(user.getId());
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             userDao.update(user, parameters, UPDATE_USER_LOCALE_KEY);

@@ -17,16 +17,16 @@ public class OrderService extends ParentService {
     private static final String INSERT_ORDER_KEY = "insert.order";
     private static final String UPDATE_ORDER_ROOM_NUMBER_KEY = "update.order.room.number";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
-    private final List<String> parameters = new ArrayList<>();
+    private final List<Object> parameters = new ArrayList<>();
 
     public Order makeOrder(Order order) throws ServiceException {
 
-        parameters.add(order.getUser().getId().toString());
+        parameters.add(order.getUser().getId());
         parameters.add(order.getFirstName());
         parameters.add(order.getLastName());
         parameters.add(order.getEmail());
         parameters.add(order.getPhone());
-        parameters.add(String.valueOf(order.getBed().getBed()));
+        parameters.add(order.getBed().getBed());
         parameters.add(order.getRoomType().getRoomType());
         DateConverter converter = new DateConverter();
         parameters.add(converter.getDateToStr(order.getCheckIn()));
@@ -42,7 +42,7 @@ public class OrderService extends ParentService {
 
     public List<Order> findOrdersByUserId(Order order) throws ServiceException {
 
-        parameters.add(String.valueOf(order.getUser().getId()));
+        parameters.add(order.getUser().getId());
         List<Order> orderList;
         orderList = getOrdersList(order, parameters, FIND_ORDERS_BY_USER_ID);
         return orderList;
@@ -62,12 +62,12 @@ public class OrderService extends ParentService {
 
     public List<Order> findConfirmedOrdersByUserId(Order order) throws ServiceException {
 
-        parameters.add(String.valueOf(order.getUser().getId()));
+        parameters.add(order.getUser().getId());
         parameters.add(order.getStatus().getStatus());
         return getOrdersList(order, parameters, FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY);
     }
 
-    private List<Order> getOrdersList(Order order, List<String> parameters, String key) throws ServiceException {
+    private List<Order> getOrdersList(Order order, List<Object> parameters, String key) throws ServiceException {
 
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
@@ -81,12 +81,12 @@ public class OrderService extends ParentService {
 
     public Order confirmRoomForOrder(Order order) throws ServiceException {
 
-        parameters.add(String.valueOf(order.getRoom().getNumber()));
-        parameters.add(String.valueOf(order.getId()));
-        parameters.add(String.valueOf(order.getId()));
-        parameters.add(String.valueOf(order.getRoom().getNumber()));
-        parameters.add(String.valueOf(order.getRoom().getNumber()));
-        parameters.add(String.valueOf(order.getId()));
+        parameters.add(order.getRoom().getNumber());
+        parameters.add(order.getId());
+        parameters.add(order.getId());
+        parameters.add(order.getRoom().getNumber());
+        parameters.add(order.getRoom().getNumber());
+        parameters.add(order.getId());
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             daoFactory.beginTx();

@@ -37,7 +37,7 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
     }
 
     @Override
-    public Photo addPhoto(Photo photo, List<String> parameters, String queryKey) throws JdbcDaoException {
+    public Photo addPhoto(Photo photo, List<Object> parameters, String queryKey) throws JdbcDaoException {
 
         try {
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);

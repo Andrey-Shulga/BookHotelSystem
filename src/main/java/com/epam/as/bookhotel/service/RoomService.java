@@ -20,7 +20,7 @@ public class RoomService extends ParentService {
     private static final String INSERT_ROOM_NO_PHOTO_KEY = "insert.room.no.photo";
     private static final String INSERT_ROOM_WITH_PHOTO_KEY = "insert.room.with.photo";
     private static final String INSERT_PHOTO_KEY = "insert.photo";
-    private final List<String> parameters = new ArrayList<>();
+    private final List<Object> parameters = new ArrayList<>();
 
     public List<Room> findAllRooms(Room room, User user) throws ServiceException {
 
@@ -56,10 +56,10 @@ public class RoomService extends ParentService {
             RoomDao roomDao = daoFactory.getRoomDao();
             if (room.getPhoto() == null) {
 
-                parameters.add(String.valueOf(room.getNumber()));
-                parameters.add(String.valueOf(room.getBed().getBed()));
+                parameters.add(room.getNumber());
+                parameters.add(room.getBed().getBed());
                 parameters.add(room.getRoomType().getRoomType());
-                parameters.add(room.getPrice().toString());
+                parameters.add(room.getPrice());
                 roomDao.save(room, parameters, INSERT_ROOM_NO_PHOTO_KEY);
 
             } else {
@@ -67,11 +67,11 @@ public class RoomService extends ParentService {
                 daoFactory.beginTx();
                 PhotoDao photoDao = daoFactory.getPhotoDao();
                 photoDao.addPhoto(room.getPhoto(), parameters, INSERT_PHOTO_KEY);
-                parameters.add(String.valueOf(room.getNumber()));
-                parameters.add(String.valueOf(room.getBed().getBed()));
+                parameters.add(room.getNumber());
+                parameters.add(room.getBed().getBed());
                 parameters.add(room.getRoomType().getRoomType());
-                parameters.add(room.getPrice().toString());
-                parameters.add(room.getPhoto().getId().toString());
+                parameters.add(room.getPrice());
+                parameters.add(room.getPhoto().getId());
                 roomDao.save(room, parameters, INSERT_ROOM_WITH_PHOTO_KEY);
                 daoFactory.commit();
 

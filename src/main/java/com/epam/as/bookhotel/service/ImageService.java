@@ -13,11 +13,11 @@ public class ImageService extends ParentService {
 
     private static final String FIND_PHOTO_BY_ID_KEY = "find.photo.by.id";
     private static final String BLANK_LOCALE = "";
-    private final List<String> parameters = new ArrayList<>();
+    private final List<Object> parameters = new ArrayList<>();
 
     public Photo findPhotoById(Photo photo) throws ServiceException {
 
-        parameters.add(photo.getId().toString());
+        parameters.add(photo.getId());
         try (DaoFactory daoFactory = DaoFactory.createFactory()) {
             PhotoDao photoDao = daoFactory.getPhotoDao();
             photoDao.findByParameters(photo, parameters, FIND_PHOTO_BY_ID_KEY, BLANK_LOCALE);

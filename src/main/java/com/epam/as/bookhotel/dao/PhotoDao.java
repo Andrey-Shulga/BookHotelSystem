@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PhotoDao extends Dao<Photo> {
 
-    Photo addPhoto(Photo photo, List<String> parameters, String queryKey) throws JdbcDaoException;
+    Photo addPhoto(Photo photo, List<Object> parameters, String queryKey) throws JdbcDaoException;
 }
