@@ -46,7 +46,7 @@ public class AddNewRoomManagerAction implements Action {
             validator.checkDropDownListOnSelect(ROOM_BED_ATTR, req);
             validator.checkDropDownListOnSelect(ROOM_TYPE_ATTR, req);
             //check if chooses file have suitable content type
-            validator.checkImageContentType(req);
+            validator.checkImageContentType(ROOM_PHOTO_ATTR, req);
             if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
 
         } catch (ValidatorException | ServletException | IOException e) {

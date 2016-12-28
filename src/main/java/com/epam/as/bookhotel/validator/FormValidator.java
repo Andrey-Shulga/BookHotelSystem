@@ -26,7 +26,6 @@ public class FormValidator {
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_FOR_NUMBER = "[0-9]*";
     private static final int ZERO_SIZE = 0;
-    private static final String ROOM_PHOTO_ATTR = "photo";
     private static final String FIELDS_NOT_EQUAL_ERROR_MESSAGE = "fields.not.equal.message";
     private static final String LIST_NOT_SELECTED_ERROR_MESSAGE = "drop.down.list.item.not.select";
     private static final String WRONG_CONTENT_TYPE_ERROR_MESSAGE = "add.room.photo.error";
@@ -90,44 +89,41 @@ public class FormValidator {
             String checkField = request.getParameter(field);
             String checkOtherField = request.getParameter(otherField);
             FieldsEqualsValidator fieldValidator = new FieldsEqualsValidator();
-            if (!fieldValidator.isValid(checkField, checkOtherField)) {
-                List<String> errorFieldMessages = new ArrayList<>();
-                String errorMessage = formProperties.getProperty(FIELDS_NOT_EQUAL_ERROR_MESSAGE);
-                errorFieldMessages.add(errorMessage);
-                fieldErrors.put(otherField, errorFieldMessages);
-            }
+            if (!fieldValidator.isValid(checkField, checkOtherField))
+                fillErrorMap(otherField, FIELDS_NOT_EQUAL_ERROR_MESSAGE);
         }
     }
 
     public void checkDropDownListOnSelect(String parameter, HttpServletRequest req) {
 
-        if (req.getParameter(parameter) == null) {
-            List<String> errorMessages = new ArrayList<>();
-            String errorMessage = formProperties.getProperty(LIST_NOT_SELECTED_ERROR_MESSAGE);
-            errorMessages.add(errorMessage);
-            fieldErrors.put(parameter, errorMessages);
-        }
+        String checkParameter = req.getParameter(parameter);
+        NotNullValidator nullValidator = new NotNullValidator();
+        if (!nullValidator.isValid(checkParameter)) fillErrorMap(parameter, LIST_NOT_SELECTED_ERROR_MESSAGE);
+
     }
 
-    public void checkImageContentType(HttpServletRequest req) throws IOException, ServletException {
+    public void checkImageContentType(String parameter, HttpServletRequest req) throws IOException, ServletException {
 
         final String FILE_FORM_CONTENT_HEADER = "application/x-www-form-urlencoded";
         if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
-            Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
+            Part photoPart = req.getPart(parameter);
             if (photoPart.getSize() != ZERO_SIZE) {
                 String contentType = photoPart.getContentType();
                 ImageValidator validator = new ImageValidator();
                 logger.debug("Validator {} try to validate image content type \"{}\"", validator.getClass().getSimpleName(), contentType);
-                if (!validator.isValid(contentType)) {
-                    List<String> errorMessages = new ArrayList<>();
-                    String errorMessage = formProperties.getProperty(WRONG_CONTENT_TYPE_ERROR_MESSAGE);
-                    errorMessages.add(errorMessage);
-                    fieldErrors.put(ROOM_PHOTO_ATTR, errorMessages);
-                }
+                if (!validator.isValid(contentType)) fillErrorMap(parameter, WRONG_CONTENT_TYPE_ERROR_MESSAGE);
                 logger.debug("Result is {}", validator.isValid(contentType));
             }
         }
 
+    }
+
+    private void fillErrorMap(String parameter, String errorMessagePropertyKey) {
+
+        List<String> errorMessages = new ArrayList<>();
+        String errorMessage = formProperties.getProperty(errorMessagePropertyKey);
+        errorMessages.add(errorMessage);
+        fieldErrors.put(parameter, errorMessages);
     }
 
     private Map<String, List<Validator>> getParameterValidatorsMap(String formName, HttpServletRequest request) throws ValidatorException {
