@@ -72,7 +72,8 @@ public class FormValidator {
             List<String> errorMessages = new ArrayList<>();
             for (Validator validator : entry.getValue()) {
                 if (!validator.isValid(value)) {
-                    logger.debug("Warning! Try to validate parameter \"{}\" with value \"{}\" use validator {}. Result: {}", key, value, validator.getClass().getSimpleName(), validator.isValid(value));
+                    logger.debug("Warning! Try to validate parameter \"{}\" with value \"{}\" use validator {}. " +
+                            "Result: {}", key, value, validator.getClass().getSimpleName(), validator.isValid(value));
                     errorMessages.add(validator.getMessage());
                 }
             }
@@ -89,8 +90,11 @@ public class FormValidator {
             String checkField = request.getParameter(field);
             String checkOtherField = request.getParameter(otherField);
             FieldsEqualsValidator fieldValidator = new FieldsEqualsValidator();
+            logger.debug("Validator {} try to validate values of field {} and filed {} on equals",
+                    fieldValidator.getClass().getSimpleName(), field, otherField);
             if (!fieldValidator.isValid(checkField, checkOtherField))
                 fillErrorMap(otherField, FIELDS_NOT_EQUAL_ERROR_MESSAGE);
+            logger.debug("Result is {}", fieldValidator.isValid(checkField, checkOtherField));
         }
     }
 
@@ -98,7 +102,9 @@ public class FormValidator {
 
         String checkParameter = req.getParameter(parameter);
         NotNullValidator nullValidator = new NotNullValidator();
+        logger.debug("Validator {} try to validate value of parameter {} on NULL", nullValidator.getClass().getSimpleName(), parameter);
         if (!nullValidator.isValid(checkParameter)) fillErrorMap(parameter, LIST_NOT_SELECTED_ERROR_MESSAGE);
+        logger.debug("Result is {}", nullValidator.isValid(checkParameter));
 
     }
 
@@ -110,7 +116,7 @@ public class FormValidator {
             if (photoPart.getSize() != ZERO_SIZE) {
                 String contentType = photoPart.getContentType();
                 ImageValidator validator = new ImageValidator();
-                logger.debug("Validator {} try to validate image content type \"{}\"", validator.getClass().getSimpleName(), contentType);
+                logger.debug("Validator {} try to validate value of content type \"{}\"", validator.getClass().getSimpleName(), contentType);
                 if (!validator.isValid(contentType)) fillErrorMap(parameter, WRONG_CONTENT_TYPE_ERROR_MESSAGE);
                 logger.debug("Result is {}", validator.isValid(contentType));
             }
