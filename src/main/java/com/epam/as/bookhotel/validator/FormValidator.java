@@ -86,11 +86,16 @@ public class FormValidator {
 
     public void checkFieldsOnEquals(String field, String otherField, HttpServletRequest request) {
 
-        if ((request.getParameter(field) != null) && (!request.getParameter(field).equals(request.getParameter(otherField)))) {
-            List<String> errorFieldMessages = new ArrayList<>();
-            String errorMessage = formProperties.getProperty(FIELDS_NOT_EQUAL_ERROR_MESSAGE);
-            errorFieldMessages.add(errorMessage);
-            fieldErrors.put(otherField, errorFieldMessages);
+        if ((request.getParameter(field) != null) && (request.getParameter(otherField) != null)) {
+            String checkField = request.getParameter(field);
+            String checkOtherField = request.getParameter(otherField);
+            FieldsEqualsValidator fieldValidator = new FieldsEqualsValidator();
+            if (!fieldValidator.isValid(checkField, checkOtherField)) {
+                List<String> errorFieldMessages = new ArrayList<>();
+                String errorMessage = formProperties.getProperty(FIELDS_NOT_EQUAL_ERROR_MESSAGE);
+                errorFieldMessages.add(errorMessage);
+                fieldErrors.put(otherField, errorFieldMessages);
+            }
         }
     }
 
