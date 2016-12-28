@@ -35,7 +35,7 @@ public class ImageServlet extends HttpServlet {
                 if (photo.getImageStream() != null) {
                     resp.reset();
                     resp.setContentType(photo.getContentType());
-                    resp.setContentLength(18031);
+                    resp.setContentLength((int) photo.getContentLength());
                     writeImage(photo.getImageStream(), resp);
                 }
             } catch (ServiceException e) {

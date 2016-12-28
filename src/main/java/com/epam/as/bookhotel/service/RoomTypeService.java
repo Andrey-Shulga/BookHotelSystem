@@ -13,7 +13,7 @@ public class RoomTypeService extends ParentService {
 
     private static final String FIND_ALL_ROOM_TYPES = "find.all.room.type";
     private static final String BLANK_LOCALE = "";
-    private static final List<String> parameters = new ArrayList<>();
+    private final List<String> parameters = new ArrayList<>();
 
     public List<RoomType> findAllRoomTypes(RoomType roomType, String locale) throws ServiceException {
 

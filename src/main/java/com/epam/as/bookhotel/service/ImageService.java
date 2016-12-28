@@ -13,7 +13,7 @@ public class ImageService extends ParentService {
 
     private static final String FIND_PHOTO_BY_ID_KEY = "find.photo.by.id";
     private static final String BLANK_LOCALE = "";
-    private static final List<String> parameters = new ArrayList<>();
+    private final List<String> parameters = new ArrayList<>();
 
     public Photo findPhotoById(Photo photo) throws ServiceException {
 

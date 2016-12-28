@@ -20,7 +20,7 @@ public class RoomService extends ParentService {
     private static final String INSERT_ROOM_NO_PHOTO_KEY = "insert.room.no.photo";
     private static final String INSERT_ROOM_WITH_PHOTO_KEY = "insert.room.with.photo";
     private static final String INSERT_PHOTO_KEY = "insert.photo";
-    private static final List<String> parameters = new ArrayList<>();
+    private final List<String> parameters = new ArrayList<>();
 
     public List<Room> findAllRooms(Room room, User user) throws ServiceException {
 

@@ -17,7 +17,7 @@ public class OrderService extends ParentService {
     private static final String INSERT_ORDER_KEY = "insert.order";
     private static final String UPDATE_ORDER_ROOM_NUMBER_KEY = "update.order.room.number";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
-    private static final List<String> parameters = new ArrayList<>();
+    private final List<String> parameters = new ArrayList<>();
 
     public Order makeOrder(Order order) throws ServiceException {
 

@@ -7,11 +7,14 @@ import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -22,8 +25,11 @@ public class FormValidator {
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_FOR_NUMBER = "[0-9]*";
+    private static final int ZERO_SIZE = 0;
+    private static final String ROOM_PHOTO_ATTR = "photo";
     private static final String FIELDS_NOT_EQUAL_ERROR_MESSAGE = "fields.not.equal.message";
     private static final String LIST_NOT_SELECTED_ERROR_MESSAGE = "drop.down.list.item.not.select";
+    private static final String WRONG_CONTENT_TYPE_ERROR_MESSAGE = "add.room.photo.error";
     private static Properties formProperties;
     private Map<String, List<String>> fieldErrors = new HashMap<>();
 
@@ -113,6 +119,28 @@ public class FormValidator {
             errorMessages.add(errorMessage);
             fieldErrors.put(parameter, errorMessages);
         }
+    }
+
+    public void checkImageContentType(HttpServletRequest req) throws IOException, ServletException {
+
+        final String FILE_FORM_CONTENT_HEADER = "application/x-www-form-urlencoded";
+        if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
+            Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
+            if (photoPart.getSize() != ZERO_SIZE) {
+                String contentType = photoPart.getContentType();
+                ImageValidator validator = new ImageValidator();
+                logger.debug("Validator {} try to validate image content type \"{}\"", validator.getClass().getSimpleName(), contentType);
+                if (!validator.isValid(contentType)) {
+                    List<String> errorMessages = new ArrayList<>();
+                    String errorMessage = formProperties.getProperty(WRONG_CONTENT_TYPE_ERROR_MESSAGE);
+                    errorMessages.add(errorMessage);
+                    logger.debug("err mes = {}", errorMessage);
+                    fieldErrors.put(ROOM_PHOTO_ATTR, errorMessages);
+                }
+                logger.debug("Result is {}", validator.isValid(contentType));
+            }
+        }
+
     }
 
     private Map<String, List<Validator>> getParameterValidatorsMap(String formName, HttpServletRequest request) throws ValidatorException {

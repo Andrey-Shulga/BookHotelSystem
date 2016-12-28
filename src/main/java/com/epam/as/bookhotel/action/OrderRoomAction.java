@@ -43,7 +43,19 @@ public class OrderRoomAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        if (checkForm(req, ORDER_FORM)) return ORDER_FORM;
+        try {
+            FormValidator validator = new FormValidator();
+            Map<String, List<String>> fieldErrors = validator.validate(ORDER_FORM, req);
+
+            //check if form's dropdown list item not selected
+            validator.checkDropDownListOnSelect(BED, req);
+            validator.checkDropDownListOnSelect(ROOM_TYPE, req);
+            if (validator.hasFieldsErrors(req, fieldErrors)) return ORDER_FORM;
+
+        } catch (ValidatorException e) {
+            throw new ActionException(e);
+        }
+
         logger.debug("Form's parameters are valid.");
 
         User user = (User) req.getSession().getAttribute(USER);
@@ -72,26 +84,6 @@ public class OrderRoomAction implements Action {
 
         logger.debug("Make order action success.");
         return REDIRECT;
-    }
-
-    boolean checkForm(HttpServletRequest req, String validateForm) throws ActionException {
-
-        boolean checkResult = false;
-        try {
-            FormValidator validator = new FormValidator();
-            Map<String, List<String>> fieldErrors = validator.validate(validateForm, req);
-
-            //check if form's dropdown list item not selected
-            validator.checkDropDownListOnSelect(BED, req);
-            validator.checkDropDownListOnSelect(ROOM_TYPE, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) {
-                checkResult = true;
-            }
-
-        } catch (ValidatorException e) {
-            throw new ActionException(e);
-        }
-        return checkResult;
     }
 
 }

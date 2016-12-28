@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.RoomService;
+import com.epam.as.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class FindRoomsByDateManagerAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(FindRoomsByDateManagerAction.class);
+    private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
     private static final String USER_ATTR_NAME = "user";
     private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
@@ -30,8 +32,8 @@ public class FindRoomsByDateManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        SelectRoomManagerAction action = new SelectRoomManagerAction();
-        if (action.checkForm(req)) return REDIRECT;
+        ValidatorHelper validatorHelper = new ValidatorHelper();
+        if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
 
         logger.debug("Form's parameters are valid.");
 

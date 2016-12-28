@@ -110,7 +110,9 @@
             <c:forEach var="errorMessage" items="${roomPriceErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
-            <label><b><fmt:message key="add.room.image.label"/></b></label><br>
+
+            <label><b><fmt:message key="add.room.image.label"/></b></label>
+                <fmt:message key="add.room.number.image.rules"/></small><br>
             <input type="file" name="photo" value="" accept="image/*"/><br><br>
             <c:forEach var="errorMessage" items="${photoErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>

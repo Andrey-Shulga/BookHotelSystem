@@ -2,19 +2,16 @@ package com.epam.as.bookhotel.action;
 
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
-import com.epam.as.bookhotel.validator.FormValidator;
+import com.epam.as.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Action selects room for order by order id and room number
@@ -36,7 +33,8 @@ public class SelectRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        if (checkForm(req)) return REDIRECT;
+        ValidatorHelper validatorHelper = new ValidatorHelper();
+        if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
 
         logger.debug("Form's parameters are valid.");
         User user = (User) req.getSession(false).getAttribute(USER);
@@ -62,19 +60,5 @@ public class SelectRoomManagerAction implements Action {
 
         return REDIRECT;
     }
-
-    boolean checkForm(HttpServletRequest req) throws ActionException {
-
-        boolean checkResult = false;
-        try {
-            FormValidator validator = new FormValidator();
-            Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ORDER_LIST_FORM, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) checkResult = true;
-        } catch (ValidatorException e) {
-            throw new ActionException(e);
-        }
-        return checkResult;
-    }
-
 
 }

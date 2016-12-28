@@ -2,11 +2,13 @@ package com.epam.as.bookhotel.action;
 
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
+import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Bed;
 import com.epam.as.bookhotel.model.Photo;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.RoomType;
 import com.epam.as.bookhotel.service.RoomService;
+import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,8 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 public class AddNewRoomManagerAction implements Action {
 
@@ -34,8 +38,20 @@ public class AddNewRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        OrderRoomAction action = new OrderRoomAction();
-        if (action.checkForm(req, ROOM_FORM_JSP)) return REDIRECT;
+        try {
+            FormValidator validator = new FormValidator();
+            Map<String, List<String>> fieldErrors = validator.validate(ROOM_FORM_JSP, req);
+
+            //check if form's dropdown list item not selected
+            validator.checkDropDownListOnSelect(ROOM_BED_ATTR, req);
+            validator.checkDropDownListOnSelect(ROOM_TYPE_ATTR, req);
+            //check if chooses file have suitable content type
+            validator.checkImageContentType(req);
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
+
+        } catch (ValidatorException | ServletException | IOException e) {
+            throw new ActionException(e);
+        }
 
         logger.debug("Form's parameters are valid.");
 
