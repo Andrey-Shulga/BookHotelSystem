@@ -6,6 +6,7 @@ package com.epam.as.bookhotel.exception;
 
 public class DaoException extends Exception {
 
+    private static final String DB_CONNECT_ERROR_MSG = "database.connection.failure.msg";
 
     DaoException(String message, Exception e) {
         super(message, e);
@@ -13,7 +14,7 @@ public class DaoException extends Exception {
 
 
     public DaoException(Exception e) {
-        super(e);
+        super(DB_CONNECT_ERROR_MSG, e);
     }
 
 

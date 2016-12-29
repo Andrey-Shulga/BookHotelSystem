@@ -46,7 +46,7 @@
             <label><b><fmt:message key="order.make.form.phone"/></b></label>
             <small><fmt:message key="order.make.form.phone.rule"/></small>
             <br>
-            <input type="number" name="phone" minlength="3" maxlength="20"
+            <input type="text" name="phone" minlength="3" maxlength="20"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" required
                    value="${fn:escapeXml(param.phone)}">
             <c:forEach var="errorMessage" items="${phoneErrorMessages}">

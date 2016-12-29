@@ -11,8 +11,15 @@ import org.slf4j.LoggerFactory;
 public class ConnectionPoolException extends Exception {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolException.class);
+    private static final String DB_CONNECT_ERROR_MSG = "database.connection.failure.msg";
 
     public ConnectionPoolException(Exception e) {
+
+        super(DB_CONNECT_ERROR_MSG, e);
         logger.error("An error with the database connection occurred", e);
+    }
+
+    public ConnectionPoolException(String message, Exception e) {
+        super(message, e);
     }
 }
