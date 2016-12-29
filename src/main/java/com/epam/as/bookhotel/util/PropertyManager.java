@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Property manager for serve reading properties from file
+ */
+
 public class PropertyManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyManager.class);

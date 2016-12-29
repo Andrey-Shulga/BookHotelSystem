@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Jdbc DAO for entity Bed.
+ */
+
 class JdbcBedDao extends JdbcDao<Bed> implements BedDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcBedDao.class);

@@ -3,6 +3,10 @@ package com.epam.as.bookhotel.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Throws during user registration if user with that login already exists
+ */
+
 public class UserExistException extends ServiceException {
 
     private static final Logger logger = LoggerFactory.getLogger(UserExistException.class);

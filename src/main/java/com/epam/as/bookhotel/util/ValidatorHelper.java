@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.util;
 
-import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ValidatorException;
+import com.epam.as.bookhotel.exception.ValidatorHelperException;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +11,24 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Utility for serves from validation
+ */
+
 public class ValidatorHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidatorHelper.class);
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
 
-    public boolean checkForm(HttpServletRequest req, String validateForm) throws ActionException {
+    /**
+     * Validate form by rules
+     *
+     * @param req          request with values for validation
+     * @param validateForm from which necessary validate
+     * @return result of validation
+     * @throws ValidatorHelperException wrap for any exceptions in ValidatorHelper
+     */
+    public boolean checkForm(HttpServletRequest req, String validateForm) throws ValidatorHelperException {
 
         boolean checkResult = false;
         try {
@@ -25,7 +37,7 @@ public class ValidatorHelper {
             if (validator.hasFieldsErrors(req, fieldErrors)) checkResult = true;
 
         } catch (ValidatorException e) {
-            throw new ActionException(e);
+            throw new ValidatorHelperException(e);
         }
         return checkResult;
     }

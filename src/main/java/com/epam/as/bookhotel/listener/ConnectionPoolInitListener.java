@@ -11,6 +11,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+/**
+ * Initialize or close connection pool for application
+ */
+
 @WebListener
 public class ConnectionPoolInitListener implements ServletContextListener {
 

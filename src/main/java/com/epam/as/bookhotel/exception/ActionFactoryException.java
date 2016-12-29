@@ -1,9 +1,13 @@
 package com.epam.as.bookhotel.exception;
 
-public class ActionFactoryException extends Exception {
+/**
+ * Exception for wrapping any exceptions in Action factory
+ */
 
+public class ActionFactoryException extends Exception {
 
     public ActionFactoryException(Exception e) {
 
+        super(e);
     }
 }

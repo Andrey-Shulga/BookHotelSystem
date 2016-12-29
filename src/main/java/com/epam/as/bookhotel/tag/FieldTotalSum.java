@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Custom tag for calculate total sum of field values
+ */
+
 public class FieldTotalSum extends TagSupport {
 
 
@@ -31,7 +35,6 @@ public class FieldTotalSum extends TagSupport {
                 sum = sum.add(o.getFullCost());
             }
             pageContext.getOut().print("" + sum);
-
             return SKIP_BODY;
         } catch (IOException e) {
             throw new JspException(e);

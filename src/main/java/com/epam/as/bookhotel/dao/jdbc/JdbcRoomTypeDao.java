@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Jdbc DAO for entity RoomType.
+ */
+
 class JdbcRoomTypeDao extends JdbcDao<RoomType> implements RoomTypeDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcRoomTypeDao.class);

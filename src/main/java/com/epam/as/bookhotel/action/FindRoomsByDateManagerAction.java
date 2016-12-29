@@ -2,6 +2,7 @@ package com.epam.as.bookhotel.action;
 
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
+import com.epam.as.bookhotel.exception.ValidatorHelperException;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.RoomService;
@@ -32,8 +33,13 @@ public class FindRoomsByDateManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        //check form's filed on errors
         ValidatorHelper validatorHelper = new ValidatorHelper();
-        if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
+        try {
+            if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
+        } catch (ValidatorHelperException e) {
+            throw new ActionException(e);
+        }
 
         logger.debug("Form's parameters are valid.");
 

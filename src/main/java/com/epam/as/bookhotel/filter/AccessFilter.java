@@ -15,6 +15,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Filter restrict actions with application for users without special rights.
+ */
+
 public class AccessFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(AccessFilter.class);
@@ -24,7 +28,6 @@ public class AccessFilter implements Filter {
     private static final String USER_ACTION_FILE_NAME = "user-actions.properties";
     private static final String MANAGER_ACTION_FILE_NAME = "manager-actions.properties";
     private static final String ALL_ACTION_FILE_NAME = "all-actions.properties";
-    private static final String REFERRER = "REFERRER";
     private List<String> anonimActionList = new ArrayList<>();
     private List<String> userActionList = new ArrayList<>();
     private List<String> managerActionList = new ArrayList<>();
@@ -43,6 +46,14 @@ public class AccessFilter implements Filter {
         }
     }
 
+
+    /**
+     * Fill the special access lists by actions
+     *
+     * @param fileName file consist lists of actions
+     * @return the list of actions
+     * @throws IOException if file not found
+     */
     private List<String> getListFromFile(String fileName) throws IOException {
         List<String> list = new ArrayList<>();
         try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileName)) {
@@ -60,19 +71,25 @@ public class AccessFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
+        //read action from received request
         String actionName = req.getParameter(ACTION_PARAMETER_NAME);
 
         User user = (User) req.getSession().getAttribute(USER_ATTRIBUTE);
+        //get list with actions for user by his role
         List<String> actionList = getActionList(user);
 
+        //check if action consist in list with all action
         if (!allActionList.contains((actionName))) {
+            //if no, send user on page with 404 error
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             logger.debug("The requested action {} not found", actionName);
             return;
         } else {
+            //check if user has access to this action
             if (!actionList.contains(actionName)) {
+                //if no, send user on page with 403 error code
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-                logger.debug("Not authorized attempt to application content from user {}", user);
+                logger.debug("Not authorized attempt to application, action \"{}\" from user \"{}\"", actionName, user);
                 return;
             }
         }
@@ -80,6 +97,12 @@ public class AccessFilter implements Filter {
         filterChain.doFilter(req, resp);
     }
 
+    /**
+     * Check user role and get list with actions for that role
+     *
+     * @param user the user who send request for action
+     * @return the list with actions
+     */
     private List<String> getActionList(User user) {
 
         if (user == null) return anonimActionList;

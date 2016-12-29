@@ -1,5 +1,9 @@
 package com.epam.as.bookhotel.exception;
 
+/**
+ * General exception for wrapping any exceptions in Dao layer
+ */
+
 public class DaoException extends Exception {
 
 

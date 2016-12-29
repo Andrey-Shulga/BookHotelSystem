@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet for handling errors like 403, 404, 500 and forwarding on proper error page
+ */
+
 @WebServlet(name = "ErrorHandlerServlet", urlPatterns = "/ErrorHandler")
 public class ErrorHandlerServlet extends HttpServlet {
 
@@ -32,6 +36,7 @@ public class ErrorHandlerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         doGet(req, resp);
     }
 }

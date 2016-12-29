@@ -9,6 +9,9 @@ import com.epam.as.bookhotel.util.DateConverter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service serves operation with entity Order
+ */
 public class OrderService extends ParentService {
 
     private static final String FIND_ORDERS_BY_USER_ID = "find.orders.by.user.id";
@@ -19,6 +22,13 @@ public class OrderService extends ParentService {
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
     private final List<Object> parameters = new ArrayList<>();
 
+    /**
+     * Save new order
+     *
+     * @param order entity for saving
+     * @return order with received id
+     * @throws ServiceException if any exception in service occurred.
+     */
     public Order makeOrder(Order order) throws ServiceException {
 
         parameters.add(order.getUser().getId());
@@ -31,7 +41,7 @@ public class OrderService extends ParentService {
         DateConverter converter = new DateConverter();
         parameters.add(converter.getDateToStr(order.getCheckIn()));
         parameters.add(converter.getDateToStr(order.getCheckOut()));
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             orderDao.save(order, parameters, INSERT_ORDER_KEY);
         } catch (DaoException e) {
@@ -40,6 +50,13 @@ public class OrderService extends ParentService {
         return order;
     }
 
+    /**
+     * Search all order by user id
+     *
+     * @param order entity for searching
+     * @return the list of found orders
+     * @throws ServiceException if any exception in service occurred
+     */
     public List<Order> findOrdersByUserId(Order order) throws ServiceException {
 
         parameters.add(order.getUser().getId());
@@ -48,18 +65,39 @@ public class OrderService extends ParentService {
         return orderList;
     }
 
+    /**
+     * Search all orders
+     *
+     * @param order entity for searching
+     * @return the list of found orders
+     * @throws ServiceException if any exception in service occurred
+     */
     public List<Order> findAllOrders(Order order) throws ServiceException {
 
         return getOrdersList(order, parameters, FIND_ALL_ORDERS_KEY);
 
     }
 
+    /**
+     * Search all orders by status "unconfirmed"
+     *
+     * @param order entity for searching
+     * @return the list of found orders
+     * @throws ServiceException if any exception in service occurred
+     */
     public List<Order> findAllOrdersByStatusUnconfirmed(Order order) throws ServiceException {
 
         parameters.add(order.getStatus().getStatus());
         return getOrdersList(order, parameters, FIND_ALL_ORDERS_BY_STATUS_KEY);
     }
 
+    /**
+     * Search all confirmed orders by user id
+     *
+     * @param order entity for searching
+     * @return the list of found orders
+     * @throws ServiceException if any exception in service occurred
+     */
     public List<Order> findConfirmedOrdersByUserId(Order order) throws ServiceException {
 
         parameters.add(order.getUser().getId());
@@ -67,10 +105,19 @@ public class OrderService extends ParentService {
         return getOrdersList(order, parameters, FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY);
     }
 
+    /**
+     * General method for searching orders
+     *
+     * @param order      entity for searching
+     * @param parameters values for which will be search
+     * @param key        property key for query
+     * @return the list of found orders
+     * @throws ServiceException if any exception in service occurred
+     */
     private List<Order> getOrdersList(Order order, List<Object> parameters, String key) throws ServiceException {
 
         List<Order> orderList;
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             orderList = orderDao.findByParameters(order, parameters, key, order.getUser().getLocale().getLocaleName());
         } catch (DaoException e) {
@@ -79,6 +126,13 @@ public class OrderService extends ParentService {
         return orderList;
     }
 
+    /**
+     * Update order with room number after confirmation
+     *
+     * @param order entity for updating
+     * @return updated order
+     * @throws ServiceException if any exception in service occurred
+     */
     public Order confirmRoomForOrder(Order order) throws ServiceException {
 
         parameters.add(order.getRoom().getNumber());
@@ -87,7 +141,7 @@ public class OrderService extends ParentService {
         parameters.add(order.getRoom().getNumber());
         parameters.add(order.getRoom().getNumber());
         parameters.add(order.getId());
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             daoFactory.beginTx();
             orderDao.update(order, parameters, UPDATE_ORDER_ROOM_NUMBER_KEY);

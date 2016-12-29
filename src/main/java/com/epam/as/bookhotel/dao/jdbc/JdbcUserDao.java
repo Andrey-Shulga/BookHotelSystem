@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Jdbc DAO for entity User.
+ */
 
 class JdbcUserDao extends JdbcDao<User> implements UserDao {
 

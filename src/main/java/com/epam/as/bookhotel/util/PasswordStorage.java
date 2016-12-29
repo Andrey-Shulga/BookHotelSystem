@@ -7,6 +7,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * Utility for hashing password when they are saving in database
+ */
+
 public class PasswordStorage {
 
     private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";

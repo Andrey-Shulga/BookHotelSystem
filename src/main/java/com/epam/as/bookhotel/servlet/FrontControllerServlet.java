@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Main controller servlet for serving users actions
+ */
+
 @WebServlet(name = "FrontControllerServlet", urlPatterns = "/do/*")
 @MultipartConfig(maxFileSize = 3072000)
 public class FrontControllerServlet extends HttpServlet {
@@ -30,7 +34,7 @@ public class FrontControllerServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
 
-            actionFactory = new ActionFactory();
+        actionFactory = new ActionFactory();
         try {
             actionFactory.loadActions();
         } catch (ActionFactoryException e) {
@@ -61,6 +65,12 @@ public class FrontControllerServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Get action name value from request
+     *
+     * @param req HTTP request
+     * @return action
+     */
     private String getActionName(HttpServletRequest req) {
         return req.getParameter(ACTION_PREFIX_ATTR);
     }

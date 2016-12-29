@@ -10,6 +10,10 @@ import com.epam.as.bookhotel.util.PasswordStorage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service serves operation with entity User
+ */
+
 public class UserService extends ParentService {
 
     private static final String REGISTER_USER_KEY = "insert.user";
@@ -17,10 +21,18 @@ public class UserService extends ParentService {
     private static final String UPDATE_USER_LOCALE_KEY = "update.user.locale";
     private final List<Object> parameters = new ArrayList<>();
 
+    /**
+     * Save new user
+     *
+     * @param user entity for inserting
+     * @return user with id
+     * @throws ServiceException if any exception in service occurred
+     */
     public User register(User user) throws ServiceException {
 
         String hashPassword;
         try {
+            //create hashing password from entered password
             hashPassword = PasswordStorage.createHash(user.getPassword());
             user.setPassword(hashPassword);
         } catch (PasswordStorage.CannotPerformOperationException e) {
@@ -30,7 +42,7 @@ public class UserService extends ParentService {
         parameters.add(user.getLogin());
         parameters.add(user.getPassword());
         parameters.add(user.getLocale().getLocaleName());
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             userDao.save(user, parameters, REGISTER_USER_KEY);
         } catch (NonUniqueFieldException e) {
@@ -44,12 +56,19 @@ public class UserService extends ParentService {
         return user;
     }
 
+    /**
+     * Log in user by searching it.
+     *
+     * @param user entity fro searching
+     * @return found user
+     * @throws ServiceException if any exception in service occurred
+     */
     public User login(User user) throws ServiceException {
 
         parameters.add(user.getLogin());
         final String testPassword = user.getPassword();
         List<User> usersList;
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             usersList = userDao.findByParameters(user, parameters, FIND_LOGIN_USER_KEY, user.getLocale().getLocaleName());
         } catch (DaoException e) {
@@ -57,6 +76,7 @@ public class UserService extends ParentService {
         }
         final String correctHash = user.getPassword();
         try {
+            //check entered password with found hash password
             if ((usersList.isEmpty()) || (!PasswordStorage.verifyPassword(testPassword, correctHash))) {
                 throw new UserNotFoundException();
             }
@@ -67,6 +87,13 @@ public class UserService extends ParentService {
         return user;
     }
 
+    /**
+     * Update user's locale
+     *
+     * @param user entity for updating
+     * @return updated user
+     * @throws ServiceException if any exception in service occurred
+     */
     public User saveUserLocale(User user) throws ServiceException {
 
         parameters.add(user.getRole().getRole().toString());
@@ -74,7 +101,7 @@ public class UserService extends ParentService {
         parameters.add((user.getPassword()));
         parameters.add(user.getLocale().getLocaleName());
         parameters.add(user.getId());
-        try (DaoFactory daoFactory = DaoFactory.createFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             userDao.update(user, parameters, UPDATE_USER_LOCALE_KEY);
         } catch (DaoException e) {

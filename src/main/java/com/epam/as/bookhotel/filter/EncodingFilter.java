@@ -3,6 +3,10 @@ package com.epam.as.bookhotel.filter;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Set encoding UTF-8 for all request
+ */
+
 public class EncodingFilter implements Filter {
 
     private static final String ENCODE_INIT_PARAM = "encoding";

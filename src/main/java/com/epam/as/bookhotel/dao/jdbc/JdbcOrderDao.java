@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Jdbc DAO for entity Order.
+ */
+
 class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcOrderDao.class);

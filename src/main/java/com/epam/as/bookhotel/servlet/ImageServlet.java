@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Image servlet for serving images
+ */
 @WebServlet("/image/*")
 public class ImageServlet extends HttpServlet {
 
@@ -26,6 +29,7 @@ public class ImageServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        //check if request contains attribute not 0
         if (!ZERO.equals(req.getParameter(ID_PREFIX_ATTR))) {
             String id = req.getParameter(ID_PREFIX_ATTR);
             Photo photo = new Photo(Integer.parseInt(id));
@@ -44,6 +48,13 @@ public class ImageServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Write image on jsp, using buffer
+     *
+     * @param in       input stream consist image
+     * @param response the response for writing image
+     * @throws IOException if I/O exception occurred
+     */
     private void writeImage(InputStream in, HttpServletResponse response) throws IOException {
 
         final int bufferSize = 10240;

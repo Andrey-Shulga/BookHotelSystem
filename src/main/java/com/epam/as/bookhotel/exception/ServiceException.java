@@ -1,5 +1,9 @@
 package com.epam.as.bookhotel.exception;
 
+/**
+ * Exception for wrapping any exceptions in Service layer
+ */
+
 public class ServiceException extends Exception {
 
     private String message;

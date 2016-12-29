@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Jdbc DAO for entity Photo.
+ */
+
 class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcPhotoDao.class);
@@ -37,6 +41,15 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
         return photo;
     }
 
+    /**
+     * Inserts entity Photo to database.
+     *
+     * @param photo      the entity which need inserts in database
+     * @param parameters the list of parameters for prepare PrepareStatements
+     * @param queryKey   property key for reading insert query from property file
+     * @return inserted entity with received id
+     * @throws JdbcDaoException if any exceptions occurred with jdbc operations
+     */
     @Override
     public Photo addPhoto(Photo photo, List<Object> parameters, String queryKey) throws JdbcDaoException {
 
@@ -52,6 +65,7 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
                     setId(photo, ps);
                 } catch (SQLException e) {
                     try {
+                        //if database was down and connections in pool are not valid (closed), trying to clear pool and fill it with new connections
                         if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
                             getUpConnectionPool();
                         }

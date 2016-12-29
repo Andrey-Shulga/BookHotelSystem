@@ -1,5 +1,8 @@
 package com.epam.as.bookhotel.model;
 
+/**
+ * Parent entity for other entities
+ */
 
 public class BaseEntity {
 

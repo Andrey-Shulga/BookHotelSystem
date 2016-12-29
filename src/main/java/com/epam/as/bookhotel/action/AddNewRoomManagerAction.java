@@ -22,6 +22,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Add new room to the list of hotel's rooms.
+ */
+
 public class AddNewRoomManagerAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(AddNewRoomManagerAction.class);
@@ -39,6 +43,7 @@ public class AddNewRoomManagerAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         try {
+            //validate form's fields
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(ROOM_FORM_JSP, req);
 
@@ -47,12 +52,13 @@ public class AddNewRoomManagerAction implements Action {
             validator.checkDropDownListOnSelect(ROOM_TYPE_ATTR, req);
             //check if chooses file have suitable content type
             validator.checkImageContentType(ROOM_PHOTO_ATTR, req);
+            //if errors found return to page again with output errors
             if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
 
         } catch (ValidatorException | ServletException | IOException e) {
             throw new ActionException(e);
         }
-
+        //if form validation ok continue...
         logger.debug("Form's parameters are valid.");
 
         String roomNumber = req.getParameter(ROOM_NUMBER_ATTR);
@@ -64,6 +70,7 @@ public class AddNewRoomManagerAction implements Action {
         Room room;
         try {
             Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
+            //if choose photo for room assemble room with photo
             if (photoPart.getSize() != ZERO_SIZE) {
                 in = photoPart.getInputStream();
                 String contentType = photoPart.getContentType();
@@ -78,7 +85,7 @@ public class AddNewRoomManagerAction implements Action {
             try {
                 roomService.addRoom(room);
             } catch (ServiceException e) {
-
+                //set error to session for output on jsp
                 req.getSession().setAttribute(ROOM_FORM_JSP + ERROR_MESSAGE_SUFFIX, e.getMessage());
                 return REDIRECT;
 

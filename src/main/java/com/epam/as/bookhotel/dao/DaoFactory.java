@@ -4,9 +4,19 @@ import com.epam.as.bookhotel.dao.jdbc.JdbcDaoFactory;
 import com.epam.as.bookhotel.exception.DaoException;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 
+/**
+ * Abstract factory for producing others factories.
+ */
+
 public abstract class DaoFactory implements AutoCloseable {
 
-    public static DaoFactory createFactory() throws DaoException {
+    /**
+     * Produce Jdbc factory
+     *
+     * @return Jdbc factory
+     * @throws DaoException parent exception for any exceptions from factories
+     */
+    public static DaoFactory createJdbcFactory() throws DaoException {
         try {
             return new JdbcDaoFactory();
         } catch (JdbcDaoException e) {
@@ -36,7 +46,6 @@ public abstract class DaoFactory implements AutoCloseable {
     public void close() throws JdbcDaoException {
 
     }
-
 
 
 }

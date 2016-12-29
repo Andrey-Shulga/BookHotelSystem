@@ -11,6 +11,10 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * Change page output locale by user's locale
+ */
+
 public class LocaleFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(LocaleFilter.class);
@@ -27,14 +31,17 @@ public class LocaleFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
+        //read locale from session
         String locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
         HttpSession session = request.getSession();
+        //if locale not found get default locale
         if (locale == null) {
             locale = DEFAULT_LOCALE;
             session.setAttribute(LOCALE_ATTR_NAME, locale);
             logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }
         Locale currentLocale = new Locale(locale);
+        //set locale to session
         Config.set(session, Config.FMT_LOCALE, currentLocale);
         filterChain.doFilter(request, response);
     }

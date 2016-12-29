@@ -3,6 +3,10 @@ package com.epam.as.bookhotel.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Exception for wrapping any exceptions in JdbcDao layer
+ */
+
 public class JdbcDaoException extends DaoException {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcDaoException.class);

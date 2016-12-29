@@ -4,6 +4,10 @@ package com.epam.as.bookhotel.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Exception for wrapping any exceptions in Connection pool.
+ */
+
 public class ConnectionPoolException extends Exception {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolException.class);
