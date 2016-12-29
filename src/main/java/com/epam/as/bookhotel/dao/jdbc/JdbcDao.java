@@ -43,8 +43,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                     ps.execute();
                     setId(entity, ps);
                 } catch (SQLException e) {
-                    if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState()))
-                        throw new NonUniqueFieldException(e);
+                    if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState())) throw new NonUniqueFieldException(e);
                     try {
                         if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
                             getUpConnectionPool();
@@ -107,7 +106,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                     entities.add(newEntity);
                 }
             } catch (SQLException e) {
-
                 try {
                     if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
                         getUpConnectionPool();
@@ -125,7 +123,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return entities;
     }
 
-    private void getUpConnectionPool() throws JdbcDaoException {
+    void getUpConnectionPool() throws JdbcDaoException {
 
         logger.debug("Connection is invalid. Perhaps database downed. Trying to initialize and fill connection pool again.");
         try {
