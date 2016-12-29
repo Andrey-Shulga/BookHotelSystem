@@ -1,11 +1,32 @@
 package com.epam.as.bookhotel.validator;
 
+import com.epam.as.bookhotel.exception.ValidatorException;
 
-public class ParentValidator {
+/**
+ * Super class for all Validators
+ */
+
+public class ParentValidator implements Validator {
 
     private String message;
 
     ParentValidator() {
+    }
+
+
+    @Override
+    public Boolean isValid(String parameter) throws ValidatorException {
+        return null;
+    }
+
+    @Override
+    public Boolean isValid(String parameter, String otherParameter) throws ValidatorException {
+        return null;
+    }
+
+    @Override
+    public Boolean isValid(Long parameter) throws ValidatorException {
+        return null;
     }
 
     public String getMessage() {

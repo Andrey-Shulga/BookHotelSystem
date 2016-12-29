@@ -50,8 +50,10 @@ public class AddNewRoomManagerAction implements Action {
             //check if form's dropdown list item not selected
             validator.checkDropDownListOnSelect(ROOM_BED_ATTR, req);
             validator.checkDropDownListOnSelect(ROOM_TYPE_ATTR, req);
-            //check if chooses file have suitable content type
+            //check if chooses file has suitable content type
             validator.checkImageContentType(ROOM_PHOTO_ATTR, req);
+            //check if size of chooses file not over the limit
+            validator.checkFileMaxSize(ROOM_PHOTO_ATTR, req);
             //if errors found return to page again with output errors
             if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
 

@@ -2,7 +2,7 @@ package com.epam.as.bookhotel.action;
 
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.exception.ValidatorHelperException;
+import com.epam.as.bookhotel.exception.ValidatorException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.model.Room;
 import com.epam.as.bookhotel.model.User;
@@ -37,7 +37,7 @@ public class SelectRoomManagerAction implements Action {
         ValidatorHelper validatorHelper = new ValidatorHelper();
         try {
             if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
-        } catch (ValidatorHelperException e) {
+        } catch (ValidatorException e) {
             throw new ActionException(e);
         }
 

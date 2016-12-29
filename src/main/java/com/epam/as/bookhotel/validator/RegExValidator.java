@@ -4,6 +4,10 @@ package com.epam.as.bookhotel.validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Validator for fields by define regular expression
+ */
+
 public class RegExValidator extends ParentValidator implements Validator {
 
     private static final Logger logger = LoggerFactory.getLogger(RegExValidator.class);

@@ -29,6 +29,7 @@ public class FormValidator {
     private static final String FIELDS_NOT_EQUAL_ERROR_MESSAGE = "fields.not.equal.message";
     private static final String LIST_NOT_SELECTED_ERROR_MESSAGE = "drop.down.list.item.not.select";
     private static final String WRONG_CONTENT_TYPE_ERROR_MESSAGE = "add.room.photo.error";
+    private static final String WRONG_FILE_SIZE_ERROR_MESSAGE = "add.room.photo.size.error";
     private static Properties formProperties;
     private Map<String, List<String>> fieldErrors = new HashMap<>();
 
@@ -108,7 +109,7 @@ public class FormValidator {
 
     }
 
-    public void checkImageContentType(String parameter, HttpServletRequest req) throws IOException, ServletException {
+    public void checkImageContentType(String parameter, HttpServletRequest req) throws IOException, ServletException, ValidatorException {
 
         final String FILE_FORM_CONTENT_HEADER = "application/x-www-form-urlencoded";
         if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
@@ -122,6 +123,21 @@ public class FormValidator {
             }
         }
 
+    }
+
+    public void checkFileMaxSize(String parameter, HttpServletRequest req) throws IOException, ServletException, ValidatorException {
+
+        final String FILE_FORM_CONTENT_HEADER = "application/x-www-form-urlencoded";
+        if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
+            Part photoPart = req.getPart(parameter);
+            if (photoPart.getSize() != ZERO_SIZE) {
+                Long fileSize = photoPart.getSize();
+                FileSizeValidator validator = new FileSizeValidator();
+                logger.debug("Validator {} try to validate value of size \"{}\"", validator.getClass().getSimpleName(), fileSize);
+                if (!validator.isValid(fileSize)) fillErrorMap(parameter, WRONG_FILE_SIZE_ERROR_MESSAGE);
+                logger.debug("Result is {}", validator.isValid(fileSize));
+            }
+        }
     }
 
     private void fillErrorMap(String parameter, String errorMessagePropertyKey) {

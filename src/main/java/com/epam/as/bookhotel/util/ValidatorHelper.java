@@ -1,7 +1,6 @@
 package com.epam.as.bookhotel.util;
 
 import com.epam.as.bookhotel.exception.ValidatorException;
-import com.epam.as.bookhotel.exception.ValidatorHelperException;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,22 +25,22 @@ public class ValidatorHelper {
      * @param req          request with values for validation
      * @param validateForm from which necessary validate
      * @return result of validation
-     * @throws ValidatorHelperException wrap for any exceptions in ValidatorHelper
+     * @throws ValidatorException wrap for any exceptions in ValidatorHelper
      */
-    public boolean checkForm(HttpServletRequest req, String validateForm) throws ValidatorHelperException {
+    public boolean checkForm(HttpServletRequest req, String validateForm) throws ValidatorException {
 
         boolean checkResult = false;
-        try {
-            FormValidator validator = new FormValidator();
-            Map<String, List<String>> fieldErrors = validator.validate(validateForm, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) checkResult = true;
-
-        } catch (ValidatorException e) {
-            throw new ValidatorHelperException(e);
-        }
+        FormValidator validator = new FormValidator();
+        Map<String, List<String>> fieldErrors = validator.validate(validateForm, req);
+        if (validator.hasFieldsErrors(req, fieldErrors)) checkResult = true;
         return checkResult;
     }
 
+    /**
+     * Delete  validators' errors from session
+     *
+     * @param request http request for getting session
+     */
     public void deleteValidatorsErrorsFromSession(HttpServletRequest request) {
 
         Enumeration<String> attributeNames = request.getSession().getAttributeNames();
@@ -51,6 +50,12 @@ public class ValidatorHelper {
         }
     }
 
+    /**
+     * Set error from validators to session for output on jsp.
+     *
+     * @param req         http request for getting session
+     * @param fieldErrors collection with messages about found errors
+     */
     public void setErrorsToSession(HttpServletRequest req, Map<String, List<String>> fieldErrors) {
 
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {

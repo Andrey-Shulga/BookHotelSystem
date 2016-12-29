@@ -1,5 +1,9 @@
 package com.epam.as.bookhotel.validator;
 
+/**
+ * Validator on null for parameters in request
+ */
+
 public class NotNullValidator extends ParentValidator implements Validator {
 
     @Override

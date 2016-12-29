@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 
 @WebServlet(name = "FrontControllerServlet", urlPatterns = "/do/*")
-@MultipartConfig(maxFileSize = 3072000)
+@MultipartConfig
 public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
