@@ -11,13 +11,14 @@ User cases:
 1. Registration in system.
 2. Authorization in system.
 3. Make order for booking room.
-4. Review own order.
-5. Review confirmation for order with price and room photo.
+4. Review own orders.
+5. Review confirmation for his orders with total cost and room photo.
 
 Manager cases:
 1. Authorization in system.
-2. Review list of orders from clients.
-3. Review list of rooms (free and occupied).
-4. Confirm user's order with assignment appropriate room.
-5. Add new room in database.
-6. Update exist room in database.
+2. Review list of unconfirmed orders from clients.
+3. Review list of all orders.
+4. Review list of free rooms on date range.
+5. Confirm user's order with assignment appropriate room.
+6. Review all rooms in Hotel.
+7. Add new room in database with or without photo.
