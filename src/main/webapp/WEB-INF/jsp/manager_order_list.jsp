@@ -2,6 +2,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="orders.show.form.title" var="title"/>
 <c:set var="prefix" value="${pageContext.request.contextPath}"/>
@@ -86,13 +87,15 @@
 
         <form action="/do/?action=select-room" method="post">
             <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
-            <input type="text" name="orderId" placeholder="" value="" required autofocus>
+            <input type="text" name="orderId" onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" placeholder=""
+                   value="${fn:escapeXml(param.orderId)}" required autofocus>
             <c:forEach var="errorMessage" items="${orderIdErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
-            <input type="text" name="roomId" value="" placeholder="" required>
+            <input type="text" name="roomId" maxlength="4" onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
+                   value="${fn:escapeXml(param.roomId)}" placeholder="" required>
             <c:forEach var="errorMessage" items="${roomIdErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -117,14 +120,16 @@
 
         <form action="/do/?action=show-free-room-on-date" method="post">
             <label><b><fmt:message key="orders.manager.form.select.date.chekIn"/></b></label>
-            <input type="date" readonly id="from" name="checkIn" placeholder="" value="" required autofocus>
+            <input type="date" readonly id="from" name="checkIn" placeholder="" value="${fn:escapeXml(param.checkIn)}"
+                   required autofocus>
             <small><fmt:message key="orders.manager.form.select.date.chekIn.rules"/></small>
             <c:forEach var="errorMessage" items="${checkInErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.date.chekOut"/></b></label>
-            <input type="date" readonly id="to" name="checkOut" value="" placeholder="" required>
+            <input type="date" readonly id="to" name="checkOut" value="${fn:escapeXml(param.checkOut)}" placeholder=""
+                   required>
             <small><fmt:message key="orders.manager.form.select.date.chekOut.rules"/></small>
             <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>

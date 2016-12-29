@@ -2,6 +2,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="login.title" var="title"/>
 <fmt:message key="register.login.placeholder" var="loginPlaceholder"/>
@@ -15,10 +16,12 @@
 
         <form action="/do/?action=login" method="post">
             <label><b><fmt:message key="register.login"/></b></label><br>
-            <input type="text" name="login" placeholder="${loginPlaceholder}" value="manager" required autofocus>
+            <input type="text" name="login" minlength="3" maxlength="12" placeholder="${loginPlaceholder}"
+                   value="${fn:escapeXml(param.login)}" required autofocus>
             <br><br>
             <label><b><fmt:message key="register.password"/></b></label><br>
-            <input type="password" name="password" value="1" placeholder="${passwordPlaceholder}" required><br><br>
+            <input type="password" name="password" minlength="6" maxlength="16" value=""
+                   placeholder="${passwordPlaceholder}" required><br><br>
             <button type="submit"><fmt:message key="login.button.submit"/></button>
             <br>
             <c:if test="${not empty orderErrorMessage}">

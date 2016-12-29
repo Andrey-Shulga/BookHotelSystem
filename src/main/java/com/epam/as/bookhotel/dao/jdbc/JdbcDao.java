@@ -214,7 +214,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
         int count = INITIAL_COUNT;
         for (Object parameter : parameters) {
-            logger.debug("param = {}", parameter);
             ps.setObject(count, parameter);
             count++;
         }

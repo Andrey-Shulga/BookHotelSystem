@@ -2,6 +2,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="rooms.show.form.title" var="title"/>
 <c:set var="prefix" value="${pageContext.request.contextPath}"/>
@@ -73,7 +74,9 @@
             <label><b><fmt:message key="add.room.number.label"/></b></label>
             <small><fmt:message key="add.room.number.label.rules"/></small>
             <br>
-            <input type="text" size="3" name="roomNumber" placeholder="" value="" required autofocus><br>
+            <input type="text" size="3" name="roomNumber" placeholder="" maxlength="4"
+                   onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
+                   value="${fn:escapeXml(param.roomNumber)}" required autofocus><br>
             <c:forEach var="errorMessage" items="${roomNumberErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -105,14 +108,16 @@
             <label><b><fmt:message key="add.room.price.label"/></b></label>
             <small><fmt:message key="add.room.price.label.rules"/></small>
             <br>
-            <input type="text" name="roomPrice" value=" " placeholder="" size="12" required>
+            <input type="text" name="roomPrice" value="${fn:escapeXml(param.roomPrice)}" placeholder="" size="12"
+                   required>
             <br>
             <c:forEach var="errorMessage" items="${roomPriceErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
 
             <label><b><fmt:message key="add.room.image.label"/></b></label>
-                <fmt:message key="add.room.number.image.rules"/></small><br>
+            <small><fmt:message key="add.room.number.image.rules"/></small>
+            <br>
             <input type="file" name="photo" value="" accept="image/*"/><br><br>
             <c:forEach var="errorMessage" items="${photoErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>

@@ -7,4 +7,8 @@
 
 <fmt:message key="index.title" var="title"/>
 
-<t:genericpage title="${title}"/>
+<t:genericpage title="${title}">
+    <jsp:body>
+        <p><fmt:message key="main.page about.hotel.text"/></p>
+    </jsp:body>
+</t:genericpage>
