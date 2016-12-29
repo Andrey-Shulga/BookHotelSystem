@@ -43,12 +43,12 @@ CREATE TABLE "Order" (
 
 
 CREATE TABLE "Room" (
-	"room_id" serial NOT NULL,
-	"type_id" int NOT NULL,
-	"bed_id" int NOT NULL,
-	"room_number" int NOT NULL UNIQUE,
-	"room_price" numeric NOT NULL,
-	"photo_id" bigint NOT NULL,
+  "room_id"     serial NOT NULL,
+  "type_id"     int NOT NULL,
+  "bed_id"      int NOT NULL,
+  "room_number" int NOT NULL UNIQUE,
+  "room_price"  numeric NOT NULL,
+  "photo_id"    BIGINT,
 	CONSTRAINT Room_pk PRIMARY KEY ("room_id")
 ) WITH (
   OIDS=FALSE
@@ -124,7 +124,175 @@ ALTER TABLE "Room" ADD CONSTRAINT "Room_fk0" FOREIGN KEY ("type_id") REFERENCES 
 ALTER TABLE "Room" ADD CONSTRAINT "Room_fk1" FOREIGN KEY ("bed_id") REFERENCES "Room_bed"("bed_id");
 ALTER TABLE "Room" ADD CONSTRAINT "Room_fk2" FOREIGN KEY ("photo_id") REFERENCES "room_photo"("photo_id");
 
+ALTER DATABASE postgres SET datestyle TO "ISO, DMY";
 
+INSERT INTO "User_role" (role_name) VALUES ('MANAGER'), ('USER');
+
+INSERT INTO "Locale" (locale_name) VALUES ('en'), ('ru');
+
+INSERT INTO "User" (login, password, role_id, locale_id) VALUES
+  ('manager', 'sha1:64000:18:UJl0+XEVxQE+xmBjQxr9IhJLWtxRdX7c:A5aosFd8dmj0HTmzmAeaei/H',
+   (SELECT "User_role".role_id
+    FROM public."User_role"
+    WHERE "User_role".role_name = 'MANAGER'), (SELECT "Locale".locale_id
+                                               FROM public."Locale"
+                                               WHERE "Locale".locale_name = 'en'));
+
+INSERT INTO "Order_status" (order_status_en, order_status_ru)
+VALUES ('unconfirmed', 'не подтверждён'), ('confirmed', 'подтверждён'), ('canceled', 'отменён');
+
+INSERT INTO "Room_type" (type_name_en, type_name_ru)
+VALUES ('Standard', 'Стандарт'), ('Junior suite', 'Полулюкс'), ('Suite', 'Люкс');
+
+INSERT INTO "Room_bed" (bed_number) VALUES ('1'), ('2'), ('3'), ('4'), ('5');
+
+INSERT INTO "Room"
+(type_id, bed_id, room_number, room_price)
+VALUES
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Standard'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '1'), '1',
+   '1000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Standard'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '2'), '2',
+   '2000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Standard'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '3'), '3',
+   '3000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Standard'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '4'), '4',
+   '4000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Standard'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '5'), '5',
+   '5000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Junior suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '1'), '6',
+   '1500'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Junior suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '2'), '7',
+   '2500'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Junior suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '3'), '8',
+   '3500'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Junior suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '4'), '9',
+   '4500'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Junior suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '5'), '10',
+   '5500'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '1'), '11',
+   '2000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '2'), '12',
+   '3000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '3'), '13',
+   '4000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '4'), '14',
+   '5000'),
+  ((SELECT "Room_type".type_id
+    FROM public."Room_type"
+    WHERE "Room_type".type_name_en = 'Suite'),
+   (SELECT "Room_bed".bed_id
+    FROM public."Room_bed"
+    WHERE "Room_bed".bed_number = '5'), '15',
+   '6000');
+
+CREATE VIEW public.Rooms AS
+  SELECT
+    "Room".room_id,
+    "Room_type".type_name_en,
+    "Room_type".type_name_ru,
+    "Room_bed".bed_number,
+    "Room".room_number,
+    "Room".room_price,
+    "Room".photo_id
+  FROM public."Room"
+    INNER JOIN public."Room_type"
+      ON "Room".type_id = "Room_type".type_id
+    INNER JOIN public."Room_bed"
+      ON "Room".bed_id = "Room_bed".bed_id;
+
+CREATE VIEW public.Order_v AS
+  SELECT
+    "Order".order_id,
+    "Order".user_id,
+    "Order".first_name,
+    "Order".last_name,
+    "Order".email,
+    "Order".phone,
+    "Room_type".type_name_en,
+    "Room_type".type_name_ru,
+    "Room_bed".bed_number,
+    "Order".check_in,
+    "Order".check_out,
+    "Order_status".order_status_en,
+    "Order".room_number,
+    "Order".full_cost
+  FROM public."Order"
+    INNER JOIN public."Room_type"
+      ON "Order".type_id = "Room_type".type_id
+    INNER JOIN public."Room_bed"
+      ON "Order".bed_id = "Room_bed".bed_id
+    INNER JOIN public."Order_status"
+      ON "Order".status_id = "Order_status".status_id
 
 
 
