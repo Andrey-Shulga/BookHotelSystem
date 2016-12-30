@@ -88,14 +88,15 @@
         <form action="/do/?action=select-room" method="post">
             <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
             <input type="text" name="orderId" onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" placeholder=""
-                   value="${fn:escapeXml(param.orderId)}" required autofocus>
+                   minlength="1" maxlength="10" min="1" max="2147483647" value="${fn:escapeXml(param.orderId)}" required
+                   autofocus>
             <c:forEach var="errorMessage" items="${orderIdErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
             <input type="text" name="roomId" maxlength="4" onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
-                   value="${fn:escapeXml(param.roomId)}" placeholder="" required>
+                   value="${fn:escapeXml(param.roomId)}" minlength="1" min="1" max="2147483647" placeholder="" required>
             <c:forEach var="errorMessage" items="${roomIdErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
