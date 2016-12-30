@@ -13,6 +13,7 @@ User cases:
 3. Make order for booking room.
 4. Review own orders.
 5. Review confirmation for his orders with total cost and room photo.
+6. Change interface language.
 
 Manager cases:
 1. Authorization in system.
@@ -22,3 +23,4 @@ Manager cases:
 5. Confirm user's order with assignment appropriate room.
 6. Review all rooms in Hotel.
 7. Add new room in database with or without photo.
+8. Change interface language.
