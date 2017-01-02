@@ -24,7 +24,7 @@ public class ShowAllRoomsManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
+        final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
         RoomService roomService = new RoomService();
         try {
             List<Room> roomList = roomService.findAllRooms(new Room(), user);

@@ -44,13 +44,13 @@ public class FindRoomsByDateManagerAction implements Action {
 
         logger.debug("Form's parameters are valid.");
 
-        User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
+        final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
         String checkIn = req.getParameter(CHECK_IN_PARAMETER);
         String checkOut = req.getParameter(CHECK_OUT_PARAMETER);
 
         RoomService roomService = new RoomService();
         try {
-            List<Room> roomList = roomService.findAllFreeRoomsOnBookingDate(checkIn, checkOut, user);
+            final List<Room> roomList = roomService.findAllFreeRoomsOnBookingDate(checkIn, checkOut, user);
             req.getSession().setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
         } catch (ServiceException e) {
             req.getSession().setAttribute(SEARCH_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());

@@ -42,7 +42,7 @@ public class SelectRoomManagerAction implements Action {
         }
 
         logger.debug("Form's parameters are valid.");
-        User user = (User) req.getSession(false).getAttribute(USER);
+        final User user = (User) req.getSession(false).getAttribute(USER);
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
 

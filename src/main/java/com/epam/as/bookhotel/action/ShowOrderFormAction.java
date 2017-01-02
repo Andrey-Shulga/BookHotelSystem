@@ -26,7 +26,7 @@ public class ShowOrderFormAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
+        final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
 
         BedService service = new BedService();
         try {
@@ -38,7 +38,7 @@ public class ShowOrderFormAction implements Action {
 
         RoomTypeService roomTypeService = new RoomTypeService();
         try {
-            List<RoomType> roomTypeList = roomTypeService.findAllRoomTypes(new RoomType(), user.getLocale().getLocaleName());
+            final List<RoomType> roomTypeList = roomTypeService.findAllRoomTypes(new RoomType(), user.getLocale().getLocaleName());
             req.getSession().setAttribute(ROOM_TYPE_LIST_ATTRIBUTE, roomTypeList);
         } catch (ServiceException e) {
             throw new ActionException(e);

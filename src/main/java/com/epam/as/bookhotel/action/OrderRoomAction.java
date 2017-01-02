@@ -58,7 +58,7 @@ public class OrderRoomAction implements Action {
 
         logger.debug("Form's parameters are valid.");
 
-        User user = (User) req.getSession().getAttribute(USER);
+        final User user = (User) req.getSession().getAttribute(USER);
 
         String firstName = req.getParameter(FIRST_NAME);
         String lastName = req.getParameter(LAST_NAME);

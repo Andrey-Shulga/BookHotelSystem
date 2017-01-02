@@ -23,7 +23,7 @@ public class ShowAllOrdersManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) {
 
-        User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
+        final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
         Order order = new Order();
         order.setUser(user);
         OrderService orderService = new OrderService();
