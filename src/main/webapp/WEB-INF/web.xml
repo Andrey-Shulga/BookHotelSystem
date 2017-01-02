@@ -25,7 +25,6 @@
         <filter-name>AccessFilter</filter-name>
         <filter-class>com.epam.as.bookhotel.filter.AccessFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
         <url-pattern>/do/*</url-pattern>
@@ -35,7 +34,6 @@
         <filter-name>LocaleFilter</filter-name>
         <filter-class>com.epam.as.bookhotel.filter.LocaleFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>LocaleFilter</filter-name>
         <url-pattern>/do/*</url-pattern>
@@ -59,7 +57,6 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/ErrorHandler</location>
     </error-page>
-
 
     <jsp-config>
         <taglib>
