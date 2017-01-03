@@ -229,6 +229,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
      * @throws SQLException if any jdbc errors occurred
      */
     void setId(T entity, PreparedStatement ps) throws SQLException {
+
         ResultSet generatedId = ps.getGeneratedKeys();
         generatedId.next();
         int id = generatedId.getInt(1);

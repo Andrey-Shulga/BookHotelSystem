@@ -55,6 +55,7 @@ public class AccessFilter implements Filter {
      * @throws IOException if file not found
      */
     private List<String> getListFromFile(String fileName) throws IOException {
+
         List<String> list = new ArrayList<>();
         try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileName)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -71,16 +72,18 @@ public class AccessFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
+
         //read action from received request
         String actionName = req.getParameter(ACTION_PARAMETER_NAME);
 
-        User user = (User) req.getSession().getAttribute(USER_ATTRIBUTE);
+        final User user = (User) req.getSession().getAttribute(USER_ATTRIBUTE);
+
         //get list with actions for user by his role
         List<String> actionList = getActionList(user);
 
         //check if action consist in list with all action
         if (!allActionList.contains((actionName))) {
-            //if no, send user on page with 404 error
+            //if no, send on page with 404 error
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             logger.debug("The requested action {} not found", actionName);
             return;

@@ -31,7 +31,7 @@ public class LocaleUpdater {
     public void changeUserLocale(HttpServletRequest req, String locale) throws LocaleChangerException {
 
         if (req.getSession(false).getAttribute(USER_ATTR_NAME) != null) {
-            User user = (User) req.getSession(false).getAttribute(USER_ATTR_NAME);
+            final User user = (User) req.getSession(false).getAttribute(USER_ATTR_NAME);
             user.setLocale(new UserLocale(locale));
             UserService service = new UserService();
             try {
