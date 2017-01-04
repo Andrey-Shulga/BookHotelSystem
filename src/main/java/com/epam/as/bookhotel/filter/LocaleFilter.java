@@ -1,9 +1,11 @@
 package com.epam.as.bookhotel.filter;
 
+import com.epam.as.bookhotel.util.CookieHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,13 +33,24 @@ public class LocaleFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        //read locale from session
-        String locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
+        String locale = null;
+        //try to find locale in cookie
+        CookieHelper cookieHelper = new CookieHelper();
+        Cookie localCookie = cookieHelper.findParameter(request, LOCALE_ATTR_NAME);
+        if (localCookie != null) locale = localCookie.getValue();
+
+        //if locale not found in cookie try to read locale from session
+        if (locale == null) {
+            logger.debug("Locale not found in cookie, try to find in session.");
+            locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
+        }
+
         HttpSession session = request.getSession();
-        //if locale not found get default locale
+        //if locale not found set default locale to session and cookie
         if (locale == null) {
             locale = DEFAULT_LOCALE;
             session.setAttribute(LOCALE_ATTR_NAME, locale);
+            response.addCookie(new Cookie(LOCALE_ATTR_NAME, locale));
             logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }
         Locale currentLocale = new Locale(locale);

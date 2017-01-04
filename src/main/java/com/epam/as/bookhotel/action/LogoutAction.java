@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(LogoutAction.class);
-    private static final String INDEX_JSP = "index";
+    private static final String REDIRECT = "redirect:/do/?action=show-login-form";
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 
     @Override
@@ -25,6 +25,6 @@ public class LogoutAction implements Action {
             logger.debug("User with id=\"{}\" and login=\"{}\" is logout now.", user.getId(), user.getLogin());
             req.getSession(false).invalidate();
         }
-        return INDEX_JSP;
+        return REDIRECT;
     }
 }

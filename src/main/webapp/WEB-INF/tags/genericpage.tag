@@ -40,8 +40,8 @@
     <jsp:invoke fragment="header"/>
     <h1><fmt:message key="index.header.message"/></h1>
     <div align="left">
-        <a href="${prefix}/do/?action=en" style="color: white">English</a>
-        <a href="${prefix}/do/?action=ru" style="color: white">Русский</a>
+        <a href="${prefix}/do/?action=lang&locale=en" style="color: white">English</a>
+        <a href="${prefix}/do/?action=lang&locale=ru" style="color: white">Русский</a>
     </div>
     <br>
     <div align="left">
