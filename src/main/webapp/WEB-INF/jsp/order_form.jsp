@@ -12,7 +12,7 @@
     <jsp:body>
         <div align="center"><b><p><fmt:message key="order.make.message"/></p></b></div>
         <hr>
-        <form name="orderForm" action="do/?action=make-order" method="post">
+        <form name="orderForm" action="/do/?action=make-order" method="post">
 
             <label><b><fmt:message key="order.make.form.firstname"/></b></label>
             <small><fmt:message key="order.make.form.firstname.range"/></small>

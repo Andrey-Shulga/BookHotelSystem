@@ -32,29 +32,33 @@ public class LocaleFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
+        HttpSession session = request.getSession();
 
         String locale = null;
-        //try to find locale in cookie
+        //try to find locale in cookie and set it to session
         CookieHelper cookieHelper = new CookieHelper();
         Cookie localCookie = cookieHelper.findParameter(request, LOCALE_ATTR_NAME);
-        if (localCookie != null) locale = localCookie.getValue();
+        if (localCookie != null) {
+            locale = localCookie.getValue();
+            session.setAttribute(LOCALE_ATTR_NAME, locale);
+        }
 
-        //if locale not found in cookie try to read locale from session
+        //if locale not found in cookie try to read locale from session and set it in cookie
         if (locale == null) {
             logger.debug("Locale not found in cookie, try to find in session.");
             locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
+            cookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
         }
 
-        HttpSession session = request.getSession();
-        //if locale not found set default locale to session and cookie
+        //if locale not found in session and cookie - get default locale and set it to session and cookie
         if (locale == null) {
             locale = DEFAULT_LOCALE;
+            cookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
             session.setAttribute(LOCALE_ATTR_NAME, locale);
-            response.addCookie(new Cookie(LOCALE_ATTR_NAME, locale));
             logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }
+
         Locale currentLocale = new Locale(locale);
-        //set locale to session
         Config.set(session, Config.FMT_LOCALE, currentLocale);
         filterChain.doFilter(request, response);
     }

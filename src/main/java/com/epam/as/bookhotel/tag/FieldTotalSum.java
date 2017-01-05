@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FieldTotalSum extends TagSupport {
 
-
+    private static final String DB_CONNECT_ERROR_MSG = "database.connection.failure.msg";
     private static final int ZERO = 0;
     private List orders;
 
@@ -37,6 +37,7 @@ public class FieldTotalSum extends TagSupport {
             pageContext.getOut().print("" + sum);
             return SKIP_BODY;
         } catch (IOException e) {
+
             throw new JspException(e);
         }
     }

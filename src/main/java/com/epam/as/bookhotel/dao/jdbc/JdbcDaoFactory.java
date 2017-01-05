@@ -137,7 +137,8 @@ public class JdbcDaoFactory extends DaoFactory {
     public void close() throws JdbcDaoException {
 
         try {
-            if (connection.isClosed()) logger.debug("Connection is closed and will not be returned to the pool.");
+            if (connection.isClosed())
+                logger.debug("Current connection has been closed and will not be returned to the pool.");
             else
                 pool.putConnectionToPool(connection);
         } catch (SQLException e) {

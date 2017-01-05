@@ -156,7 +156,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             } catch (SQLException e) {
                 try {
                     //if database was down and connections in pool are not valid (closed), trying to clear pool and fill it with new connections
-                    logger.debug("code = {}", e.getSQLState());
                     if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
                         getUpConnectionPool();
                     }
@@ -180,7 +179,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
      */
     void getUpConnectionPool() throws JdbcDaoException {
 
-        logger.debug("Connection is invalid. Perhaps database downed. Trying to initialize and fill connection pool again.");
+        logger.debug("Taken connection from pool is closed (possibly invalid). Perhaps database downed. Trying to fill pool with new connections again.");
         try {
             //clear pool from connections
             ConnectionPoolInitListener.getPool().close();
