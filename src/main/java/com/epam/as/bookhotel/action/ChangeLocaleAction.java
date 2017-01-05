@@ -27,6 +27,7 @@ public class ChangeLocaleAction implements Action {
         CookieHelper cookieHelper = new CookieHelper();
         cookieHelper.setCookie(res, LOCALE_ATTR, userLocale);
         String referrer = req.getHeader(REFERRER);
+
         return REDIRECT_PREFIX + referrer;
     }
 }

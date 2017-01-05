@@ -26,7 +26,7 @@ public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ACTION_PREFIX_ATTR = "action";
+    private static final String ACTION_ATTR = "action";
     private static final String PATH_TO_JSP = "/WEB-INF/jsp/";
     private static final String FILE_JSP = ".jsp";
     private ActionFactory actionFactory;
@@ -72,7 +72,7 @@ public class FrontControllerServlet extends HttpServlet {
      * @return action
      */
     private String getActionName(HttpServletRequest req) {
-        return req.getParameter(ACTION_PREFIX_ATTR);
+        return req.getParameter(ACTION_ATTR);
     }
 
     @Override
