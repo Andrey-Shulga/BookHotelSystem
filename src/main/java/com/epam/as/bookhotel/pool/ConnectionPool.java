@@ -31,6 +31,7 @@ public class ConnectionPool {
     private static final String JDBC_POOL_START_SIZE_KEY = "pool.start.size";
     private static final String JDBC_POOL_MAX_SIZE_KEY = "pool.max.size";
     private static final String JDBC_POOL_CONN_TIME_OUT_KEY = "pool.pollconnection.timeout";
+    private final boolean QUEUE_LOCK_FAIR_TRUE = true;
     private int connectionCount = 0;
     private String url;
     private String username;
@@ -87,7 +88,7 @@ public class ConnectionPool {
         } catch (PropertyManagerException e) {
             throw new ConnectionPoolException(e);
         }
-        connections = new ArrayBlockingQueue<>(poolMaxSize);
+        connections = new ArrayBlockingQueue<>(poolMaxSize, QUEUE_LOCK_FAIR_TRUE);
     }
 
     /**
