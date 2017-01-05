@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ConnectionPool {
 
-    private static final String dbPropertyFileName = "database.properties";
+    private static final String DB_PROPERTY_FILE_NAME = "database.properties";
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     private static final String JDBC_DRIVERS_KEY = "jdbc.drivers";
     private static final String JDBC_URL_KEY = "jdbc.url";
@@ -69,7 +69,7 @@ public class ConnectionPool {
     private void poolConfigure() throws ConnectionPoolException {
 
         try {
-            PropertyManager propertyManager = new PropertyManager(dbPropertyFileName);
+            PropertyManager propertyManager = new PropertyManager(DB_PROPERTY_FILE_NAME);
             String drivers = propertyManager.getPropertyKey(JDBC_DRIVERS_KEY);
 
             try {
