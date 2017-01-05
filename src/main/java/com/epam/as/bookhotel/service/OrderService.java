@@ -2,7 +2,10 @@ package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.OrderDao;
-import com.epam.as.bookhotel.exception.*;
+import com.epam.as.bookhotel.exception.DaoException;
+import com.epam.as.bookhotel.exception.ServiceException;
+import com.epam.as.bookhotel.exception.UnableConfirmOrderException;
+import com.epam.as.bookhotel.exception.UnableUpdateFieldException;
 import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.util.DateConverter;
 
@@ -152,11 +155,6 @@ public class OrderService extends ParentService {
 
         } catch (DaoException e) {
 
-            try {
-                daoFactory.rollback();
-            } catch (JdbcDaoException ex) {
-                throw new ServiceException(ex);
-            }
             throw new ServiceException(e);
         }
         return order;

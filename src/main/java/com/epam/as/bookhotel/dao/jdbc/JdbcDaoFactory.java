@@ -76,6 +76,7 @@ public class JdbcDaoFactory extends DaoFactory {
      */
     @Override
     public void beginTx() throws JdbcDaoException {
+
         try {
             if ((!connection.isClosed()) && (connection.getAutoCommit())) {
                 connection.setAutoCommit(false);
@@ -94,6 +95,7 @@ public class JdbcDaoFactory extends DaoFactory {
      */
     @Override
     public void rollback() throws JdbcDaoException {
+
         try {
             if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
                 connection.rollback();
@@ -113,6 +115,7 @@ public class JdbcDaoFactory extends DaoFactory {
      */
     @Override
     public void commit() throws JdbcDaoException {
+
         try {
             if ((!connection.isClosed()) && (!connection.getAutoCommit())) {
                 connection.commit();
@@ -132,6 +135,7 @@ public class JdbcDaoFactory extends DaoFactory {
      */
     @Override
     public void close() throws JdbcDaoException {
+
         try {
             if (connection.isClosed()) logger.debug("Connection is closed and will not be returned to the pool.");
             else
