@@ -22,7 +22,7 @@ public class PropertyManager {
         try (InputStream in = PropertyManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
             properties.load(in);
         } catch (IOException e) {
-            throw new PropertyManagerException(e, propertyFileName);
+            throw new PropertyManagerException(e);
         }
     }
 

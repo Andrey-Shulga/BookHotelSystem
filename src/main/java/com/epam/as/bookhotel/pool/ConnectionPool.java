@@ -134,10 +134,14 @@ public class ConnectionPool {
             logger.debug("The connection was taken. Total connections in the pool now = {}", connections.size());
             //if application need connection but no connection in pool and reached max limit - wait until appear free connection
         } else {
-            logger.debug("Max limit of connection pool = {} reached. No new connection " +
+            logger.debug("Total limit of connections to database = {} reached. No new connection " +
                     "will be create, wait for release any connection...", poolMaxSize);
             try {
                 connection = connections.poll(pollConnectionTimeout, TimeUnit.SECONDS);
+                if (connection == null) {
+                    logger.debug("Did't wait for a free connection from pool by timeout = {} sec.", pollConnectionTimeout);
+                    throw new ConnectionPoolException("No free connection in pool");
+                }
             } catch (InterruptedException e) {
 
                 throw new ConnectionPoolException(e);

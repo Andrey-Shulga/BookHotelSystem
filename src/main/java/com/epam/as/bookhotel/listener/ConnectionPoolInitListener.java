@@ -32,6 +32,11 @@ public class ConnectionPoolInitListener implements ServletContextListener {
         try {
             pool.fillPool();
         } catch (ConnectionPoolException e) {
+            try {
+                pool.close();
+            } catch (ConnectionPoolException ex) {
+                logger.error("ConnectionPoolException occurred", ex);
+            }
             logger.error("ConnectionPoolException occurred", e);
         }
         JdbcDaoFactory.setPool(pool);
@@ -40,6 +45,7 @@ public class ConnectionPoolInitListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+
         try {
             pool.close();
         } catch (ConnectionPoolException e) {

@@ -8,5 +8,6 @@ public class UnableUpdateFieldException extends JdbcDaoException {
 
     public UnableUpdateFieldException() {
 
+        super();
     }
 }

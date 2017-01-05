@@ -1,8 +1,7 @@
 package com.epam.as.bookhotel.exception;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
 
 /**
  * Exception for wrapping any exceptions in Property Manager
@@ -10,13 +9,13 @@ import org.slf4j.LoggerFactory;
 
 public class PropertyManagerException extends Exception {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropertyManagerException.class);
+    public PropertyManagerException(IOException e) {
+
+        super(e);
+    }
+
 
     public PropertyManagerException(String message) {
         super(message);
-    }
-
-    public PropertyManagerException(Exception e, String propertyFileName) {
-        logger.error("Unable to open file {} for reading properties.", e, propertyFileName);
     }
 }

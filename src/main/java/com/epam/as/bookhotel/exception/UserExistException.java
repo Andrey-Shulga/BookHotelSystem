@@ -14,6 +14,7 @@ public class UserExistException extends ServiceException {
 
 
     public UserExistException(Exception e) {
+
         super(USER_EXIST_ERROR_MSG, e);
         logger.error("User is already exist.", e);
     }

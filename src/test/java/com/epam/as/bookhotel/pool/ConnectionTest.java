@@ -19,16 +19,22 @@ public class ConnectionTest {
     @Test
     public void hasConnectionWithDatabase() {
 
-        Connection connection;
+        ConnectionPool pool = null;
         boolean testResult = false;
         try {
-            ConnectionPool pool = new ConnectionPool();
+            pool = new ConnectionPool();
             pool.fillPool();
-            connection = pool.getConnection();
+            Connection connection = pool.getConnection();
             testResult = !connection.isClosed();
-            pool.close();
+            pool.putConnectionToPool(connection);
         } catch (ConnectionPoolException | SQLException e) {
             logger.error("Exception while testing Connection pool", e);
+        } finally {
+            try {
+                if (pool != null) pool.close();
+            } catch (ConnectionPoolException e) {
+                logger.error("Exception while testing Connection pool", e);
+            }
         }
         assertEquals(isConnected, testResult);
     }

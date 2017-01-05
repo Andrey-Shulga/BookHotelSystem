@@ -13,6 +13,7 @@ public class UserNotFoundException extends ServiceException {
     private static final String USER_NOT_FOUND_ERROR_MSG = "login.error.notfound";
 
     public UserNotFoundException() {
+
         super(USER_NOT_FOUND_ERROR_MSG);
         logger.error("User not found.");
     }
