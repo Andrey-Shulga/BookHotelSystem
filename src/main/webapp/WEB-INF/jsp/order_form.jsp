@@ -17,8 +17,8 @@
             <label><b><fmt:message key="order.make.form.firstname"/></b></label>
             <small><fmt:message key="order.make.form.firstname.range"/></small>
             <br>
-            <input type="text" name="firstName" minlength="2" maxlength="16" required autofocus
-                   value="${fn:escapeXml(param.firstName)}">
+            <input type="text" name="firstName" id="inputFirstName" minlength="2" maxlength="16" required autofocus
+                   value="">
             <c:forEach var="errorMessage" items="${firstNameErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -27,8 +27,8 @@
             <label><b><fmt:message key="order.make.form.lasttname"/></b></label>
             <small><fmt:message key="order.make.form.lasttname.range"/></small>
             <br>
-            <input type="text" name="lastName" minlength="2" maxlength="16" required
-                   value="${fn:escapeXml(param.lastName)}">
+            <input type="text" name="lastName" id="inputLastName" minlength="2" maxlength="16" required
+                   value="">
             <c:forEach var="errorMessage" items="${lastNameErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -37,7 +37,7 @@
             <label><b><fmt:message key="order.make.form.email"/></b></label>
             <small><fmt:message key="order.make.form.email.rule"/></small>
             <br>
-            <input type="email" name="email" minlength="7" maxlength="30" required value="${fn:escapeXml(param.email)}">
+            <input type="email" name="email" id="inputEmail" minlength="7" maxlength="30" required value="">
             <c:forEach var="errorMessage" items="${emailErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -46,9 +46,9 @@
             <label><b><fmt:message key="order.make.form.phone"/></b></label>
             <small><fmt:message key="order.make.form.phone.rule"/></small>
             <br>
-            <input type="text" name="phone" minlength="3" maxlength="20"
+            <input type="text" name="phone" id="inputPhone" minlength="3" maxlength="20"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" required
-                   value="${fn:escapeXml(param.phone)}">
+                   value="">
             <c:forEach var="errorMessage" items="${phoneErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -57,7 +57,7 @@
             <label><b><fmt:message key="order.make.form.checkin"/></b></label>
             <small><fmt:message key="order.make.form.checkin.rule"/></small>
             <br>
-            <input type="date" readonly name="checkIn" id="from" required value="${fn:escapeXml(param.checkIn)}">
+            <input type="date" readonly name="checkIn" id="from" required value="">
             <c:forEach var="errorMessage" items="${checkInErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -66,7 +66,7 @@
             <label><b><fmt:message key="order.make.form.checkout"/></b></label>
             <small><fmt:message key="order.make.form.checkout.rule"/></small>
             <br>
-            <input type="date" readonly name="checkOut" id="to" required value="${fn:escapeXml(param.checkOut)}">
+            <input type="date" readonly name="checkOut" id="to" required value="">
             <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>

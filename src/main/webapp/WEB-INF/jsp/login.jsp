@@ -16,8 +16,9 @@
 
         <form action="/do/?action=login" method="post">
             <label><b><fmt:message key="register.login"/></b></label><br>
-            <input type="text" name="login" minlength="3" maxlength="12" placeholder="${loginPlaceholder}"
-                   value="${fn:escapeXml(param.login)}" required autofocus>
+            <input type="text" name="login" id="inputLogin" minlength="3" maxlength="12"
+                   placeholder="${loginPlaceholder}"
+                   value="" required autofocus>
             <br><br>
             <label><b><fmt:message key="register.password"/></b></label><br>
             <input type="password" name="password" minlength="6" maxlength="16" value=""

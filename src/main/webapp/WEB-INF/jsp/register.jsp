@@ -20,8 +20,7 @@
             <small><fmt:message key="register.login.range"/></small>
             <br>
             <input type="text" name="login" id="inputLogin" placeholder="${loginPlaceholder}" required autofocus
-                   minlength="3"
-                   maxlength="12">
+                   minlength="3" maxlength="12" value="">
             <c:forEach var="errorMessage" items="${loginErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
