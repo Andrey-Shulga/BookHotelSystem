@@ -42,6 +42,7 @@ public class AddNewRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        saveInputField(req);
         try {
             //validate form's fields
             FormValidator validator = new FormValidator();
@@ -107,5 +108,14 @@ public class AddNewRoomManagerAction implements Action {
 
         logger.debug("Add room action success.");
         return REDIRECT;
+    }
+
+    private void saveInputField(HttpServletRequest req) {
+
+        String roomNumber = req.getParameter(ROOM_NUMBER_ATTR);
+        req.getSession().setAttribute(ROOM_NUMBER_ATTR, roomNumber);
+        String roomPrice = req.getParameter(ROOM_PRICE_ATTR);
+        req.getSession().setAttribute(ROOM_PRICE_ATTR, roomPrice);
+
     }
 }

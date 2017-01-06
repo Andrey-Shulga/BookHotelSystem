@@ -31,6 +31,7 @@ public class LoginAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        saveInputField(req);
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASSWORD_PARAMETER);
         String locale = req.getParameter(LOCALE_SESSION_ATTRIBUTE_NAME);
@@ -49,5 +50,11 @@ public class LoginAction implements Action {
         req.getSession().setAttribute(LOCALE_SESSION_ATTRIBUTE_NAME, user.getLocale().getLocaleName());
         logger.debug("User \"{}\" authorized.", user.getLogin());
         return REDIRECT;
+    }
+
+    private void saveInputField(HttpServletRequest req) {
+
+        String login = req.getParameter(LOGIN_PARAMETER);
+        req.getSession().setAttribute(LOGIN_PARAMETER, login);
     }
 }

@@ -18,7 +18,7 @@
             <small><fmt:message key="order.make.form.firstname.range"/></small>
             <br>
             <input type="text" name="firstName" id="inputFirstName" minlength="2" maxlength="16" required autofocus
-                   value="">
+                   value="${sessionScope.firstName}">
             <c:forEach var="errorMessage" items="${firstNameErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -28,7 +28,7 @@
             <small><fmt:message key="order.make.form.lasttname.range"/></small>
             <br>
             <input type="text" name="lastName" id="inputLastName" minlength="2" maxlength="16" required
-                   value="">
+                   value="${sessionScope.lastName}">
             <c:forEach var="errorMessage" items="${lastNameErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -37,7 +37,8 @@
             <label><b><fmt:message key="order.make.form.email"/></b></label>
             <small><fmt:message key="order.make.form.email.rule"/></small>
             <br>
-            <input type="email" name="email" id="inputEmail" minlength="7" maxlength="30" required value="">
+            <input type="email" name="email" id="inputEmail" minlength="7" maxlength="30" required
+                   value="${sessionScope.email}">
             <c:forEach var="errorMessage" items="${emailErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -48,7 +49,7 @@
             <br>
             <input type="text" name="phone" id="inputPhone" minlength="3" maxlength="20"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" required
-                   value="">
+                   value="${sessionScope.phone}">
             <c:forEach var="errorMessage" items="${phoneErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -57,7 +58,7 @@
             <label><b><fmt:message key="order.make.form.checkin"/></b></label>
             <small><fmt:message key="order.make.form.checkin.rule"/></small>
             <br>
-            <input type="date" readonly name="checkIn" id="from" required value="">
+            <input type="date" readonly name="checkIn" id="from" required value="${sessionScope.checkIn}">
             <c:forEach var="errorMessage" items="${checkInErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -66,7 +67,7 @@
             <label><b><fmt:message key="order.make.form.checkout"/></b></label>
             <small><fmt:message key="order.make.form.checkout.rule"/></small>
             <br>
-            <input type="date" readonly name="checkOut" id="to" required value="">
+            <input type="date" readonly name="checkOut" id="to" required value="${sessionScope.checkOut}">
             <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>

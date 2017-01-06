@@ -34,6 +34,7 @@ public class SelectRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        saveInputField(req);
         ValidatorHelper validatorHelper = new ValidatorHelper();
         try {
             if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
@@ -64,6 +65,14 @@ public class SelectRoomManagerAction implements Action {
         }
 
         return REDIRECT;
+    }
+
+    private void saveInputField(HttpServletRequest req) {
+
+        String orderId = req.getParameter(ORDER_ID_PARAMETER);
+        req.getSession().setAttribute(ORDER_ID_PARAMETER, orderId);
+        String roomId = req.getParameter(ROOM_ID_PARAMETER);
+        req.getSession().setAttribute(ROOM_ID_PARAMETER, roomId);
     }
 
 }

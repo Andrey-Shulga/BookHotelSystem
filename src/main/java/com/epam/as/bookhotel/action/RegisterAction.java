@@ -37,6 +37,7 @@ public class RegisterAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        saveInputField(req);
         //validate form's fields by rules
         try {
             FormValidator validator = new FormValidator();
@@ -64,6 +65,12 @@ public class RegisterAction implements Action {
         }
         logger.debug("Register action success.");
         return REDIRECT;
+    }
+
+    private void saveInputField(HttpServletRequest req) {
+
+        String login = req.getParameter(LOGIN_PARAMETER);
+        req.getSession().setAttribute(LOGIN_PARAMETER, login);
     }
 }
 

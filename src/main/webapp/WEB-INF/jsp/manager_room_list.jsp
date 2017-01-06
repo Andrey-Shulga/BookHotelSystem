@@ -76,7 +76,7 @@
             <br>
             <input type="text" size="3" name="roomNumber" id="inputRoomNumber" placeholder="" maxlength="4"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
-                   value="" required autofocus><br>
+                   value="${sessionScope.roomNumber}" required autofocus><br>
             <c:forEach var="errorMessage" items="${roomNumberErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -108,7 +108,8 @@
             <label><b><fmt:message key="add.room.price.label"/></b></label>
             <small><fmt:message key="add.room.price.label.rules"/></small>
             <br>
-            <input type="text" name="roomPrice" id="inputRoomPrice" value="" placeholder="" size="12"
+            <input type="text" name="roomPrice" id="inputRoomPrice" value="${sessionScope.roomPrice}" placeholder=""
+                   size="12"
                    required>
             <br>
             <c:forEach var="errorMessage" items="${roomPriceErrorMessages}">

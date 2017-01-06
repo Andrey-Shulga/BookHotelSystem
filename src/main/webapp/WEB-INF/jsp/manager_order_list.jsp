@@ -89,7 +89,7 @@
             <label><b><fmt:message key="orders.manager.form.select.order.id"/></b></label>
             <input type="text" name="orderId" id="inputOrderId"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" placeholder=""
-                   minlength="1" maxlength="10" min="1" max="2147483647" value="" required
+                   minlength="1" maxlength="10" min="1" max="2147483647" value="${sessionScope.orderId}" required
                    autofocus>
             <c:forEach var="errorMessage" items="${orderIdErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
@@ -98,7 +98,7 @@
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
             <input type="text" name="roomId" id="inputRoomNumber" maxlength="4"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
-                   value="" minlength="1" min="1" max="2147483647" placeholder="" required>
+                   value="${sessionScope.roomId}" minlength="1" min="1" max="2147483647" placeholder="" required>
             <c:forEach var="errorMessage" items="${roomIdErrorMessages}">
                 <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
             </c:forEach>
@@ -123,7 +123,7 @@
 
         <form action="/do/?action=show-free-room-on-date" method="post">
             <label><b><fmt:message key="orders.manager.form.select.date.chekIn"/></b></label>
-            <input type="date" readonly id="from" name="checkIn" placeholder="" value="${fn:escapeXml(param.checkIn)}"
+            <input type="date" readonly id="from" name="checkIn" placeholder="" value="${sessionScope.checkIn}"
                    required autofocus>
             <small><fmt:message key="orders.manager.form.select.date.chekIn.rules"/></small>
             <c:forEach var="errorMessage" items="${checkInErrorMessages}">
@@ -131,7 +131,7 @@
             </c:forEach>
             <br><br>
             <label><b><fmt:message key="orders.manager.form.select.date.chekOut"/></b></label>
-            <input type="date" readonly id="to" name="checkOut" value="${fn:escapeXml(param.checkOut)}" placeholder=""
+            <input type="date" readonly id="to" name="checkOut" value="${sessionScope.checkOut}" placeholder=""
                    required>
             <small><fmt:message key="orders.manager.form.select.date.chekOut.rules"/></small>
             <c:forEach var="errorMessage" items="${checkOutErrorMessages}">

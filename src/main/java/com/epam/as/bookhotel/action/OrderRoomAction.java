@@ -44,6 +44,7 @@ public class OrderRoomAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        saveInputField(req);
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(ORDER_FORM, req);
@@ -85,6 +86,22 @@ public class OrderRoomAction implements Action {
 
         logger.debug("Make order action success.");
         return REDIRECT;
+    }
+
+    private void saveInputField(HttpServletRequest req) {
+
+        String firstName = req.getParameter(FIRST_NAME);
+        req.getSession().setAttribute(FIRST_NAME, firstName);
+        String lastName = req.getParameter(LAST_NAME);
+        req.getSession().setAttribute(LAST_NAME, lastName);
+        String email = req.getParameter(EMAIL);
+        req.getSession().setAttribute(EMAIL, email);
+        String phone = req.getParameter(PHONE);
+        req.getSession().setAttribute(PHONE, phone);
+        String checkIn = req.getParameter(CHECK_IN);
+        req.getSession().setAttribute(CHECK_IN, checkIn);
+        String checkOut = req.getParameter(CHECK_OUT);
+        req.getSession().setAttribute(CHECK_OUT, checkOut);
     }
 
 }

@@ -33,6 +33,7 @@ public class FindRoomsByDateManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        saveInputField(req);
         //check form's filed on errors
         ValidatorHelper validatorHelper = new ValidatorHelper();
         try {
@@ -56,6 +57,15 @@ public class FindRoomsByDateManagerAction implements Action {
             req.getSession().setAttribute(SEARCH_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
         return REDIRECT;
+    }
+
+
+    private void saveInputField(HttpServletRequest req) {
+
+        String checkIn = req.getParameter(CHECK_IN_PARAMETER);
+        req.getSession().setAttribute(CHECK_IN_PARAMETER, checkIn);
+        String checkOut = req.getParameter(CHECK_OUT_PARAMETER);
+        req.getSession().setAttribute(CHECK_OUT_PARAMETER, checkOut);
     }
 
 }
