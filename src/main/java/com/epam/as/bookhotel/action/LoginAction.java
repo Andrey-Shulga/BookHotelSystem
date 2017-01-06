@@ -19,6 +19,7 @@ public class LoginAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
     private static final String LOGIN_FORM = "login";
+    private static final String REDIRECT_LOGIN_FORM = "redirect:/do/?action=show-login-form";
     private static final String REDIRECT = "redirect:/do/?action=show-login-success";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String LOGIN_PARAMETER = "login";
@@ -39,8 +40,8 @@ public class LoginAction implements Action {
         try {
             userService.login(user);
         } catch (ServiceException e) {
-            req.setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
-            return LOGIN_FORM;
+            req.getSession().setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            return REDIRECT_LOGIN_FORM;
         }
 
         //save user and his locale in session

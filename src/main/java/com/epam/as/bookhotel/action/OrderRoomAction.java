@@ -28,6 +28,7 @@ public class OrderRoomAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderRoomAction.class);
     private static final String ORDER_FORM = "order_form";
+    private static final String REDIRECT_ORDER_FORM = "redirect:/do/?action=show-order-form";
     private static final String REDIRECT = "redirect:/do/?action=show-user-order-list";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String USER = "user";
@@ -50,7 +51,7 @@ public class OrderRoomAction implements Action {
             //check if form's dropdown list item not selected
             validator.checkDropDownListOnSelect(BED, req);
             validator.checkDropDownListOnSelect(ROOM_TYPE, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) return ORDER_FORM;
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT_ORDER_FORM;
 
         } catch (ValidatorException e) {
             throw new ActionException(e);
@@ -78,8 +79,8 @@ public class OrderRoomAction implements Action {
         try {
             orderService.makeOrder(order);
         } catch (ServiceException e) {
-            req.setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
-            return ORDER_FORM;
+            req.getSession().setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            return REDIRECT_ORDER_FORM;
         }
 
         logger.debug("Make order action success.");

@@ -25,7 +25,7 @@ public class SelectRoomManagerAction implements Action {
     private static final String USER = "user";
     private static final String ORDER_ID_PARAMETER = "orderId";
     private static final String ROOM_ID_PARAMETER = "roomId";
-    private static final String CONFIRM_BUTTON_PARAMETER = "confirm";
+    private static final String CONFIRM_PARAMETER = "confirm";
     private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
@@ -60,7 +60,7 @@ public class SelectRoomManagerAction implements Action {
             //remove list of room from page after success order confirmation
             req.getSession().removeAttribute(ROOMS_LIST_ATTRIBUTE);
         } catch (ServiceException e) {
-            req.getSession().setAttribute(CONFIRM_BUTTON_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.getSession().setAttribute(CONFIRM_PARAMETER + ERROR_MESSAGE_SUFFIX, e.getMessage());
         }
 
         return REDIRECT;

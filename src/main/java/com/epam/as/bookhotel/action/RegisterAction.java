@@ -25,6 +25,7 @@ import java.util.Map;
 public class RegisterAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);
+    private static final String REDIRECT_REGISTER_FORM = "redirect:/do/?action=show-register-form";
     private static final String REGISTER_FORM = "register";
     private static final String REDIRECT = "redirect:/do/?action=show-register-success";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
@@ -41,7 +42,7 @@ public class RegisterAction implements Action {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(REGISTER_FORM, req);
             validator.checkFieldsOnEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
-            if (validator.hasFieldsErrors(req, fieldErrors)) return REGISTER_FORM;
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT_REGISTER_FORM;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }
@@ -58,8 +59,8 @@ public class RegisterAction implements Action {
             user = userService.register(user);
             logger.debug("{} inserted into database.", user);
         } catch (ServiceException e) {
-            req.setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
-            return REGISTER_FORM;
+            req.getSession().setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            return REDIRECT_REGISTER_FORM;
         }
         logger.debug("Register action success.");
         return REDIRECT;
