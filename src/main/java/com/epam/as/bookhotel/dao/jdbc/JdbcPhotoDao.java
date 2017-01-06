@@ -19,7 +19,6 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcPhotoDao.class);
     private static final String QUERY_PROPERTY_FILE = getQueryPropertyFile();
-    private static final String DATABASE_CONNECTION_FAILURE_ERROR_CODE = "08006";
     private static final int INDEX_1 = 1;
     private static final int INDEX_2 = 2;
     private static final int INDEX_3 = 3;
@@ -64,14 +63,6 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
                     ps.execute();
                     setId(photo, ps);
                 } catch (SQLException e) {
-                    try {
-                        //if database was down and connections in pool are not valid (closed), trying to clear pool and fill it with new connections
-                        if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
-                            getUpConnectionPool();
-                        }
-                    } catch (SQLException ex) {
-                        throw new JdbcDaoException(ex);
-                    }
                     throw new JdbcDaoException(e);
                 }
             }

@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionPool {
 
     private static final String DB_PROPERTY_FILE_NAME = "database.properties";
+    private static final int TIMEOUT_CHECK_CONNECTION = 1;
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     private static final String JDBC_DRIVERS_KEY = "jdbc.drivers";
     private static final String JDBC_URL_KEY = "jdbc.url";
@@ -31,8 +32,7 @@ public class ConnectionPool {
     private static final String JDBC_POOL_START_SIZE_KEY = "pool.start.size";
     private static final String JDBC_POOL_MAX_SIZE_KEY = "pool.max.size";
     private static final String JDBC_POOL_CONN_TIME_OUT_KEY = "pool.pollconnection.timeout";
-    private final boolean QUEUE_LOCK_FAIR_TRUE = true;
-    private int connectionCount = 0;
+    private int connectionCount;
     private String url;
     private String username;
     private String password;
@@ -50,12 +50,12 @@ public class ConnectionPool {
 
         //read settings for pool from property
         poolConfigure();
-        logger.debug("Maximum limit of connections to database in the pool = {} connections", poolMaxSize);
+        logger.debug("Maximum limit of connections to database = {} connections", poolMaxSize);
         logger.debug("Trying to create initial connection pool = {} connections...", poolStartSize);
         //fill pool with connections no more definite start size
+        connectionCount = 0;
         for (int i = 0; i < poolStartSize; i++) {
-            Connection connection;
-            connection = getNewConnection(url, username, password);
+            Connection connection = getNewConnection();
             if (connection != null)
                 connections.offer(connection);
         }
@@ -88,19 +88,17 @@ public class ConnectionPool {
         } catch (PropertyManagerException e) {
             throw new ConnectionPoolException(e);
         }
-        connections = new ArrayBlockingQueue<>(poolMaxSize, QUEUE_LOCK_FAIR_TRUE);
+        boolean QUEUE_LOCK_FAIR = true;
+        connections = new ArrayBlockingQueue<>(poolMaxSize, QUEUE_LOCK_FAIR);
     }
 
     /**
      * Create new connection with database
      *
-     * @param url      URL for database
-     * @param username login for database user
-     * @param password password for database user
      * @return new connection with database
      * @throws ConnectionPoolException if any exception in pool occurred
      */
-    private Connection getNewConnection(String url, String username, String password) throws ConnectionPoolException {
+    private Connection getNewConnection() throws ConnectionPoolException {
 
         Connection connection;
         try {
@@ -123,16 +121,24 @@ public class ConnectionPool {
     public synchronized Connection getConnection() throws ConnectionPoolException {
 
         Connection connection;
-        logger.debug("Factory trying to take connection from the pool...");
-        //get connection from pool
+        logger.debug("Trying to take connection from the pool...");
+        //get connection from pool if max limit not reached
         if (connectionCount < poolMaxSize) {
             connection = connections.poll();
-            //if no more connections in pool and max limit not reached, try to create new connection
+            //if no more connections in pool, try to create new connection (max limit still not reached)
             if (connection == null) {
                 logger.debug("No connections in pool! Trying to get new connection...");
-                return getNewConnection(url, username, password);
+                connection = getNewConnection();
             }
             logger.debug("The connection was taken. Total connections in the pool now = {}", connections.size());
+            //check if received connection is valid
+            try {
+                if (!connection.isValid(TIMEOUT_CHECK_CONNECTION)) {
+                    refreshConnectionPool();
+                }
+            } catch (SQLException e) {
+                throw new ConnectionPoolException(e);
+            }
             //if application need connection but no connection in pool and reached max limit - wait until appear free connection
         } else {
             logger.debug("Total limit of connections to database = {} reached. No new connection " +
@@ -141,7 +147,13 @@ public class ConnectionPool {
                 connection = connections.poll(pollConnectionTimeout, TimeUnit.SECONDS);
                 if (connection == null) {
                     logger.debug("Did't wait for a free connection from pool by timeout = {} sec.", pollConnectionTimeout);
-                    throw new ConnectionPoolException("No free connection in pool");
+                    throw new ConnectionPoolException("No free connections");
+                }
+                //check if received connection is valid
+                try {
+                    if (!connection.isValid(TIMEOUT_CHECK_CONNECTION)) refreshConnectionPool();
+                } catch (SQLException e) {
+                    throw new ConnectionPoolException(e);
                 }
             } catch (InterruptedException e) {
 
@@ -151,16 +163,27 @@ public class ConnectionPool {
         return connection;
     }
 
+    private void refreshConnectionPool() throws ConnectionPoolException {
+
+        logger.debug("Taken connection from pool is closed or invalid. Perhaps database has restarted. Trying to fill pool with new connections again.");
+        close();
+        fillPool();
+    }
+
     /**
      * Return connection back to pool
      *
      * @param returnedConnection the connection which must be returned in pool
      */
-    public void putConnectionToPool(Connection returnedConnection) {
+    public void putConnectionToPool(Connection returnedConnection) throws ConnectionPoolException {
 
-        if (returnedConnection != null) {
-            connections.offer(returnedConnection);
-            logger.debug("Factory returned connection back to pool, now total connections in pool = {}", connections.size());
+        try {
+            if (returnedConnection.isValid(TIMEOUT_CHECK_CONNECTION)) {
+                connections.offer(returnedConnection);
+                logger.debug("Connection was returned back to pool, now total connections in pool = {}", connections.size());
+            }
+        } catch (SQLException e) {
+            throw new ConnectionPoolException(e);
         }
     }
 
@@ -178,7 +201,9 @@ public class ConnectionPool {
             } catch (SQLException e) {
                 throw new ConnectionPoolException(e);
             }
+        connections.clear();
         logger.debug("Connection pool was closed.");
+
     }
 
 

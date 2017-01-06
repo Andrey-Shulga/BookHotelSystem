@@ -16,6 +16,7 @@ import java.sql.SQLException;
 public class JdbcDaoFactory extends DaoFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcDaoFactory.class);
+    private static final int TIMEOUT_CHECK_CONNECTION = 1;
     private static ConnectionPool pool;
     private Connection connection;
 
@@ -137,11 +138,11 @@ public class JdbcDaoFactory extends DaoFactory {
     public void close() throws JdbcDaoException {
 
         try {
-            if (connection.isClosed())
-                logger.debug("Current connection has been closed and will not be returned to the pool.");
+            if (connection.isClosed() || !connection.isValid(TIMEOUT_CHECK_CONNECTION))
+                logger.debug("Return connection is closed or invalid, and will not be add to the pool.");
             else
                 pool.putConnectionToPool(connection);
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new JdbcDaoException(e);
         }
     }

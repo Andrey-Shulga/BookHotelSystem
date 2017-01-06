@@ -2,8 +2,10 @@ package com.epam.as.bookhotel.dao.jdbc;
 
 
 import com.epam.as.bookhotel.dao.Dao;
-import com.epam.as.bookhotel.exception.*;
-import com.epam.as.bookhotel.listener.ConnectionPoolInitListener;
+import com.epam.as.bookhotel.exception.JdbcDaoException;
+import com.epam.as.bookhotel.exception.NonUniqueFieldException;
+import com.epam.as.bookhotel.exception.PropertyManagerException;
+import com.epam.as.bookhotel.exception.UnableUpdateFieldException;
 import com.epam.as.bookhotel.model.BaseEntity;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
@@ -23,7 +25,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
-    private static final String DATABASE_CONNECTION_FAILURE_ERROR_CODE = "08006";
     private static final int ZERO = 0;
     private static final int INITIAL_COUNT = 1;
     private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
@@ -69,14 +70,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 } catch (SQLException e) {
                     //if field's value which inserted in column which keeps only unique values exist - throw exception about it
                     if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState())) throw new NonUniqueFieldException(e);
-                    try {
-                        //if database was down and connections in pool are not valid (closed), trying to clear pool and fill it with new connections
-                        if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
-                            getUpConnectionPool();
-                        }
-                    } catch (SQLException ex) {
-                        throw new JdbcDaoException(ex);
-                    }
                     throw new JdbcDaoException(e);
                 }
             }
@@ -90,9 +83,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     /**
      * General method for operation "update" entities to database
      *
-     * @param entity the entity which need updates in database
+     * @param entity     the entity which need updates in database
      * @param parameters the list of parameters for prepare PrepareStatements
-     * @param key property key for reading update query from property file
+     * @param key        property key for reading update query from property file
      * @return updated entity
      * @throws JdbcDaoException if any exceptions occurred with jdbc operations
      */
@@ -110,14 +103,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 else
                     logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
             } catch (SQLException e) {
-                try {
-                    //if database was down and connections in pool are not valid (closed), trying to clear pool and fill it with new connections
-                    if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
-                        getUpConnectionPool();
-                    }
-                } catch (SQLException ex) {
-                    throw new JdbcDaoException(ex);
-                }
                 throw new JdbcDaoException(e);
             }
         } catch (PropertyManagerException e) {
@@ -130,10 +115,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     /**
      * General method for operation "select" entities to database
      *
-     * @param entity the entity which need finds in database
+     * @param entity     the entity which need finds in database
      * @param parameters the list of parameters for prepare PrepareStatements
-     * @param key property key for reading update query from property file
-     * @param locale user's locale for select only localized entities from database
+     * @param key        property key for reading update query from property file
+     * @param locale     user's locale for select only localized entities from database
      * @return the list of found entities
      * @throws JdbcDaoException if any exceptions occurred with jdbc operations
      */
@@ -154,15 +139,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                     entities.add(newEntity);
                 }
             } catch (SQLException e) {
-                try {
-                    //if database was down and connections in pool are not valid (closed), trying to clear pool and fill it with new connections
-                    if (DATABASE_CONNECTION_FAILURE_ERROR_CODE.equals(e.getSQLState()) && (connection.isClosed())) {
-                        getUpConnectionPool();
-                    }
-                } catch (SQLException ex) {
-                    throw new JdbcDaoException(ex);
-                }
-
                 throw new JdbcDaoException(e);
             }
         } catch (PropertyManagerException e) {
@@ -173,28 +149,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     /**
-     * Invokes methods for clearing connection pool from "dead" connection and fill it again with new connections (after possible database down).
-     *
-     * @throws JdbcDaoException on exceptions from Connection pool.
-     */
-    void getUpConnectionPool() throws JdbcDaoException {
-
-        logger.debug("Taken connection from pool is closed (possibly invalid). Perhaps database downed. Trying to fill pool with new connections again.");
-        try {
-            //clear pool from connections
-            ConnectionPoolInitListener.getPool().close();
-            //fill pool with new connections
-            ConnectionPoolInitListener.getPool().fillPool();
-        } catch (ConnectionPoolException e) {
-            throw new JdbcDaoException(e);
-        }
-
-    }
-
-    /**
      * Format query by user's locale
      *
-     * @param query the sql query
+     * @param query  the sql query
      * @param locale user's locale
      * @return formatted sql query
      */
@@ -207,7 +164,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
      * Set values to PrepareStatement
      *
      * @param parameters values
-     * @param ps PrepareStatement
+     * @param ps         PrepareStatement
      * @throws SQLException if any jdbc errors occurred
      */
     private void setParametersToPs(List<Object> parameters, PreparedStatement ps) throws SQLException {
@@ -224,7 +181,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
      * Set returning from ResultSet id in entity
      *
      * @param entity inserted entity
-     * @param ps PrepareStatement
+     * @param ps     PrepareStatement
      * @throws SQLException if any jdbc errors occurred
      */
     void setId(T entity, PreparedStatement ps) throws SQLException {
@@ -240,7 +197,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     /**
      * Set values from ResultSet to entity's fields.
      *
-     * @param rs the ResultSet
+     * @param rs     the ResultSet
      * @param entity entity which need for set fields
      * @return entity with set fields
      * @throws SQLException if any jdbc errors occurred
