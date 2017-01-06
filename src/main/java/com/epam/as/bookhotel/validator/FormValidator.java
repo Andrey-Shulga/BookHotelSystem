@@ -288,7 +288,9 @@ public class FormValidator {
      *
      * @param parameter name of parameter
      * @param req       http request with values of parameter
-     * @throws ValidatorException wrap for any exception
+     * @throws IOException
+     * @throws ServletException
+     * @throws ValidatorException
      */
     public void checkImageContentType(String parameter, HttpServletRequest req) throws ValidatorException {
 
@@ -316,7 +318,7 @@ public class FormValidator {
      *
      * @param parameter name of parameter
      * @param req       http request with values of parameter
-     * @throws ValidatorException wrap for any exception
+     * @throws ValidatorException wrap
      */
     public void checkFileMaxSize(String parameter, HttpServletRequest req) throws ValidatorException {
 

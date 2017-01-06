@@ -5,6 +5,7 @@ import com.epam.as.bookhotel.action.Action;
 import com.epam.as.bookhotel.action.ActionFactory;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ActionFactoryException;
+import com.epam.as.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +63,11 @@ public class FrontControllerServlet extends HttpServlet {
             resp.sendRedirect(view.substring(REDIRECT_PREFIX.length()));
         } else {
             req.getRequestDispatcher(PATH_TO_JSP + view + FILE_JSP).forward(req, resp);
+            //delete errors from previous validation
+            ValidatorHelper validatorHelper = new ValidatorHelper();
+            validatorHelper.deleteValidatorsErrorsFromSession(req);
         }
+
     }
 
     /**

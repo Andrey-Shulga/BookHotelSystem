@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
-    private static final String LOGIN_FORM = "login";
+    private static final String LOGIN_BUTTON = "loginButton";
     private static final String REDIRECT_LOGIN_FORM = "redirect:/do/?action=show-login-form";
     private static final String REDIRECT = "redirect:/do/?action=show-login-success";
     private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
@@ -40,7 +40,7 @@ public class LoginAction implements Action {
         try {
             userService.login(user);
         } catch (ServiceException e) {
-            req.getSession().setAttribute(LOGIN_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.getSession().setAttribute(LOGIN_BUTTON + ERROR_MESSAGE_SUFFIX, e.getMessage());
             return REDIRECT_LOGIN_FORM;
         }
 

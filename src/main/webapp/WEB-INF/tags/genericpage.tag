@@ -28,6 +28,7 @@
     <script type="text/javascript" src="${prefix}/js/jquery.js"></script>
     <script type="text/javascript" src="${prefix}/js/jquery-ui.js"></script>
     <script type="text/javascript" src="${prefix}/js/datepicker.js"></script>
+    <script type="text/javascript" src="${prefix}/js/form-filler.js"></script>
     <link href="${prefix}/js/jquery-ui.css" rel="stylesheet">
 
     <title>${title}</title>
@@ -62,13 +63,13 @@
     </c:if>
 
     <c:if test="${not empty role}">
+
         <c:if test="${role==MANAGER}">
             <p><a href="${prefix}/do/?action=show-manager-order-list"><fmt:message key="sidebar.menu.order.list"/></a>
             </p>
             <p><a href="${prefix}/do/?action=show-manager-allorder-list"><fmt:message
                     key="sidebar.menu.allorder.list"/></a></p>
             <p><a href="${prefix}/do/?action=show-manager-room-list"><fmt:message key="sidebar.menu.room.list"/></a></p>
-
         </c:if>
 
         <c:if test="${role==USER}">
