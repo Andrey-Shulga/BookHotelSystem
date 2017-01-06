@@ -288,22 +288,25 @@ public class FormValidator {
      *
      * @param parameter name of parameter
      * @param req       http request with values of parameter
-     * @throws IOException
-     * @throws ServletException
-     * @throws ValidatorException
+     * @throws ValidatorException wrap for any exception
      */
-    public void checkImageContentType(String parameter, HttpServletRequest req) throws IOException, ServletException, ValidatorException {
+    public void checkImageContentType(String parameter, HttpServletRequest req) throws ValidatorException {
 
         final String FILE_FORM_CONTENT_HEADER = "application/x-www-form-urlencoded";
         if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
-            Part photoPart = req.getPart(parameter);
-            if (photoPart.getSize() != ZERO_SIZE) {
-                String contentType = photoPart.getContentType();
-                ImageValidator validator = new ImageValidator();
-                logger.debug("Validator {} try to validate value of content type \"{}\"", validator.getClass().getSimpleName(), contentType);
-                if (!validator.isValid(contentType)) fillErrorMap(parameter, WRONG_CONTENT_TYPE_ERROR_MESSAGE);
-                logger.debug("Result is {}", validator.isValid(contentType));
+            try {
+                Part photoPart = req.getPart(parameter);
+                if (photoPart.getSize() != ZERO_SIZE) {
+                    String contentType = photoPart.getContentType();
+                    ImageValidator validator = new ImageValidator();
+                    logger.debug("Validator {} try to validate value of content type \"{}\"", validator.getClass().getSimpleName(), contentType);
+                    if (!validator.isValid(contentType)) fillErrorMap(parameter, WRONG_CONTENT_TYPE_ERROR_MESSAGE);
+                    logger.debug("Result is {}", validator.isValid(contentType));
+                }
+            } catch (IOException | ServletException e) {
+                throw new ValidatorException(e);
             }
+
         }
 
     }
@@ -313,22 +316,25 @@ public class FormValidator {
      *
      * @param parameter name of parameter
      * @param req       http request with values of parameter
-     * @throws IOException
-     * @throws ServletException
-     * @throws ValidatorException
+     * @throws ValidatorException wrap for any exception
      */
-    public void checkFileMaxSize(String parameter, HttpServletRequest req) throws IOException, ServletException, ValidatorException {
+    public void checkFileMaxSize(String parameter, HttpServletRequest req) throws ValidatorException {
 
         final String FILE_FORM_CONTENT_HEADER = "application/x-www-form-urlencoded";
         if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
-            Part photoPart = req.getPart(parameter);
-            if (photoPart.getSize() != ZERO_SIZE) {
-                Long fileSize = photoPart.getSize();
-                FileSizeValidator validator = new FileSizeValidator();
-                logger.debug("Validator {} try to validate value of size \"{}\"", validator.getClass().getSimpleName(), fileSize);
-                if (!validator.isValid(fileSize)) fillErrorMap(parameter, WRONG_FILE_SIZE_ERROR_MESSAGE);
-                logger.debug("Result is {}", validator.isValid(fileSize));
+            try {
+                Part photoPart = req.getPart(parameter);
+                if (photoPart.getSize() != ZERO_SIZE) {
+                    Long fileSize = photoPart.getSize();
+                    FileSizeValidator validator = new FileSizeValidator();
+                    logger.debug("Validator {} try to validate value of size \"{}\"", validator.getClass().getSimpleName(), fileSize);
+                    if (!validator.isValid(fileSize)) fillErrorMap(parameter, WRONG_FILE_SIZE_ERROR_MESSAGE);
+                    logger.debug("Result is {}", validator.isValid(fileSize));
+                }
+            } catch (IOException | ServletException e) {
+                throw new ValidatorException(e);
             }
+
         }
     }
 

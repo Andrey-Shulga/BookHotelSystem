@@ -56,8 +56,7 @@ public class AddNewRoomManagerAction implements Action {
             validator.checkFileMaxSize(ROOM_PHOTO_ATTR, req);
             //if errors found return to page again with output errors
             if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
-
-        } catch (ValidatorException | ServletException | IOException e) {
+        } catch (ValidatorException e) {
             throw new ActionException(e);
         }
         //if form validation ok continue...
