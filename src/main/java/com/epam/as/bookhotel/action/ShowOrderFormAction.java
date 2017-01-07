@@ -33,7 +33,8 @@ public class ShowOrderFormAction implements Action {
             List<Bed> bedList = service.findAllBeds(new Bed());
             req.getSession().setAttribute(BED_LIST_ATTRIBUTE, bedList);
         } catch (ServiceException e) {
-            throw new ActionException(e);
+            return BOOK_ORDER_JSP;
+
         }
 
         RoomTypeService roomTypeService = new RoomTypeService();
@@ -41,7 +42,7 @@ public class ShowOrderFormAction implements Action {
             final List<RoomType> roomTypeList = roomTypeService.findAllRoomTypes(new RoomType(), user.getLocale().getLocaleName());
             req.getSession().setAttribute(ROOM_TYPE_LIST_ATTRIBUTE, roomTypeList);
         } catch (ServiceException e) {
-            throw new ActionException(e);
+            return BOOK_ORDER_JSP;
         }
 
         return BOOK_ORDER_JSP;
