@@ -28,6 +28,7 @@
             <c:if test="${not empty loginErrorMessage}">
                 <div id="errorcolortext"><fmt:message key="${loginButtonErrorMessages}"/></div>
             </c:if>
+
         </form>
     </jsp:body>
 

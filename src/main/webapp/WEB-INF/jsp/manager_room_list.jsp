@@ -77,9 +77,8 @@
             <input type="text" size="3" name="roomNumber" id="inputRoomNumber" placeholder="" maxlength="4"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
                    value="${sessionScope.roomNumber}" required autofocus><br>
-            <c:forEach var="errorMessage" items="${roomNumberErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${roomNumberErrorMessages}"/>
 
             <label><b><fmt:message key="add.room.bed.label"/></b></label><br>
             <select size="1" name="bed">
@@ -89,9 +88,8 @@
                     <option value="${bed.bed}">${bed.bed}</option>
                 </c:forEach>
             </select><br>
-            <c:forEach var="errorMessage" items="${bedErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${bedErrorMessages}"/>
 
             <label><b><fmt:message key="add.room.type.label"/></b></label><br>
             <select size="1" name="roomType">
@@ -101,9 +99,8 @@
                     <option value="${roomType.roomTypeEn}">${roomType.roomType}</option>
                 </c:forEach>
             </select><br>
-            <c:forEach var="errorMessage" items="${roomTypeErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${roomTypeErrorMessages}"/>
 
             <label><b><fmt:message key="add.room.price.label"/></b></label>
             <small><fmt:message key="add.room.price.label.rules"/></small>
@@ -112,17 +109,15 @@
                    size="12"
                    required>
             <br>
-            <c:forEach var="errorMessage" items="${roomPriceErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${roomPriceErrorMessages}"/>
 
             <label><b><fmt:message key="add.room.image.label"/></b></label>
             <small><fmt:message key="add.room.number.image.rules"/></small>
             <br>
             <input type="file" name="photo" value="" accept="image/*"/><br><br>
-            <c:forEach var="errorMessage" items="${photoErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${photoErrorMessages}"/>
 
             <button type="submit"><fmt:message key="add.room.button.submit"/></button>
             <br>

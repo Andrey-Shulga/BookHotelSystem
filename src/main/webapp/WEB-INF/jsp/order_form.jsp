@@ -19,9 +19,8 @@
             <br>
             <input type="text" name="firstName" id="inputFirstName" minlength="2" maxlength="16" required autofocus
                    value="${sessionScope.firstName}">
-            <c:forEach var="errorMessage" items="${firstNameErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${firstNameErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.lasttname"/></b></label>
@@ -29,9 +28,8 @@
             <br>
             <input type="text" name="lastName" id="inputLastName" minlength="2" maxlength="16" required
                    value="${sessionScope.lastName}">
-            <c:forEach var="errorMessage" items="${lastNameErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${lastNameErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.email"/></b></label>
@@ -39,9 +37,8 @@
             <br>
             <input type="email" name="email" id="inputEmail" minlength="7" maxlength="30" required
                    value="${sessionScope.email}">
-            <c:forEach var="errorMessage" items="${emailErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${emailErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.phone"/></b></label>
@@ -50,27 +47,21 @@
             <input type="text" name="phone" id="inputPhone" minlength="3" maxlength="20"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" required
                    value="${sessionScope.phone}">
-            <c:forEach var="errorMessage" items="${phoneErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+            <t:output-errors errors="${phoneErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.checkin"/></b></label>
             <small><fmt:message key="order.make.form.checkin.rule"/></small>
             <br>
             <input type="date" readonly name="checkIn" id="from" required value="${sessionScope.checkIn}">
-            <c:forEach var="errorMessage" items="${checkInErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+            <t:output-errors errors="${checkInErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.checkout"/></b></label>
             <small><fmt:message key="order.make.form.checkout.rule"/></small>
             <br>
             <input type="date" readonly name="checkOut" id="to" required value="${sessionScope.checkOut}">
-            <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+            <t:output-errors errors="${checkOutErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.bed"/></b></label>
@@ -84,9 +75,7 @@
                 </c:forEach>
             </select>
 
-            <c:forEach var="errorMessage" items="${bedErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+            <t:output-errors errors="${bedErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.roomType"/></b></label>
@@ -100,9 +89,7 @@
                 </c:forEach>
             </select>
 
-            <c:forEach var="errorMessage" items="${roomTypeErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+            <t:output-errors errors="${roomTypeErrorMessages}"/>
             <br><br>
 
             <button type="submit"><fmt:message key="order.make.submit"/></button>
@@ -110,6 +97,7 @@
             <c:if test="${not empty orderErrorMessage}">
                 <div id="errorcolortext"><fmt:message key="${order_formErrorMessages}"/></div>
             </c:if>
+
 
         </form>
 

@@ -91,18 +91,18 @@
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" placeholder=""
                    minlength="1" maxlength="10" min="1" max="2147483647" value="${sessionScope.orderId}" required
                    autofocus>
-            <c:forEach var="errorMessage" items="${orderIdErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${orderIdErrorMessages}"/>
             <br><br>
+
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
             <input type="text" name="roomId" id="inputRoomNumber" maxlength="4"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
                    value="${sessionScope.roomId}" minlength="1" min="1" max="2147483647" placeholder="" required>
-            <c:forEach var="errorMessage" items="${roomIdErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${roomIdErrorMessages}"/>
             <br><br>
+
             <button type="submit"><fmt:message key="orders.manager.form.select.button.submit"/></button>
             <c:if test="${not empty confirmErrorMessage}">
                 <div id="errorcolortext"><fmt:message key="${confirmErrorMessages}"/></div>
@@ -126,18 +126,18 @@
             <input type="date" readonly id="from" name="checkIn" placeholder="" value="${sessionScope.checkIn}"
                    required autofocus>
             <small><fmt:message key="orders.manager.form.select.date.chekIn.rules"/></small>
-            <c:forEach var="errorMessage" items="${checkInErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${checkInErrorMessages}"/>
             <br><br>
+
             <label><b><fmt:message key="orders.manager.form.select.date.chekOut"/></b></label>
             <input type="date" readonly id="to" name="checkOut" value="${sessionScope.checkOut}" placeholder=""
                    required>
             <small><fmt:message key="orders.manager.form.select.date.chekOut.rules"/></small>
-            <c:forEach var="errorMessage" items="${checkOutErrorMessages}">
-                <div id="errorcolortext"><fmt:message key="${errorMessage}"/></div>
-            </c:forEach>
+
+            <t:output-errors errors="${checkOutErrorMessages}"/>
             <br><br>
+
             <button type="submit"><fmt:message key="orders.manager.form.button.search"/></button>
             <c:if test="${not empty searchErrorMessage}">
                 <div id="errorcolortext"><fmt:message key="${searchErrorMessages}"/></div>
