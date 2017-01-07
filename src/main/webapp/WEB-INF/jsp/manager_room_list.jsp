@@ -106,8 +106,7 @@
             <small><fmt:message key="add.room.price.label.rules"/></small>
             <br>
             <input type="text" name="roomPrice" id="inputRoomPrice" value="${sessionScope.roomPrice}" placeholder=""
-                   size="12"
-                   required>
+                   size="12" onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" required>
             <br>
 
             <t:output-errors errors="${roomPriceErrorMessages}"/>

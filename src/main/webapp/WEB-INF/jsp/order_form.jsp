@@ -44,7 +44,7 @@
             <label><b><fmt:message key="order.make.form.phone"/></b></label>
             <small><fmt:message key="order.make.form.phone.rule"/></small>
             <br>
-            <input type="text" name="phone" id="inputPhone" minlength="3" maxlength="20"
+            <input type="tel" name="phone" id="inputPhone" minlength="3" maxlength="20"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');" required
                    value="${sessionScope.phone}">
             <t:output-errors errors="${phoneErrorMessages}"/>
