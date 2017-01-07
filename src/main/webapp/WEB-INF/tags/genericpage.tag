@@ -80,7 +80,8 @@
             </p>
         </c:if>
 
-        <p><a href="${prefix}/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a></p>
+        <p><a href="${prefix}/do/?action=logout"><fmt:message key="sidebar.menu.logout"/></a>
+            [${sessionScope.user.login}]</p>
     </c:if>
 
 </div>
