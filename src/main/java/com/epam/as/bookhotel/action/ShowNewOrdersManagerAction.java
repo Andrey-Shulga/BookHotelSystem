@@ -26,12 +26,12 @@ public class ShowNewOrdersManagerAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) {
 
         final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
-        Order order = new Order();
+        final Order order = new Order();
         order.setUser(user);
         order.setStatus(new OrderStatus(ORDERS_STATUS_UNCONFIRMED));
         OrderService orderService = new OrderService();
         try {
-            List<Order> orderList = orderService.findAllOrdersByStatusUnconfirmed(order);
+            final List<Order> orderList = orderService.findAllOrdersByStatusUnconfirmed(order);
             req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
         } catch (ServiceException e) {
             req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());

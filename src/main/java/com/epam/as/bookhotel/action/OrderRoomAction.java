@@ -68,12 +68,12 @@ public class OrderRoomAction implements Action {
         String phone = req.getParameter(PHONE);
         String checkIn = req.getParameter(CHECK_IN);
         String checkOut = req.getParameter(CHECK_OUT);
-        Date checkInDate = DateConverter.getStrToDate(checkIn);
-        Date checkOutDate = DateConverter.getStrToDate(checkOut);
-        Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
-        RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
+        final Date checkInDate = DateConverter.getStrToDate(checkIn);
+        final Date checkOutDate = DateConverter.getStrToDate(checkOut);
+        final Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
+        final RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
-        Order order = new Order(user, firstName, lastName, email, phone, checkInDate, checkOutDate, bed, roomType);
+        final Order order = new Order(user, firstName, lastName, email, phone, checkInDate, checkOutDate, bed, roomType);
 
         OrderService orderService = new OrderService();
         try {

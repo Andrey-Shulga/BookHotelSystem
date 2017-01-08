@@ -36,7 +36,7 @@ public class LoginAction implements Action {
         String password = req.getParameter(PASSWORD_PARAMETER);
         String locale = req.getParameter(LOCALE_SESSION_ATTRIBUTE_NAME);
 
-        User user = new User(login, password, new UserLocale(locale));
+        final User user = new User(login, password, new UserLocale(locale));
         UserService userService = new UserService();
         try {
             userService.login(user);

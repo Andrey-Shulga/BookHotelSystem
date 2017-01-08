@@ -30,7 +30,7 @@ public class ShowOrderFormAction implements Action {
 
         BedService service = new BedService();
         try {
-            List<Bed> bedList = service.findAllBeds(new Bed());
+            final List<Bed> bedList = service.findAllBeds(new Bed());
             req.getSession().setAttribute(BED_LIST_ATTRIBUTE, bedList);
         } catch (ServiceException e) {
             return BOOK_ORDER_JSP;

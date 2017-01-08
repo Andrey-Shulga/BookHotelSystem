@@ -27,7 +27,7 @@ public class ShowAllRoomsManagerAction implements Action {
         final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
         RoomService roomService = new RoomService();
         try {
-            List<Room> roomList = roomService.findAllRooms(new Room(), user);
+            final List<Room> roomList = roomService.findAllRooms(new Room(), user);
             req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
         } catch (ServiceException e) {
             req.setAttribute(ROOMS_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());

@@ -54,10 +54,10 @@ public class RegisterAction implements Action {
         UserRole userRole = new UserRole(UserType.USER);
         String locale = (String) req.getSession().getAttribute(LOCALE_SESSION_ATTR_NAME);
         UserLocale userLocale = new UserLocale(locale);
-        User user = new User(login, password, userRole, userLocale);
+        final User user = new User(login, password, userRole, userLocale);
         UserService userService = new UserService();
         try {
-            user = userService.register(user);
+            userService.register(user);
             logger.debug("{} inserted into database.", user);
         } catch (ServiceException e) {
             req.getSession().setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());

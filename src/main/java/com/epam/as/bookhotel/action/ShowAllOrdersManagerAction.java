@@ -24,11 +24,11 @@ public class ShowAllOrdersManagerAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) {
 
         final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
-        Order order = new Order();
+        final Order order = new Order();
         order.setUser(user);
         OrderService orderService = new OrderService();
         try {
-            List<Order> orderList = orderService.findAllOrders(order);
+            final List<Order> orderList = orderService.findAllOrders(order);
             req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
         } catch (ServiceException e) {
             req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());

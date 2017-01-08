@@ -27,12 +27,12 @@ public class ShowInvoiceUserAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         final User user = (User) req.getSession(false).getAttribute(USER);
-        Order order = new Order();
+        final Order order = new Order();
         order.setUser(user);
         order.setStatus(new OrderStatus(ORDERS_STATUS_CONFIRMED));
         OrderService orderService = new OrderService();
         try {
-            List<Order> orderList = orderService.findConfirmedOrdersByUserId(order);
+            final List<Order> orderList = orderService.findConfirmedOrdersByUserId(order);
             req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
         } catch (ServiceException e) {
             req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());

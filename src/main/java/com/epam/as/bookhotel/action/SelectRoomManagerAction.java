@@ -46,9 +46,9 @@ public class SelectRoomManagerAction implements Action {
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
 
-        Room room = new Room();
+        final Room room = new Room();
         room.setNumber(Integer.parseInt(roomId));
-        Order order = new Order();
+        final Order order = new Order();
         order.setId(Integer.parseInt(orderId));
         order.setRoom(room);
         order.setUser(user);
