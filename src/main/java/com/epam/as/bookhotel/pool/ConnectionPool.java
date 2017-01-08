@@ -88,8 +88,8 @@ public class ConnectionPool {
         } catch (PropertyManagerException e) {
             throw new ConnectionPoolException(e);
         }
-        boolean QUEUE_LOCK_FAIR = true;
-        connections = new ArrayBlockingQueue<>(poolMaxSize, QUEUE_LOCK_FAIR);
+
+        connections = new ArrayBlockingQueue<>(poolMaxSize);
     }
 
     /**
