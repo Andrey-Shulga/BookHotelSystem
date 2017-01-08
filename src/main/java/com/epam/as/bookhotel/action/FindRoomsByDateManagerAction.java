@@ -35,9 +35,8 @@ public class FindRoomsByDateManagerAction implements Action {
 
         saveInputField(req);
         //check form's filed on errors
-        ValidatorHelper validatorHelper = new ValidatorHelper();
         try {
-            if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
+            if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }

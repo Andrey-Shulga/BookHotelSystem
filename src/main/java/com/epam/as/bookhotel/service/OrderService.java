@@ -41,9 +41,8 @@ public class OrderService extends ParentService {
         parameters.add(order.getPhone());
         parameters.add(order.getBed().getBed());
         parameters.add(order.getRoomType().getRoomType());
-        DateConverter converter = new DateConverter();
-        parameters.add(converter.getDateToStr(order.getCheckIn()));
-        parameters.add(converter.getDateToStr(order.getCheckOut()));
+        parameters.add(DateConverter.getDateToStr(order.getCheckIn()));
+        parameters.add(DateConverter.getDateToStr(order.getCheckOut()));
         try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             orderDao.save(order, parameters, INSERT_ORDER_KEY);

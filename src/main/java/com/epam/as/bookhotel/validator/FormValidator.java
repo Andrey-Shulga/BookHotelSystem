@@ -72,8 +72,7 @@ public class FormValidator {
 
         boolean isError = false;
         if (!fieldErrors.isEmpty()) {
-            ValidatorHelper validatorHelper = new ValidatorHelper();
-            validatorHelper.setErrorsToSession(req, fieldErrors);
+            ValidatorHelper.setErrorsToSession(req, fieldErrors);
             isError = true;
         }
         return isError;
@@ -89,9 +88,8 @@ public class FormValidator {
      */
     public Map<String, List<String>> validate(String formName, HttpServletRequest request) throws ValidatorException {
 
-        ValidatorHelper validatorHelper = new ValidatorHelper();
         //delete errors from previous validation
-        validatorHelper.deleteValidatorsErrorsFromSession(request);
+        ValidatorHelper.deleteErrorsFromSession(request);
         //get collection with name of field and list of validators for that field
         Map<String, List<Validator>> fieldValidators = getParameterValidatorsMap(formName, request);
         for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
@@ -288,9 +286,7 @@ public class FormValidator {
      *
      * @param parameter name of parameter
      * @param req       http request with values of parameter
-     * @throws IOException
-     * @throws ServletException
-     * @throws ValidatorException
+     * @throws ValidatorException wrap for any exception
      */
     public void checkImageContentType(String parameter, HttpServletRequest req) throws ValidatorException {
 

@@ -27,7 +27,7 @@ public class ValidatorHelper {
      * @return result of validation
      * @throws ValidatorException wrap for any exceptions in ValidatorHelper
      */
-    public boolean checkForm(HttpServletRequest req, String validateForm) throws ValidatorException {
+    public static boolean checkForm(HttpServletRequest req, String validateForm) throws ValidatorException {
 
         boolean checkResult = false;
         FormValidator validator = new FormValidator();
@@ -41,7 +41,7 @@ public class ValidatorHelper {
      *
      * @param request http request for getting session
      */
-    public void deleteValidatorsErrorsFromSession(HttpServletRequest request) {
+    public static void deleteErrorsFromSession(HttpServletRequest request) {
 
         Enumeration<String> attributeNames = request.getSession().getAttributeNames();
         while (attributeNames.hasMoreElements()) {
@@ -56,7 +56,7 @@ public class ValidatorHelper {
      * @param req         http request for getting session
      * @param fieldErrors collection with messages about found errors
      */
-    public void setErrorsToSession(HttpServletRequest req, Map<String, List<String>> fieldErrors) {
+    public static void setErrorsToSession(HttpServletRequest req, Map<String, List<String>> fieldErrors) {
 
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
             req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());

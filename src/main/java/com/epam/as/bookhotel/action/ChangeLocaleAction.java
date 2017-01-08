@@ -18,14 +18,12 @@ public class ChangeLocaleAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         String userLocale = req.getParameter(LOCALE_ATTR);
-        LocaleUpdater changer = new LocaleUpdater();
         try {
-            changer.changeUserLocale(req, userLocale);
+            LocaleUpdater.changeUserLocale(req, userLocale);
         } catch (LocaleChangerException e) {
             throw new ActionException(e);
         }
-        CookieHelper cookieHelper = new CookieHelper();
-        cookieHelper.setCookie(res, LOCALE_ATTR, userLocale);
+        CookieHelper.setCookie(res, LOCALE_ATTR, userLocale);
         String referrer = req.getHeader(REFERRER);
 
         return REDIRECT_PREFIX + referrer;

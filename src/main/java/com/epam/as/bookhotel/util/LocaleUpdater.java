@@ -28,7 +28,7 @@ public class LocaleUpdater {
      * @param locale locale from user
      * @throws LocaleChangerException if any exception when locale is changing occurred
      */
-    public void changeUserLocale(HttpServletRequest req, String locale) throws LocaleChangerException {
+    public static void changeUserLocale(HttpServletRequest req, String locale) throws LocaleChangerException {
 
         if (req.getSession(false).getAttribute(USER_ATTR_NAME) != null) {
             final User user = (User) req.getSession(false).getAttribute(USER_ATTR_NAME);

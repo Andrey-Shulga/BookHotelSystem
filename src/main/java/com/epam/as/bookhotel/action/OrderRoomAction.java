@@ -68,9 +68,8 @@ public class OrderRoomAction implements Action {
         String phone = req.getParameter(PHONE);
         String checkIn = req.getParameter(CHECK_IN);
         String checkOut = req.getParameter(CHECK_OUT);
-        DateConverter converter = new DateConverter();
-        Date checkInDate = converter.getStrToDate(checkIn);
-        Date checkOutDate = converter.getStrToDate(checkOut);
+        Date checkInDate = DateConverter.getStrToDate(checkIn);
+        Date checkOutDate = DateConverter.getStrToDate(checkOut);
         Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
         RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
