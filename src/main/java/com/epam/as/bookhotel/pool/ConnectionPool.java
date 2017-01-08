@@ -141,7 +141,7 @@ public class ConnectionPool {
             }
             //if application need connection but no connection in pool and reached max limit - wait until appear free connection
         } else {
-            logger.debug("Total limit of connections to database = {} reached. No new connection " +
+            logger.debug("Total limit of connections to database = {} has been reached. No new connection " +
                     "will be create, wait for release any connection...", poolMaxSize);
             try {
                 connection = connections.poll(pollConnectionTimeout, TimeUnit.SECONDS);
@@ -180,7 +180,7 @@ public class ConnectionPool {
         try {
             if (returnedConnection.isValid(TIMEOUT_CHECK_CONNECTION)) {
                 connections.offer(returnedConnection);
-                logger.debug("Connection was returned back to pool, now total connections in pool = {}", connections.size());
+                logger.debug("Connection has been returned back to pool, now total connections in pool = {}", connections.size());
             }
         } catch (SQLException e) {
             throw new ConnectionPoolException(e);
@@ -202,7 +202,7 @@ public class ConnectionPool {
                 throw new ConnectionPoolException(e);
             }
         connections.clear();
-        logger.debug("Connection pool was closed.");
+        logger.debug("Connection pool has been closed.");
 
     }
 
