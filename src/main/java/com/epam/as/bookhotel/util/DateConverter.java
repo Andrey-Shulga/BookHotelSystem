@@ -13,15 +13,16 @@ import java.util.Date;
 
 public class DateConverter {
 
+    private static final String DATE_PATTERN = "dd/MM/yyyy";
+
     /**
      * Convert received parameter from date to string type
      *
      * @param date parameter for converting
      * @return date in String type
      */
-    public String getDateToStr(Date date) {
+    public static String getDateToStr(Date date) {
 
-        final String DATE_PATTERN = "dd/MM/yyyy";
         DateFormat df = new SimpleDateFormat(DATE_PATTERN);
         return df.format(date);
     }
@@ -33,10 +34,9 @@ public class DateConverter {
      * @return date in Date type
      * @throws ActionException general exception for throwing exceptions in actions.
      */
-    public Date getStrToDate(String parameter) throws ActionException {
+    public static Date getStrToDate(String parameter) throws ActionException {
 
-        final String DATE_PATTERN = "dd/MM/yyyy";
-        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+        DateFormat format = new SimpleDateFormat(DATE_PATTERN);
         Date date;
         try {
             date = format.parse(parameter);

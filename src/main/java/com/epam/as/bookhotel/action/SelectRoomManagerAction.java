@@ -35,9 +35,8 @@ public class SelectRoomManagerAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         saveInputField(req);
-        ValidatorHelper validatorHelper = new ValidatorHelper();
         try {
-            if (validatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
+            if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }

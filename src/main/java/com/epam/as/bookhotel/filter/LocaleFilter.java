@@ -36,8 +36,7 @@ public class LocaleFilter implements Filter {
 
         String locale = null;
         //try to find locale in cookie and set it to session
-        CookieHelper cookieHelper = new CookieHelper();
-        Cookie localCookie = cookieHelper.findParameter(request, LOCALE_ATTR_NAME);
+        Cookie localCookie = CookieHelper.findParameter(request, LOCALE_ATTR_NAME);
         if (localCookie != null) {
             locale = localCookie.getValue();
             session.setAttribute(LOCALE_ATTR_NAME, locale);
@@ -47,13 +46,13 @@ public class LocaleFilter implements Filter {
         if (locale == null) {
             logger.debug("Locale not found in cookie, try to find in session.");
             locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
-            cookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
+            CookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
         }
 
         //if locale not found in session and cookie - get default locale and set it to session and cookie
         if (locale == null) {
             locale = DEFAULT_LOCALE;
-            cookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
+            CookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
             session.setAttribute(LOCALE_ATTR_NAME, locale);
             logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }

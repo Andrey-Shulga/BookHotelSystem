@@ -64,8 +64,7 @@ public class FrontControllerServlet extends HttpServlet {
         } else {
             req.getRequestDispatcher(PATH_TO_JSP + view + FILE_JSP).forward(req, resp);
             //delete errors from previous validation
-            ValidatorHelper validatorHelper = new ValidatorHelper();
-            validatorHelper.deleteValidatorsErrorsFromSession(req);
+            ValidatorHelper.deleteErrorsFromSession(req);
         }
 
     }

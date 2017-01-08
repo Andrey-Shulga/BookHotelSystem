@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieHelper {
 
-    public Cookie findParameter(HttpServletRequest req, String parameter) {
+    public static Cookie findParameter(HttpServletRequest req, String parameter) {
 
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
@@ -15,7 +15,7 @@ public class CookieHelper {
         return null;
     }
 
-    public void setCookie(HttpServletResponse resp, String name, String value) {
+    public static void setCookie(HttpServletResponse resp, String name, String value) {
 
         resp.addCookie(new Cookie(name, value));
     }
