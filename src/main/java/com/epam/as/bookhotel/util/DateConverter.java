@@ -14,6 +14,7 @@ import java.util.Date;
 public class DateConverter {
 
     private static final String DATE_PATTERN = "dd/MM/yyyy";
+    private static final ThreadLocal<DateFormat> DATE_CACHE_FORMAT = new ThreadLocal<>();
 
     /**
      * Convert received parameter from date to string type
@@ -23,8 +24,7 @@ public class DateConverter {
      */
     public static String getDateToStr(Date date) {
 
-        DateFormat df = new SimpleDateFormat(DATE_PATTERN);
-        return df.format(date);
+        return getFormat().format(date);
     }
 
     /**
@@ -36,13 +36,27 @@ public class DateConverter {
      */
     public static Date getStrToDate(String parameter) throws ActionException {
 
-        DateFormat format = new SimpleDateFormat(DATE_PATTERN);
         Date date;
         try {
-            date = format.parse(parameter);
+            date = getFormat().parse(parameter);
         } catch (ParseException e) {
             throw new ActionException(e);
         }
         return date;
+    }
+
+    /**
+     * Return date format from cache or set new if return is null
+     *
+     * @return format for date
+     */
+    private static DateFormat getFormat() {
+
+        DateFormat format = DATE_CACHE_FORMAT.get();
+        if (format == null) {
+            format = new SimpleDateFormat(DATE_PATTERN);
+            DATE_CACHE_FORMAT.set(format);
+        }
+        return format;
     }
 }
