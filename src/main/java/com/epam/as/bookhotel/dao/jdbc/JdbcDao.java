@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract DAO for JDBC operations with entities
+ * Abstract DAO for CRUD operations
  *
  * @param <T> generic type for any entity
  */

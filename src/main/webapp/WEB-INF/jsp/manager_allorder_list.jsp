@@ -2,6 +2,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <fmt:message key="allOrders.show.form.title" var="title"/>
 <c:set var="orderListErrorMessage" value="${ordersErrorMessages}"/>
@@ -62,10 +63,10 @@
                                 ${order.roomType}
                         </td>
                         <td>
-                                ${order.checkIn}
+                            <ftm:formatDate value="${order.checkIn}"/>
                         </td>
                         <td>
-                                ${order.checkOut}
+                            <ftm:formatDate value=" ${order.checkOut}"/>
                         </td>
                         <td>
                                 ${order.status}

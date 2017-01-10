@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
+<%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setBundle basename="lang"/>
 <fmt:message key="user.invoice.list.title" var="title"/>
@@ -62,10 +63,10 @@
                                 ${order.roomType}
                         </td>
                         <td>
-                                ${order.checkIn}
+                            <ftm:formatDate value="${order.checkIn}"/>
                         </td>
                         <td>
-                                ${order.checkOut}
+                            <ftm:formatDate value=" ${order.checkOut}"/>
                         </td>
                         <td>
                                 ${order.status}
