@@ -66,7 +66,7 @@
                             <ftm:formatDate value="${order.checkIn}"/>
                         </td>
                         <td>
-                            <ftm:formatDate value=" ${order.checkOut}"/>
+                            <ftm:formatDate value="${order.checkOut}"/>
                         </td>
                         <td>
                                 ${order.status}
