@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.dao;
 
 
-import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.entity.User;
 
 /**
  * An interface for DAO operations with entity User

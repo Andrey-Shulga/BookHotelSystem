@@ -1,4 +1,4 @@
-package com.epam.as.bookhotel.model;
+package com.epam.as.bookhotel.entity;
 
 /**
  * Parent entity for other entities

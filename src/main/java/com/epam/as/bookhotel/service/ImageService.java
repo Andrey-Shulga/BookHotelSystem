@@ -2,9 +2,9 @@ package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.PhotoDao;
+import com.epam.as.bookhotel.entity.Photo;
 import com.epam.as.bookhotel.exception.DaoException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.model.Photo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ImageService extends ParentService {
     public Photo findPhotoById(Photo photo) throws ServiceException {
 
         parameters.add(photo.getId());
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             PhotoDao photoDao = daoFactory.getPhotoDao();
             photoDao.findByParameters(photo, parameters, FIND_PHOTO_BY_ID_KEY, BLANK_LOCALE);
         } catch (DaoException e) {

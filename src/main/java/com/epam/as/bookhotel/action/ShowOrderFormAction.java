@@ -1,10 +1,10 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.entity.Bed;
+import com.epam.as.bookhotel.entity.RoomType;
+import com.epam.as.bookhotel.entity.User;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.model.Bed;
-import com.epam.as.bookhotel.model.RoomType;
-import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.BedService;
 import com.epam.as.bookhotel.service.RoomTypeService;
 

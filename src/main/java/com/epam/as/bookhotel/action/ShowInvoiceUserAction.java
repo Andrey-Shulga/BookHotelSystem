@@ -1,10 +1,10 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.entity.Order;
+import com.epam.as.bookhotel.entity.OrderStatus;
+import com.epam.as.bookhotel.entity.User;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.model.Order;
-import com.epam.as.bookhotel.model.OrderStatus;
-import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;

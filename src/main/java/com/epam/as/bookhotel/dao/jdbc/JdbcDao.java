@@ -2,11 +2,11 @@ package com.epam.as.bookhotel.dao.jdbc;
 
 
 import com.epam.as.bookhotel.dao.Dao;
+import com.epam.as.bookhotel.entity.BaseEntity;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.NonUniqueFieldException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
 import com.epam.as.bookhotel.exception.UnableUpdateFieldException;
-import com.epam.as.bookhotel.model.BaseEntity;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,21 @@ import java.util.List;
 
 abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
+    static final int COLUMN_INDEX_1 = 1;
+    static final int COLUMN_INDEX_2 = 2;
+    static final int COLUMN_INDEX_3 = 3;
+    static final int COLUMN_INDEX_4 = 4;
+    static final int COLUMN_INDEX_5 = 5;
+    static final int COLUMN_INDEX_6 = 6;
+    static final int COLUMN_INDEX_7 = 7;
+    static final int COLUMN_INDEX_8 = 8;
+    static final int COLUMN_INDEX_9 = 9;
+    static final int COLUMN_INDEX_10 = 10;
+    static final int COLUMN_INDEX_11 = 11;
+    static final int COLUMN_INDEX_12 = 12;
+    static final int COLUMN_INDEX_13 = 13;
+    static final int COLUMN_INDEX_14 = 14;
+    static final int COLUMN_INDEX_15 = 15;
     private static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
     private static final int ZERO = 0;

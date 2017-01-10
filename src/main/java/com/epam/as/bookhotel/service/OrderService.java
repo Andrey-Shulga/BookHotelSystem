@@ -2,11 +2,11 @@ package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.OrderDao;
+import com.epam.as.bookhotel.entity.Order;
 import com.epam.as.bookhotel.exception.DaoException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.UnableConfirmOrderException;
 import com.epam.as.bookhotel.exception.UnableUpdateFieldException;
-import com.epam.as.bookhotel.model.Order;
 import com.epam.as.bookhotel.util.DateConverter;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class OrderService extends ParentService {
         parameters.add(order.getRoomType().getRoomType());
         parameters.add(DateConverter.getDateToStr(order.getCheckIn()));
         parameters.add(DateConverter.getDateToStr(order.getCheckOut()));
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             orderDao.save(order, parameters, INSERT_ORDER_KEY);
         } catch (DaoException e) {
@@ -119,7 +119,7 @@ public class OrderService extends ParentService {
     private List<Order> getOrdersList(Order order, List<Object> parameters, String key) throws ServiceException {
 
         List<Order> orderList;
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             orderList = orderDao.findByParameters(order, parameters, key, order.getUser().getLocale().getLocaleName());
         } catch (DaoException e) {
@@ -143,7 +143,7 @@ public class OrderService extends ParentService {
         parameters.add(order.getRoom().getNumber());
         parameters.add(order.getRoom().getNumber());
         parameters.add(order.getId());
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
             daoFactory.beginTx();
             orderDao.update(order, parameters, UPDATE_ORDER_ROOM_NUMBER_KEY);

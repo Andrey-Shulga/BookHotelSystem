@@ -16,7 +16,8 @@ public abstract class DaoFactory implements AutoCloseable {
      * @return Jdbc factory
      * @throws DaoException parent exception for any exceptions from factories
      */
-    public static DaoFactory createJdbcFactory() throws DaoException {
+    public static DaoFactory createJdbcDaoFactory() throws DaoException {
+
         try {
             return new JdbcDaoFactory();
         } catch (JdbcDaoException e) {

@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.dao;
 
+import com.epam.as.bookhotel.entity.BaseEntity;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
-import com.epam.as.bookhotel.model.BaseEntity;
 
 import java.util.List;
 

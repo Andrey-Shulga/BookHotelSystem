@@ -1,10 +1,10 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.RoomDao;
-import com.epam.as.bookhotel.model.Bed;
-import com.epam.as.bookhotel.model.Photo;
-import com.epam.as.bookhotel.model.Room;
-import com.epam.as.bookhotel.model.RoomType;
+import com.epam.as.bookhotel.entity.Bed;
+import com.epam.as.bookhotel.entity.Photo;
+import com.epam.as.bookhotel.entity.Room;
+import com.epam.as.bookhotel.entity.RoomType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,12 +20,6 @@ import java.sql.SQLException;
 class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcRoomDao.class);
-    private static final int INDEX_1 = 1;
-    private static final int INDEX_2 = 2;
-    private static final int INDEX_3 = 3;
-    private static final int INDEX_4 = 4;
-    private static final int INDEX_5 = 5;
-    private static final int INDEX_6 = 6;
     private static final int SCALE_ROUND = 2;
 
     JdbcRoomDao(Connection connection) {
@@ -36,12 +30,12 @@ class JdbcRoomDao extends JdbcDao<Room> implements RoomDao {
     Room setRsToField(ResultSet rs, Room room) throws SQLException {
 
         Room newRoom = new Room();
-        newRoom.setId(rs.getInt(INDEX_1));
-        newRoom.setRoomType(new RoomType(rs.getString(INDEX_2)));
-        newRoom.setBed(new Bed(rs.getInt(INDEX_3)));
-        newRoom.setNumber(rs.getInt(INDEX_4));
-        newRoom.setPrice(rs.getBigDecimal(INDEX_5).setScale(SCALE_ROUND, BigDecimal.ROUND_HALF_DOWN));
-        newRoom.setPhoto(new Photo(rs.getInt(INDEX_6)));
+        newRoom.setId(rs.getInt(COLUMN_INDEX_1));
+        newRoom.setRoomType(new RoomType(rs.getString(COLUMN_INDEX_2)));
+        newRoom.setBed(new Bed(rs.getInt(COLUMN_INDEX_3)));
+        newRoom.setNumber(rs.getInt(COLUMN_INDEX_4));
+        newRoom.setPrice(rs.getBigDecimal(COLUMN_INDEX_5).setScale(SCALE_ROUND, BigDecimal.ROUND_HALF_DOWN));
+        newRoom.setPhoto(new Photo(rs.getInt(COLUMN_INDEX_6)));
         logger.debug("Found entity: {}", newRoom);
         return newRoom;
     }

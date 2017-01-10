@@ -1,11 +1,11 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.entity.Order;
+import com.epam.as.bookhotel.entity.Room;
+import com.epam.as.bookhotel.entity.User;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
-import com.epam.as.bookhotel.model.Order;
-import com.epam.as.bookhotel.model.Room;
-import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.service.OrderService;
 import com.epam.as.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;

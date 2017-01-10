@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.BedDao;
-import com.epam.as.bookhotel.model.Bed;
+import com.epam.as.bookhotel.entity.Bed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,6 @@ import java.sql.SQLException;
 class JdbcBedDao extends JdbcDao<Bed> implements BedDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcBedDao.class);
-    private static final int INDEX_1 = 1;
 
     JdbcBedDao(Connection connection) {
         super(connection);
@@ -26,7 +25,7 @@ class JdbcBedDao extends JdbcDao<Bed> implements BedDao {
     Bed setRsToField(ResultSet rs, Bed bed) throws SQLException {
 
         Bed foundBed = new Bed();
-        foundBed.setBed(rs.getInt(INDEX_1));
+        foundBed.setBed(rs.getInt(COLUMN_INDEX_1));
         logger.debug("Found entity: \"{}\" {}", foundBed.getClass().getSimpleName(), foundBed);
         return foundBed;
     }

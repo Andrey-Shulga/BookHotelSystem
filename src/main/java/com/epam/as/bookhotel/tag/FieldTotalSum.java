@@ -1,6 +1,6 @@
 package com.epam.as.bookhotel.tag;
 
-import com.epam.as.bookhotel.model.Order;
+import com.epam.as.bookhotel.entity.Order;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;

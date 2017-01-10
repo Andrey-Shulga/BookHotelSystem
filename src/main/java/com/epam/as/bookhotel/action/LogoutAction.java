@@ -1,6 +1,6 @@
 package com.epam.as.bookhotel.action;
 
-import com.epam.as.bookhotel.model.User;
+import com.epam.as.bookhotel.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

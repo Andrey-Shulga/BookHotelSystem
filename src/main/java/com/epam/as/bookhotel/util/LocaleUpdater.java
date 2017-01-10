@@ -1,9 +1,9 @@
 package com.epam.as.bookhotel.util;
 
+import com.epam.as.bookhotel.entity.User;
+import com.epam.as.bookhotel.entity.UserLocale;
 import com.epam.as.bookhotel.exception.LocaleChangerException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.model.User;
-import com.epam.as.bookhotel.model.UserLocale;
 import com.epam.as.bookhotel.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

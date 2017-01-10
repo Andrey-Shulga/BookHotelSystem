@@ -1,4 +1,4 @@
-package com.epam.as.bookhotel.model;
+package com.epam.as.bookhotel.entity;
 
 public class UserLocale extends BaseEntity {
 

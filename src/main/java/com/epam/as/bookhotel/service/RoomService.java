@@ -3,12 +3,12 @@ package com.epam.as.bookhotel.service;
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.PhotoDao;
 import com.epam.as.bookhotel.dao.RoomDao;
+import com.epam.as.bookhotel.entity.Room;
+import com.epam.as.bookhotel.entity.User;
 import com.epam.as.bookhotel.exception.DaoException;
 import com.epam.as.bookhotel.exception.NonUniqueFieldException;
 import com.epam.as.bookhotel.exception.RoomExistException;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.model.Room;
-import com.epam.as.bookhotel.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class RoomService extends ParentService {
     private List<Room> getRoomsList(Room room, User user, String key) throws ServiceException {
 
         List<Room> roomList;
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             RoomDao roomDao = daoFactory.getRoomDao();
             roomList = roomDao.findByParameters(room, parameters, key, user.getLocale().getLocaleName());
         } catch (DaoException e) {
@@ -87,7 +87,7 @@ public class RoomService extends ParentService {
      */
     public Room addRoom(Room room) throws ServiceException {
 
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             //add new room without photo
             RoomDao roomDao = daoFactory.getRoomDao();
             if (room.getPhoto() == null) {

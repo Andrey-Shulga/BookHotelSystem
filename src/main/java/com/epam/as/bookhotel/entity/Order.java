@@ -1,4 +1,4 @@
-package com.epam.as.bookhotel.model;
+package com.epam.as.bookhotel.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

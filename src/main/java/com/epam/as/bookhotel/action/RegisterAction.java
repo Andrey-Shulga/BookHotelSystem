@@ -1,12 +1,12 @@
 package com.epam.as.bookhotel.action;
 
+import com.epam.as.bookhotel.entity.User;
+import com.epam.as.bookhotel.entity.UserLocale;
+import com.epam.as.bookhotel.entity.UserRole;
+import com.epam.as.bookhotel.entity.UserType;
 import com.epam.as.bookhotel.exception.ActionException;
 import com.epam.as.bookhotel.exception.ServiceException;
 import com.epam.as.bookhotel.exception.ValidatorException;
-import com.epam.as.bookhotel.model.User;
-import com.epam.as.bookhotel.model.UserLocale;
-import com.epam.as.bookhotel.model.UserRole;
-import com.epam.as.bookhotel.model.UserType;
 import com.epam.as.bookhotel.service.UserService;
 import com.epam.as.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;

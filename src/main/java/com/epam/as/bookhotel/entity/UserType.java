@@ -1,6 +1,7 @@
-package com.epam.as.bookhotel.model;
+package com.epam.as.bookhotel.entity;
 
 public enum UserType {
+
     MANAGER, USER
 
 }

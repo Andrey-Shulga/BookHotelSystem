@@ -1,9 +1,9 @@
 package com.epam.as.bookhotel.dao.jdbc;
 
 import com.epam.as.bookhotel.dao.PhotoDao;
+import com.epam.as.bookhotel.entity.Photo;
 import com.epam.as.bookhotel.exception.JdbcDaoException;
 import com.epam.as.bookhotel.exception.PropertyManagerException;
-import com.epam.as.bookhotel.model.Photo;
 import com.epam.as.bookhotel.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +19,6 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcPhotoDao.class);
     private static final String QUERY_PROPERTY_FILE = getQueryPropertyFile();
-    private static final int INDEX_1 = 1;
-    private static final int INDEX_2 = 2;
-    private static final int INDEX_3 = 3;
     private Connection connection;
 
     JdbcPhotoDao(Connection connection) {
@@ -33,9 +30,9 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
     @Override
     Photo setRsToField(ResultSet rs, Photo photo) throws SQLException {
 
-        photo.setImageStream(rs.getBinaryStream(INDEX_1));
-        photo.setContentType(rs.getString(INDEX_2));
-        photo.setContentLength(rs.getLong(INDEX_3));
+        photo.setImageStream(rs.getBinaryStream(COLUMN_INDEX_1));
+        photo.setContentType(rs.getString(COLUMN_INDEX_2));
+        photo.setContentLength(rs.getLong(COLUMN_INDEX_3));
         logger.debug("Found entity: {}", photo);
         return photo;
     }
@@ -57,9 +54,9 @@ class JdbcPhotoDao extends JdbcDao<Photo> implements PhotoDao {
             if (photo.getId() == null) {
                 logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), photo);
                 try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(queryKey), Statement.RETURN_GENERATED_KEYS)) {
-                    ps.setBinaryStream(INDEX_1, photo.getImageStream());
-                    ps.setString(INDEX_2, photo.getContentType());
-                    ps.setLong(INDEX_3, photo.getContentLength());
+                    ps.setBinaryStream(COLUMN_INDEX_1, photo.getImageStream());
+                    ps.setString(COLUMN_INDEX_2, photo.getContentType());
+                    ps.setLong(COLUMN_INDEX_3, photo.getContentLength());
                     ps.execute();
                     setId(photo, ps);
                 } catch (SQLException e) {

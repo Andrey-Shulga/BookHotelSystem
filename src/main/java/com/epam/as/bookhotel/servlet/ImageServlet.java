@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.servlet;
 
+import com.epam.as.bookhotel.entity.Photo;
 import com.epam.as.bookhotel.exception.ServiceException;
-import com.epam.as.bookhotel.model.Photo;
 import com.epam.as.bookhotel.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

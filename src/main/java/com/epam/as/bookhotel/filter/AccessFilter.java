@@ -1,7 +1,7 @@
 package com.epam.as.bookhotel.filter;
 
-import com.epam.as.bookhotel.model.User;
-import com.epam.as.bookhotel.model.UserType;
+import com.epam.as.bookhotel.entity.User;
+import com.epam.as.bookhotel.entity.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

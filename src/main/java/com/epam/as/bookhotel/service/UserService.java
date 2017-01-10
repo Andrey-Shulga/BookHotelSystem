@@ -3,8 +3,8 @@ package com.epam.as.bookhotel.service;
 
 import com.epam.as.bookhotel.dao.DaoFactory;
 import com.epam.as.bookhotel.dao.UserDao;
+import com.epam.as.bookhotel.entity.User;
 import com.epam.as.bookhotel.exception.*;
-import com.epam.as.bookhotel.model.User;
 import com.epam.as.bookhotel.util.PasswordStorage;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class UserService extends ParentService {
         parameters.add(user.getLogin());
         parameters.add(user.getPassword());
         parameters.add(user.getLocale().getLocaleName());
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             userDao.save(user, parameters, REGISTER_USER_KEY);
         } catch (NonUniqueFieldException e) {
@@ -68,7 +68,7 @@ public class UserService extends ParentService {
         parameters.add(user.getLogin());
         final String testPassword = user.getPassword();
         List<User> usersList;
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             usersList = userDao.findByParameters(user, parameters, FIND_LOGIN_USER_KEY, user.getLocale().getLocaleName());
         } catch (DaoException e) {
@@ -101,7 +101,7 @@ public class UserService extends ParentService {
         parameters.add((user.getPassword()));
         parameters.add(user.getLocale().getLocaleName());
         parameters.add(user.getId());
-        try (DaoFactory daoFactory = DaoFactory.createJdbcFactory()) {
+        try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             userDao.update(user, parameters, UPDATE_USER_LOCALE_KEY);
         } catch (DaoException e) {
