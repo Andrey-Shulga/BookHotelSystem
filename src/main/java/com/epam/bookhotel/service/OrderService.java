@@ -27,9 +27,10 @@ public class OrderService extends ParentService {
      * Save new order
      *
      * @param order entity for saving
+     * @return saved order with id
      * @throws ServiceException if any exception in service occurred.
      */
-    public void makeOrder(Order order) throws ServiceException {
+    public Order makeOrder(Order order) throws ServiceException {
 
         parameters.add(order.getUser().getId());
         parameters.add(order.getFirstName());
@@ -40,12 +41,14 @@ public class OrderService extends ParentService {
         parameters.add(order.getRoomType().getRoomType());
         parameters.add(DateConverter.getDateToStr(order.getCheckIn()));
         parameters.add(DateConverter.getDateToStr(order.getCheckOut()));
+        Order newOrder;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            orderDao.save(order, parameters, INSERT_ORDER_KEY);
+            newOrder = orderDao.save(order, parameters, INSERT_ORDER_KEY);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return newOrder;
     }
 
     /**
@@ -58,9 +61,7 @@ public class OrderService extends ParentService {
     public List<Order> findOrdersByUserId(Order order) throws ServiceException {
 
         parameters.add(order.getUser().getId());
-        List<Order> orderList;
-        orderList = getOrdersList(order, parameters, FIND_ORDERS_BY_USER_ID);
-        return orderList;
+        return getOrdersList(order, parameters, FIND_ORDERS_BY_USER_ID);
     }
 
     /**
@@ -125,7 +126,7 @@ public class OrderService extends ParentService {
     }
 
     /**
-     * Update order with room number after confirmation
+     * Update order with room number for confirmation
      *
      * @param order entity for updating
      * @throws ServiceException if any exception in service occurred

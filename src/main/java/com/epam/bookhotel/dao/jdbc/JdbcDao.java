@@ -46,7 +46,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     /**
-     * General method for operation "insert" entities to database
+     * General method for operation "insert" entity to database
      *
      * @param entity     the entity which need inserts in database
      * @param parameters the list of parameters for prepare PrepareStatements
@@ -83,16 +83,15 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     /**
-     * General method for operation "update" entities to database
+     * General method for operation "update" entity to database
      *
      * @param entity     the entity which need updates in database
      * @param parameters the list of parameters for prepare PrepareStatements
      * @param key        property key for reading update query from property file
-     * @return updated entity
      * @throws JdbcDaoException if any exceptions occurred with jdbc operations
      */
     @Override
-    public T update(T entity, List<Object> parameters, String key) throws JdbcDaoException {
+    public void update(T entity, List<Object> parameters, String key) throws JdbcDaoException {
 
         logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
         try {
@@ -111,12 +110,10 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         } catch (SQLException e) {
             throw new JdbcDaoException(e);
         }
-
-        return entity;
     }
 
     /**
-     * General method for operation "select" entities to database
+     * General method for operation "searching" entities to database
      *
      * @param entity     the entity which need finds in database
      * @param parameters the list of parameters for prepare PrepareStatements

@@ -14,9 +14,9 @@ public interface Dao<T extends BaseEntity> {
     T save(T entity, List<Object> parameters, String key) throws JdbcDaoException;
 
     //Operation for update entity
-    T update(T entity, List<Object> parameters, String key) throws JdbcDaoException;
+    void update(T entity, List<Object> parameters, String key) throws JdbcDaoException;
 
-    //Operation for find entity
+    //Operation for searching entities
     List<T> findByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException;
 
 }

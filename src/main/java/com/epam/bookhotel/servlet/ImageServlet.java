@@ -32,15 +32,15 @@ public class ImageServlet extends HttpServlet {
         //check if request contains attribute not 0
         if (!ZERO.equals(req.getParameter(ID_PREFIX_ATTR))) {
             String id = req.getParameter(ID_PREFIX_ATTR);
-            Photo photo = new Photo(Integer.parseInt(id));
+            final Photo photo = new Photo(Integer.parseInt(id));
             ImageService service = new ImageService();
             try {
-                service.findPhotoById(photo);
-                if (photo.getImageStream() != null) {
+                Photo foundPhoto = service.findPhotoById(photo);
+                if (foundPhoto.getImageStream() != null) {
                     resp.reset();
-                    resp.setContentType(photo.getContentType());
-                    resp.setContentLengthLong(photo.getContentLength());
-                    writeImage(photo.getImageStream(), resp);
+                    resp.setContentType(foundPhoto.getContentType());
+                    resp.setContentLengthLong(foundPhoto.getContentLength());
+                    writeImage(foundPhoto.getImageStream(), resp);
                 }
             } catch (ServiceException e) {
                 logger.error("Exception in ImageServlet occurred", e);

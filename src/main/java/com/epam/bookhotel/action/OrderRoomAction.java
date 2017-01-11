@@ -64,22 +64,23 @@ public class OrderRoomAction implements Action {
         String phone = req.getParameter(PHONE);
         String checkIn = req.getParameter(CHECK_IN);
         String checkOut = req.getParameter(CHECK_OUT);
-        final Date checkInDate = DateConverter.getStrToDate(checkIn);
-        final Date checkOutDate = DateConverter.getStrToDate(checkOut);
-        final Bed bed = new Bed(Integer.parseInt(req.getParameter(ROOM_BED)));
-        final RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
+        Date checkInDate = DateConverter.getStrToDate(checkIn);
+        Date checkOutDate = DateConverter.getStrToDate(checkOut);
+        Bed bed = new Bed(Integer.parseInt(req.getParameter(ROOM_BED)));
+        RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
         final Order order = new Order(user, firstName, lastName, email, phone, checkInDate, checkOutDate, bed, roomType);
 
         OrderService orderService = new OrderService();
+        Order newOrder;
         try {
-            orderService.makeOrder(order);
+            newOrder = orderService.makeOrder(order);
         } catch (ServiceException e) {
             req.getSession().setAttribute(ORDER_FORM + ERROR_MESSAGES_POSTFIX, e.getMessage());
             return REDIRECT_ORDER_FORM;
         }
 
-        logger.debug("Make order action success.");
+        logger.debug("Make order action success. {}", newOrder);
         return REDIRECT_ORDER_LIST;
     }
 

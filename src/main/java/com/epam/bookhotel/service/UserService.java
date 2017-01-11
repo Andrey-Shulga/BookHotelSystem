@@ -23,9 +23,10 @@ public class UserService extends ParentService {
      * Save new user
      *
      * @param user entity for inserting
+     * @return saved user with id
      * @throws ServiceException if any exception in service occurred
      */
-    public void register(User user) throws ServiceException {
+    public User register(User user) throws ServiceException {
 
         String hashPassword;
         try {
@@ -39,9 +40,10 @@ public class UserService extends ParentService {
         parameters.add(user.getLogin());
         parameters.add(user.getPassword());
         parameters.add(user.getLocale().getLocaleName());
+        User regUser;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
-            userDao.save(user, parameters, REGISTER_USER_KEY);
+            regUser = userDao.save(user, parameters, REGISTER_USER_KEY);
         } catch (NonUniqueFieldException e) {
 
             throw new UserExistException(e);
@@ -50,21 +52,22 @@ public class UserService extends ParentService {
 
             throw new ServiceException(e);
         }
-
+        return regUser;
     }
 
     /**
      * Log in user by searching it.
      *
      * @param user entity fro searching
+     * @return found user
      * @throws ServiceException if any exception in service occurred
      */
     public User login(User user) throws ServiceException {
 
         final int FOUND_USER_FIST_INDEX = 0;
         final String testPassword = user.getPassword();
-        final List<User> usersList;
-        final User foundUser;
+        List<User> usersList;
+        User foundUser;
         parameters.add(user.getLogin());
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
@@ -89,10 +92,9 @@ public class UserService extends ParentService {
      * Update user's locale
      *
      * @param user entity for updating
-     * @return updated user
      * @throws ServiceException if any exception in service occurred
      */
-    public User saveUserLocale(User user) throws ServiceException {
+    public void updateUserLocale(User user) throws ServiceException {
 
         parameters.add(user.getRole().getRole().toString());
         parameters.add(user.getLogin());
@@ -106,6 +108,5 @@ public class UserService extends ParentService {
 
             throw new ServiceException(e);
         }
-        return user;
     }
 }

@@ -35,7 +35,7 @@ public class LocaleUpdater {
             user.setLocale(new UserLocale(locale));
             UserService service = new UserService();
             try {
-                service.saveUserLocale(user);
+                service.updateUserLocale(user);
             } catch (ServiceException e) {
                 throw new LocaleChangerException(e);
             }

@@ -28,9 +28,9 @@ public class LoginAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         saveInputField(req);
-        final String login = req.getParameter(LOGIN);
-        final String password = req.getParameter(PASSWORD);
-        final String locale = (String) req.getSession().getAttribute(LOCALE);
+        String login = req.getParameter(LOGIN);
+        String password = req.getParameter(PASSWORD);
+        String locale = (String) req.getSession().getAttribute(LOCALE);
 
         final User user = new User(login, password, new UserLocale(locale));
         UserService userService = new UserService();

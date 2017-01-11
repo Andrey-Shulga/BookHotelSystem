@@ -51,12 +51,12 @@ public class AddNewRoomManagerAction implements Action {
         }
         //if form validation ok continue...
         logger.debug("Form's parameters are valid.");
-
+        Room newRoom;
         try {
-            Room room = getRoom(req);
+            final Room room = getRoom(req);
             RoomService roomService = new RoomService();
             try {
-                roomService.addRoom(room);
+                newRoom = roomService.addRoom(room);
             } catch (ServiceException e) {
                 //set error to session for output on jsp
                 req.getSession().setAttribute(MANAGER_ROOM_LIST + ERROR_MESSAGES_POSTFIX, e.getMessage());
@@ -76,7 +76,7 @@ public class AddNewRoomManagerAction implements Action {
             }
         }
 
-        logger.debug("Add room action success.");
+        logger.debug("Add room action success. {}", newRoom);
         return REDIRECT_ROOM_LIST;
     }
 
