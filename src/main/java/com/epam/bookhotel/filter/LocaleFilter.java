@@ -30,6 +30,7 @@ public class LocaleFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
 
+        boolean isCreated = false;
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
@@ -45,7 +46,7 @@ public class LocaleFilter implements Filter {
         //if locale not found in cookie try to read locale from session and set it in cookie
         if (locale == null) {
             logger.debug("Locale not found in cookie, try to find in session.");
-            locale = (String) request.getSession(false).getAttribute(LOCALE_ATTR_NAME);
+            locale = (String) request.getSession(isCreated).getAttribute(LOCALE_ATTR_NAME);
             CookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
         }
 

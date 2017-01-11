@@ -34,6 +34,7 @@ public class SelectRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        boolean isCreated = false;
         saveInputField(req);
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT;
@@ -42,7 +43,7 @@ public class SelectRoomManagerAction implements Action {
         }
 
         logger.debug("Form's parameters are valid.");
-        final User user = (User) req.getSession(false).getAttribute(USER);
+        final User user = (User) req.getSession(isCreated).getAttribute(USER);
         String orderId = req.getParameter(ORDER_ID_PARAMETER);
         String roomId = req.getParameter(ROOM_ID_PARAMETER);
 

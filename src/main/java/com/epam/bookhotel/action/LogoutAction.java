@@ -20,10 +20,11 @@ public class LogoutAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) {
 
+        boolean isCreated = false;
         if (req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME) != null) {
             final User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME);
             logger.debug("User with id=\"{}\" and login=\"{}\" is logout now.", user.getId(), user.getLogin());
-            req.getSession(false).invalidate();
+            req.getSession(isCreated).invalidate();
         }
         return REDIRECT;
     }

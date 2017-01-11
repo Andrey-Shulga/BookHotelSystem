@@ -26,7 +26,8 @@ public class ShowInvoiceUserAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        final User user = (User) req.getSession(false).getAttribute(USER);
+        boolean isCreated = false;
+        final User user = (User) req.getSession(isCreated).getAttribute(USER);
         final Order order = new Order();
         order.setUser(user);
         order.setStatus(new OrderStatus(ORDERS_STATUS_CONFIRMED));
