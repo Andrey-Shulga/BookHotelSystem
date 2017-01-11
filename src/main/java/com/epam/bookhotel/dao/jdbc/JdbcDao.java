@@ -29,6 +29,7 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
     private static final int INITIAL_COUNT = 1;
+    private String query;
     private Connection connection;
 
 
@@ -57,25 +58,26 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     @Override
     public T save(T entity, List<Object> parameters, String key) throws JdbcDaoException {
 
+        //load file with property to property manager
         try {
-            //load file with property to property manager
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
-            if (entity.getId() == null) {
-                logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
-                try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(key), Statement.RETURN_GENERATED_KEYS)) {
-                    //set the list of parameters to PrepareStatement
-                    setParametersToPs(parameters, ps);
-                    ps.execute();
-                    //set id received from ResultSet in entity
-                    setId(entity, ps);
-                } catch (SQLException e) {
-                    //if field's value which inserted in column which keeps only unique values exist - throw exception about it
-                    if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState())) throw new NonUniqueFieldException(e);
-                    throw new JdbcDaoException(e);
-                }
-            }
+            query = pm.getPropertyKey(key);
         } catch (PropertyManagerException e) {
             throw new JdbcDaoException(e);
+        }
+        if (entity.getId() == null) {
+            logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
+            try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                //set the list of parameters to PrepareStatement
+                setParametersToPs(parameters, ps);
+                ps.execute();
+                //set id received from ResultSet in entity
+                setId(entity, ps);
+            } catch (SQLException e) {
+                //if field's value which inserted in column which keeps only unique values exist - throw exception about it
+                if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState())) throw new NonUniqueFieldException(e);
+                throw new JdbcDaoException(e);
+            }
         }
 
         return entity;
@@ -96,17 +98,18 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
         try {
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
-            try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(key))) {
-                setParametersToPs(parameters, ps);
-                int result = ps.executeUpdate();
-                //if ResultSet return 0 (no fields was updated) throw exception about it
-                if (result == ZERO) throw new UnableUpdateFieldException();
-                else
-                    logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
-            } catch (SQLException e) {
-                throw new JdbcDaoException(e);
-            }
+            query = pm.getPropertyKey(key);
         } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            setParametersToPs(parameters, ps);
+            int result = ps.executeUpdate();
+            //if ResultSet return 0 (no fields was updated) throw exception about it
+            if (result == ZERO) throw new UnableUpdateFieldException();
+            else
+                logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
+        } catch (SQLException e) {
             throw new JdbcDaoException(e);
         }
 
@@ -127,22 +130,23 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public List<T> findByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException {
 
         logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
-        List<T> entities = new ArrayList<>();
         try {
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
-            //get and format query from file for find localisation values
-            String localeQuery = getQueryByLocale(pm.getPropertyKey(key), locale);
-            try (PreparedStatement ps = connection.prepareStatement(localeQuery)) {
-                setParametersToPs(parameters, ps);
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    T newEntity = setRsToField(rs, entity);
-                    entities.add(newEntity);
-                }
-            } catch (SQLException e) {
-                throw new JdbcDaoException(e);
-            }
+            query = pm.getPropertyKey(key);
         } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+        List<T> entities = new ArrayList<>();
+        //get and format query from file for find localisation values
+        String localeQuery = getQueryByLocale(query, locale);
+        try (PreparedStatement ps = connection.prepareStatement(localeQuery)) {
+            setParametersToPs(parameters, ps);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                T newEntity = setRsToField(rs, entity);
+                entities.add(newEntity);
+            }
+        } catch (SQLException e) {
             throw new JdbcDaoException(e);
         }
 
