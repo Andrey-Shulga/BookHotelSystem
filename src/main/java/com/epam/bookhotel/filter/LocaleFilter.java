@@ -31,7 +31,6 @@ public class LocaleFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
 
-        boolean isCreated = false;
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
@@ -39,15 +38,12 @@ public class LocaleFilter implements Filter {
         String locale = null;
         //try to find locale in cookie and set it to session
         Cookie localCookie = CookieHelper.findParameter(request, LOCALE);
-        if (localCookie != null) {
-            locale = localCookie.getValue();
-            session.setAttribute(LOCALE, locale);
-        }
+        if (localCookie != null) locale = localCookie.getValue();
 
         //if locale not found in cookie try to read locale from session and set it in cookie
         if (locale == null) {
             logger.debug("Locale not found in cookie, try to find in session.");
-            locale = (String) request.getSession(isCreated).getAttribute(LOCALE);
+            locale = (String) session.getAttribute(LOCALE);
             CookieHelper.setCookie(response, LOCALE, locale);
         }
 
@@ -55,12 +51,12 @@ public class LocaleFilter implements Filter {
         if (locale == null) {
             locale = DEFAULT_LOCALE;
             CookieHelper.setCookie(response, LOCALE, locale);
-            session.setAttribute(LOCALE, locale);
             logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }
 
         Locale currentLocale = new Locale(locale);
         Config.set(session, Config.FMT_LOCALE, currentLocale);
+        session.setAttribute(LOCALE, locale);
         filterChain.doFilter(request, response);
     }
 

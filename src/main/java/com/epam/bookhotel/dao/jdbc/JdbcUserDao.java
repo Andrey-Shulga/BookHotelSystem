@@ -29,13 +29,14 @@ class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     User setRsToField(ResultSet rs, User user) throws SQLException {
 
-        user.setId(rs.getInt(COLUMN_INDEX_1));
-        user.setLogin(rs.getString(COLUMN_INDEX_2));
-        user.setPassword(rs.getString(COLUMN_INDEX_3));
-        user.setRole(new UserRole(UserType.valueOf(rs.getString(COLUMN_INDEX_4))));
-        user.setLocale(new UserLocale(rs.getString(COLUMN_INDEX_5)));
-        logger.debug("Found entity: {}", user);
-        return user;
+        User newUser = new User();
+        newUser.setId(rs.getInt(COLUMN_INDEX_1));
+        newUser.setLogin(rs.getString(COLUMN_INDEX_2));
+        newUser.setPassword(rs.getString(COLUMN_INDEX_3));
+        newUser.setRole(new UserRole(UserType.valueOf(rs.getString(COLUMN_INDEX_4))));
+        newUser.setLocale(new UserLocale(rs.getString(COLUMN_INDEX_5)));
+        logger.debug("Found entity: {}", newUser);
+        return newUser;
     }
 
 

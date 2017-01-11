@@ -23,10 +23,9 @@ public class UserService extends ParentService {
      * Save new user
      *
      * @param user entity for inserting
-     * @return user with id
      * @throws ServiceException if any exception in service occurred
      */
-    public User register(User user) throws ServiceException {
+    public void register(User user) throws ServiceException {
 
         String hashPassword;
         try {
@@ -51,28 +50,30 @@ public class UserService extends ParentService {
 
             throw new ServiceException(e);
         }
-        return user;
+
     }
 
     /**
      * Log in user by searching it.
      *
      * @param user entity fro searching
-     * @return found user
      * @throws ServiceException if any exception in service occurred
      */
     public User login(User user) throws ServiceException {
 
-        parameters.add(user.getLogin());
+        final int FOUND_USER_FIST_INDEX = 0;
         final String testPassword = user.getPassword();
-        List<User> usersList;
+        final List<User> usersList;
+        final User foundUser;
+        parameters.add(user.getLogin());
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             usersList = userDao.findByParameters(user, parameters, FIND_LOGIN_USER_KEY, user.getLocale().getLocaleName());
+            foundUser = usersList.get(FOUND_USER_FIST_INDEX);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        final String correctHash = user.getPassword();
+        final String correctHash = foundUser.getPassword();
         try {
             //check entered password with found hash password
             if ((usersList.isEmpty()) || (!PasswordStorage.verifyPassword(testPassword, correctHash))) {
@@ -81,8 +82,7 @@ public class UserService extends ParentService {
         } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException | UserNotFoundException e) {
             throw new ServiceException(e);
         }
-
-        return user;
+        return foundUser;
     }
 
     /**

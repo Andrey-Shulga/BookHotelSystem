@@ -21,11 +21,11 @@ public class LogoutAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) {
 
-        boolean isCreated = false;
+
         if (req.getSession().getAttribute(USER) != null) {
             final User user = (User) req.getSession().getAttribute(USER);
             logger.debug("User with id=\"{}\" and login=\"{}\" is logout now.", user.getId(), user.getLogin());
-            req.getSession(isCreated).invalidate();
+            req.getSession().invalidate();
         }
         return REDIRECT_LOGIN_FORM;
     }

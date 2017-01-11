@@ -28,23 +28,24 @@ public class LoginAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         saveInputField(req);
-        String login = req.getParameter(LOGIN);
-        String password = req.getParameter(PASSWORD);
-        String locale = req.getParameter(LOCALE);
+        final String login = req.getParameter(LOGIN);
+        final String password = req.getParameter(PASSWORD);
+        final String locale = (String) req.getSession().getAttribute(LOCALE);
 
         final User user = new User(login, password, new UserLocale(locale));
         UserService userService = new UserService();
+        User foundUser;
         try {
-            userService.login(user);
+            foundUser = userService.login(user);
+            foundUser.setLocale(new UserLocale(locale));
         } catch (ServiceException e) {
             req.getSession().setAttribute(LOGIN_BUTTON + ERROR_MESSAGES_POSTFIX, e.getMessage());
             return REDIRECT_LOGIN_FORM;
         }
 
-        //save user and his locale in session
-        req.getSession().setAttribute(USER, user);
-        req.getSession().setAttribute(LOCALE, user.getLocale().getLocaleName());
-        logger.debug("User \"{}\" authorized.", user.getLogin());
+        //save user to session
+        req.getSession().setAttribute(USER, foundUser);
+        logger.debug("User \"{}\" authorized.", foundUser.getLogin());
         return REDIRECT_LOGIN_SUCCESS;
     }
 

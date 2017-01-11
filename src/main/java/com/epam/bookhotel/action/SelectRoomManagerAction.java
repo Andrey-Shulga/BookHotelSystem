@@ -24,16 +24,15 @@ import static com.epam.bookhotel.constant.Constants.*;
 public class SelectRoomManagerAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(SelectRoomManagerAction.class);
+    private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
+    private static final String REDIRECT_ORDER_LIST = "redirect:/do/?action=show-manager-order-list";
     private static final String ORDER_ID = "orderId";
     private static final String ROOM_NUMBER = "roomId";
     private static final String CONFIRM = "confirm";
-    private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
-    private static final String REDIRECT_ORDER_LIST = "redirect:/do/?action=show-manager-order-list";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        boolean isCreated = false;
         saveInputField(req);
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT_ORDER_LIST;
@@ -42,7 +41,7 @@ public class SelectRoomManagerAction implements Action {
         }
 
         logger.debug("Form's parameters are valid.");
-        final User user = (User) req.getSession(isCreated).getAttribute(USER);
+        final User user = (User) req.getSession().getAttribute(USER);
         String orderId = req.getParameter(ORDER_ID);
         String roomId = req.getParameter(ROOM_NUMBER);
 

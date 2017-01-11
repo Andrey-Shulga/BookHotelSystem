@@ -25,14 +25,13 @@ public class LocaleUpdater {
      * Save user locale to database and session.
      *
      * @param req    http request
-     * @param locale locale from user
+     * @param locale new locale for change
      * @throws LocaleChangerException if any exception when locale is changing occurred
      */
     public static void changeUserLocale(HttpServletRequest req, String locale) throws LocaleChangerException {
 
-        boolean isCreated = false;
-        if (req.getSession(isCreated).getAttribute(USER) != null) {
-            final User user = (User) req.getSession(isCreated).getAttribute(USER);
+        if (req.getSession().getAttribute(USER) != null) {
+            final User user = (User) req.getSession().getAttribute(USER);
             user.setLocale(new UserLocale(locale));
             UserService service = new UserService();
             try {
@@ -41,8 +40,8 @@ public class LocaleUpdater {
                 throw new LocaleChangerException(e);
             }
         }
-        req.getSession(isCreated).setAttribute(LOCALE, locale);
 
+        req.getSession().setAttribute(LOCALE, locale);
         logger.debug("Locale changed on \"{}\"", locale);
 
     }

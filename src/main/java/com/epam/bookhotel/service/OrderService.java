@@ -27,10 +27,9 @@ public class OrderService extends ParentService {
      * Save new order
      *
      * @param order entity for saving
-     * @return order with received id
      * @throws ServiceException if any exception in service occurred.
      */
-    public Order makeOrder(Order order) throws ServiceException {
+    public void makeOrder(Order order) throws ServiceException {
 
         parameters.add(order.getUser().getId());
         parameters.add(order.getFirstName());
@@ -47,7 +46,6 @@ public class OrderService extends ParentService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return order;
     }
 
     /**
@@ -130,10 +128,9 @@ public class OrderService extends ParentService {
      * Update order with room number after confirmation
      *
      * @param order entity for updating
-     * @return updated order
      * @throws ServiceException if any exception in service occurred
      */
-    public Order confirmRoomForOrder(Order order) throws ServiceException {
+    public void confirmRoomForOrder(Order order) throws ServiceException {
 
         parameters.add(order.getRoom().getNumber());
         parameters.add(order.getId());
@@ -154,7 +151,6 @@ public class OrderService extends ParentService {
 
             throw new ServiceException(e);
         }
-        return order;
     }
 
 }

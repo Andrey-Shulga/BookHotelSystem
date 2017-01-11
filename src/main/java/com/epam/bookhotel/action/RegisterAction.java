@@ -48,16 +48,16 @@ public class RegisterAction implements Action {
         }
         logger.debug("Form's parameters are valid.");
 
-        String login = req.getParameter(LOGIN);
-        String password = req.getParameter(PASSWORD);
-        UserRole userRole = new UserRole(UserType.USER);
-        String locale = (String) req.getSession().getAttribute(LOCALE);
-        UserLocale userLocale = new UserLocale(locale);
+        final String login = req.getParameter(LOGIN);
+        final String password = req.getParameter(PASSWORD);
+        final UserRole userRole = new UserRole(UserType.USER);
+        final String locale = (String) req.getSession().getAttribute(LOCALE);
+        final UserLocale userLocale = new UserLocale(locale);
         final User user = new User(login, password, userRole, userLocale);
         UserService userService = new UserService();
         try {
             userService.register(user);
-            logger.debug("{} inserted into database.", user);
+            logger.debug("{} has been inserted into database.", user);
         } catch (ServiceException e) {
             req.getSession().setAttribute(REGISTER_FORM + ERROR_MESSAGES_POSTFIX, e.getMessage());
             return REDIRECT_REGISTER_FORM;

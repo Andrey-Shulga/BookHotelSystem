@@ -9,8 +9,10 @@ public class CookieHelper {
     public static Cookie findParameter(HttpServletRequest req, String parameter) {
 
         Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            if (parameter.equals(cookie.getName())) return cookie;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (parameter.equals(cookie.getName())) return cookie;
+            }
         }
         return null;
     }
