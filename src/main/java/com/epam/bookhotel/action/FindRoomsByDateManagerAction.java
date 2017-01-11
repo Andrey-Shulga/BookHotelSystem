@@ -6,6 +6,7 @@ import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.exception.ValidatorException;
 import com.epam.bookhotel.service.RoomService;
+import com.epam.bookhotel.util.SessionHelper;
 import com.epam.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,6 @@ public class FindRoomsByDateManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        saveInputField(req);
         //check form's filed on errors
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT_ORDER_LIST;
@@ -41,7 +41,9 @@ public class FindRoomsByDateManagerAction implements Action {
 
         final User user = (User) req.getSession().getAttribute(USER);
         String checkIn = req.getParameter(CHECK_IN);
+        SessionHelper.saveParamToSession(req, CHECK_IN, checkIn);
         String checkOut = req.getParameter(CHECK_OUT);
+        SessionHelper.saveParamToSession(req, CHECK_OUT, checkOut);
 
         RoomService roomService = new RoomService();
         try {
@@ -51,15 +53,6 @@ public class FindRoomsByDateManagerAction implements Action {
             req.getSession().setAttribute(SEARCH + ERROR_MESSAGES_POSTFIX, e.getMessage());
         }
         return REDIRECT_ORDER_LIST;
-    }
-
-
-    private void saveInputField(HttpServletRequest req) {
-
-        String checkIn = req.getParameter(CHECK_IN);
-        req.getSession().setAttribute(CHECK_IN, checkIn);
-        String checkOut = req.getParameter(CHECK_OUT);
-        req.getSession().setAttribute(CHECK_OUT, checkOut);
     }
 
 }

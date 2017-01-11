@@ -8,6 +8,7 @@ import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.exception.ValidatorException;
 import com.epam.bookhotel.service.UserService;
+import com.epam.bookhotel.util.SessionHelper;
 import com.epam.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,6 @@ public class RegisterAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        saveInputField(req);
         //validate form's fields by rules
         try {
             FormValidator validator = new FormValidator();
@@ -49,6 +49,7 @@ public class RegisterAction implements Action {
         logger.debug("Form's parameters are valid.");
 
         String login = req.getParameter(LOGIN);
+        SessionHelper.saveParamToSession(req, LOGIN, login);
         String password = req.getParameter(PASSWORD);
         UserRole userRole = new UserRole(UserType.USER);
         String locale = (String) req.getSession().getAttribute(LOCALE);
@@ -66,10 +67,5 @@ public class RegisterAction implements Action {
         return REDIRECT_REGISTER_SUCCESS;
     }
 
-    private void saveInputField(HttpServletRequest req) {
-
-        String login = req.getParameter(LOGIN);
-        req.getSession().setAttribute(LOGIN, login);
-    }
 }
 

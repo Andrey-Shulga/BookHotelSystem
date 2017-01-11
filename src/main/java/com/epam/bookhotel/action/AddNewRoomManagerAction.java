@@ -8,6 +8,7 @@ import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.exception.ValidatorException;
 import com.epam.bookhotel.service.RoomService;
+import com.epam.bookhotel.util.SessionHelper;
 import com.epam.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,6 @@ public class AddNewRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        saveInputField(req);
         try {
             if (hasFieldsError(req)) return REDIRECT_ROOM_LIST;
 
@@ -100,9 +100,11 @@ public class AddNewRoomManagerAction implements Action {
     private Room getRoom(HttpServletRequest req) throws IOException, ServletException {
 
         String roomNumber = req.getParameter(ROOM_NUMBER);
+        SessionHelper.saveParamToSession(req, ROOM_NUMBER, roomNumber);
         String roomBed = req.getParameter(ROOM_BED);
         String roomType = req.getParameter(ROOM_TYPE);
         String roomPrice = req.getParameter(ROOM_PRICE);
+        SessionHelper.saveParamToSession(req, ROOM_PRICE, roomPrice);
         Double roomPriceDouble = Double.parseDouble(roomPrice);
 
         Room room;
@@ -121,12 +123,4 @@ public class AddNewRoomManagerAction implements Action {
         return room;
     }
 
-    private void saveInputField(HttpServletRequest req) {
-
-        String roomNumber = req.getParameter(ROOM_NUMBER);
-        req.getSession().setAttribute(ROOM_NUMBER, roomNumber);
-        String roomPrice = req.getParameter(ROOM_PRICE);
-        req.getSession().setAttribute(ROOM_PRICE, roomPrice);
-
-    }
 }

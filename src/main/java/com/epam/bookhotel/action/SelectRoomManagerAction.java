@@ -7,6 +7,7 @@ import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.exception.ValidatorException;
 import com.epam.bookhotel.service.OrderService;
+import com.epam.bookhotel.util.SessionHelper;
 import com.epam.bookhotel.util.ValidatorHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,6 @@ public class SelectRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        saveInputField(req);
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT_ORDER_LIST;
         } catch (ValidatorException e) {
@@ -43,7 +43,9 @@ public class SelectRoomManagerAction implements Action {
         logger.debug("Form's parameters are valid.");
         final User user = (User) req.getSession().getAttribute(USER);
         String orderId = req.getParameter(ORDER_ID);
+        SessionHelper.saveParamToSession(req, ORDER_ID, orderId);
         String roomId = req.getParameter(ROOM_NUMBER);
+        SessionHelper.saveParamToSession(req, ROOM_NUMBER, roomId);
 
         final Room room = new Room();
         room.setNumber(Integer.parseInt(roomId));
@@ -63,14 +65,6 @@ public class SelectRoomManagerAction implements Action {
         }
 
         return REDIRECT_ORDER_LIST;
-    }
-
-    private void saveInputField(HttpServletRequest req) {
-
-        String orderId = req.getParameter(ORDER_ID);
-        req.getSession().setAttribute(ORDER_ID, orderId);
-        String roomId = req.getParameter(ROOM_NUMBER);
-        req.getSession().setAttribute(ROOM_NUMBER, roomId);
     }
 
 }

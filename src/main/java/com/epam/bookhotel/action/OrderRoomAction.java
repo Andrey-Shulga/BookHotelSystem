@@ -9,6 +9,7 @@ import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.exception.ValidatorException;
 import com.epam.bookhotel.service.OrderService;
 import com.epam.bookhotel.util.DateConverter;
+import com.epam.bookhotel.util.SessionHelper;
 import com.epam.bookhotel.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,6 @@ public class OrderRoomAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        saveInputField(req);
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(ORDER_FORM, req);
@@ -59,11 +59,17 @@ public class OrderRoomAction implements Action {
         final User user = (User) req.getSession().getAttribute(USER);
 
         String firstName = req.getParameter(FIRST_NAME);
+        SessionHelper.saveParamToSession(req, FIRST_NAME, firstName);
         String lastName = req.getParameter(LAST_NAME);
+        SessionHelper.saveParamToSession(req, LAST_NAME, lastName);
         String email = req.getParameter(EMAIL);
+        SessionHelper.saveParamToSession(req, EMAIL, email);
         String phone = req.getParameter(PHONE);
+        SessionHelper.saveParamToSession(req, PHONE, phone);
         String checkIn = req.getParameter(CHECK_IN);
+        SessionHelper.saveParamToSession(req, CHECK_IN, checkIn);
         String checkOut = req.getParameter(CHECK_OUT);
+        SessionHelper.saveParamToSession(req, CHECK_OUT, checkOut);
         Date checkInDate = DateConverter.getStrToDate(checkIn);
         Date checkOutDate = DateConverter.getStrToDate(checkOut);
         Bed bed = new Bed(Integer.parseInt(req.getParameter(ROOM_BED)));
@@ -82,22 +88,6 @@ public class OrderRoomAction implements Action {
 
         logger.debug("Make order action success. {}", newOrder);
         return REDIRECT_ORDER_LIST;
-    }
-
-    private void saveInputField(HttpServletRequest req) {
-
-        String firstName = req.getParameter(FIRST_NAME);
-        req.getSession().setAttribute(FIRST_NAME, firstName);
-        String lastName = req.getParameter(LAST_NAME);
-        req.getSession().setAttribute(LAST_NAME, lastName);
-        String email = req.getParameter(EMAIL);
-        req.getSession().setAttribute(EMAIL, email);
-        String phone = req.getParameter(PHONE);
-        req.getSession().setAttribute(PHONE, phone);
-        String checkIn = req.getParameter(CHECK_IN);
-        req.getSession().setAttribute(CHECK_IN, checkIn);
-        String checkOut = req.getParameter(CHECK_OUT);
-        req.getSession().setAttribute(CHECK_OUT, checkOut);
     }
 
 }

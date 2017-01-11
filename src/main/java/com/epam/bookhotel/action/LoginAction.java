@@ -5,6 +5,7 @@ import com.epam.bookhotel.entity.UserLocale;
 import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.service.UserService;
+import com.epam.bookhotel.util.SessionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +28,8 @@ public class LoginAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        saveInputField(req);
         String login = req.getParameter(LOGIN);
+        SessionHelper.saveParamToSession(req, LOGIN, login);
         String password = req.getParameter(PASSWORD);
         String locale = (String) req.getSession().getAttribute(LOCALE);
 
@@ -49,9 +50,4 @@ public class LoginAction implements Action {
         return REDIRECT_LOGIN_SUCCESS;
     }
 
-    private void saveInputField(HttpServletRequest req) {
-
-        String login = req.getParameter(LOGIN);
-        req.getSession().setAttribute(LOGIN, login);
-    }
 }
