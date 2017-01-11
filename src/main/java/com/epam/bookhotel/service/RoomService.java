@@ -85,26 +85,22 @@ public class RoomService extends ParentService {
      */
     public Room addRoom(Room room) throws ServiceException {
 
+        parameters.add(room.getNumber());
+        parameters.add(room.getBed().getBed());
+        parameters.add(room.getRoomType().getRoomType());
+        parameters.add(room.getPrice());
         Room newRoom;
         Photo newPhoto;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             //add new room without photo
             RoomDao roomDao = daoFactory.getRoomDao();
             if (room.getPhoto() == null) {
-                parameters.add(room.getNumber());
-                parameters.add(room.getBed().getBed());
-                parameters.add(room.getRoomType().getRoomType());
-                parameters.add(room.getPrice());
                 newRoom = roomDao.save(room, parameters, INSERT_ROOM_NO_PHOTO_KEY);
                 //add new room with photo
             } else {
                 daoFactory.beginTx();
                 PhotoDao photoDao = daoFactory.getPhotoDao();
                 newPhoto = photoDao.addPhoto(room.getPhoto(), parameters, INSERT_PHOTO_KEY);
-                parameters.add(room.getNumber());
-                parameters.add(room.getBed().getBed());
-                parameters.add(room.getRoomType().getRoomType());
-                parameters.add(room.getPrice());
                 parameters.add(newPhoto.getId());
                 newRoom = roomDao.save(room, parameters, INSERT_ROOM_WITH_PHOTO_KEY);
                 daoFactory.commit();

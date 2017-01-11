@@ -27,10 +27,10 @@ public class ImageService extends ParentService {
      */
     public Photo findPhotoById(Photo photo) throws ServiceException {
 
+        parameters.add(photo.getId());
         final int FOUND_PHOTO_FIST_INDEX = 0;
         List<Photo> photoList;
         Photo foundPhoto;
-        parameters.add(photo.getId());
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             PhotoDao photoDao = daoFactory.getPhotoDao();
             photoList = photoDao.findByParameters(photo, parameters, FIND_PHOTO_BY_ID_KEY, BLANK_LOCALE);

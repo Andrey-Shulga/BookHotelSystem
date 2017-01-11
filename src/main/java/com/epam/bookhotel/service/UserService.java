@@ -64,11 +64,11 @@ public class UserService extends ParentService {
      */
     public User login(User user) throws ServiceException {
 
+        parameters.add(user.getLogin());
         final int FOUND_USER_FIST_INDEX = 0;
         final String testPassword = user.getPassword();
         List<User> usersList;
         User foundUser;
-        parameters.add(user.getLogin());
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
             usersList = userDao.findByParameters(user, parameters, FIND_LOGIN_USER_KEY, user.getLocale().getLocaleName());
