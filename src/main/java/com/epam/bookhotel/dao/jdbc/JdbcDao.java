@@ -32,7 +32,6 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private String query;
     private Connection connection;
 
-
     JdbcDao(Connection connection) {
         this.connection = connection;
     }

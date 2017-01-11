@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebListener;
 public class ConnectionPoolInitListener implements ServletContextListener {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolInitListener.class);
+    private static final String ERROR_MESSAGE = "ConnectionPoolException occurred";
     private static ConnectionPool pool;
 
     public static ConnectionPool getPool() {
@@ -35,9 +36,9 @@ public class ConnectionPoolInitListener implements ServletContextListener {
             try {
                 pool.close();
             } catch (ConnectionPoolException ex) {
-                logger.error("ConnectionPoolException occurred", ex);
+                logger.error(ERROR_MESSAGE, ex);
             }
-            logger.error("ConnectionPoolException occurred", e);
+            logger.error(ERROR_MESSAGE, e);
         }
         JdbcDaoFactory.setPool(pool);
 
@@ -49,7 +50,7 @@ public class ConnectionPoolInitListener implements ServletContextListener {
         try {
             pool.close();
         } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException occurred", e);
+            logger.error(ERROR_MESSAGE, e);
         }
     }
 }
