@@ -8,22 +8,23 @@ import com.epam.bookhotel.util.LocaleUpdater;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.bookhotel.constant.Constants.LOCALE;
+import static com.epam.bookhotel.constant.Constants.REDIRECT_PREFIX;
+
 public class ChangeLocaleAction implements Action {
 
-    private static final String LOCALE_ATTR = "locale";
     private static final String REFERRER = "referer";
-    private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        String userLocale = req.getParameter(LOCALE_ATTR);
+        String userLocale = req.getParameter(LOCALE);
         try {
             LocaleUpdater.changeUserLocale(req, userLocale);
         } catch (LocaleChangerException e) {
             throw new ActionException(e);
         }
-        CookieHelper.setCookie(res, LOCALE_ATTR, userLocale);
+        CookieHelper.setCookie(res, LOCALE, userLocale);
         String referrer = req.getHeader(REFERRER);
 
         return REDIRECT_PREFIX + referrer;

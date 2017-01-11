@@ -30,7 +30,7 @@ public class FormValidator {
     private static final String FORM_PROPERTY_FILE_NAME = "forms.properties";
     private static final String PROPERTY_KEY_DOT = ".";
     private static final String REGEX_FOR_NUMBER = "[0-9]*";
-    private static final int ZERO_SIZE = 0;
+    private static final int ZERO_FILE_SIZE = 0;
     private static final String FIELDS_NOT_EQUAL_ERROR_MESSAGE = "fields.not.equal.message";
     private static final String LIST_NOT_SELECTED_ERROR_MESSAGE = "drop.down.list.item.not.select";
     private static final String WRONG_CONTENT_TYPE_ERROR_MESSAGE = "add.room.photo.error";
@@ -294,7 +294,7 @@ public class FormValidator {
         if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
             try {
                 Part photoPart = req.getPart(parameter);
-                if (photoPart.getSize() != ZERO_SIZE) {
+                if (photoPart.getSize() != ZERO_FILE_SIZE) {
                     String contentType = photoPart.getContentType();
                     ImageValidator validator = new ImageValidator();
                     logger.debug("Validator {} try to validate value of content type \"{}\"", validator.getClass().getSimpleName(), contentType);
@@ -322,7 +322,7 @@ public class FormValidator {
         if (!FILE_FORM_CONTENT_HEADER.equals(req.getContentType())) {
             try {
                 Part photoPart = req.getPart(parameter);
-                if (photoPart.getSize() != ZERO_SIZE) {
+                if (photoPart.getSize() != ZERO_FILE_SIZE) {
                     Long fileSize = photoPart.getSize();
                     FileSizeValidator validator = new FileSizeValidator();
                     logger.debug("Validator {} try to validate value of size \"{}\"", validator.getClass().getSimpleName(), fileSize);

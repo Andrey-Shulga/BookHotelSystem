@@ -10,27 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * Action show page with all rooms in hotel for user with manager rights.
  */
 
 public class ShowAllRoomsManagerAction implements Action {
 
-    private static final String USER_ATTR_NAME = "user";
-    private static final String ROOMS_LIST_ATTRIBUTE = "rooms";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String ROOM_LIST_JSP = "manager_room_list";
+    private static final String ROOM_LIST = "manager_room_list";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        final User user = (User) req.getSession().getAttribute(USER_ATTR_NAME);
+        final User user = (User) req.getSession().getAttribute(USER);
         RoomService roomService = new RoomService();
         try {
             final List<Room> roomList = roomService.findAllRooms(new Room(), user);
-            req.setAttribute(ROOMS_LIST_ATTRIBUTE, roomList);
+            req.setAttribute(ROOMS, roomList);
         } catch (ServiceException e) {
-            req.setAttribute(ROOMS_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.setAttribute(ROOMS + ERROR_MESSAGES_POSTFIX, e.getMessage());
         }
 
         ShowOrderFormAction action = new ShowOrderFormAction();
@@ -40,6 +39,6 @@ public class ShowAllRoomsManagerAction implements Action {
             throw new ActionException(e);
         }
 
-        return ROOM_LIST_JSP;
+        return ROOM_LIST;
     }
 }

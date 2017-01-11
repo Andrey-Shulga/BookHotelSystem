@@ -6,7 +6,6 @@ import com.epam.bookhotel.entity.RoomType;
 import com.epam.bookhotel.exception.DaoException;
 import com.epam.bookhotel.exception.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +15,6 @@ import java.util.List;
 public class RoomTypeService extends ParentService {
 
     private static final String FIND_ALL_ROOM_TYPES = "find.all.room.type";
-    private final List<Object> parameters = new ArrayList<>();
 
     /**
      * Search all room types

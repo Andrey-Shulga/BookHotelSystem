@@ -9,7 +9,6 @@ import com.epam.bookhotel.exception.UnableConfirmOrderException;
 import com.epam.bookhotel.exception.UnableUpdateFieldException;
 import com.epam.bookhotel.util.DateConverter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +22,6 @@ public class OrderService extends ParentService {
     private static final String INSERT_ORDER_KEY = "insert.order";
     private static final String UPDATE_ORDER_ROOM_NUMBER_KEY = "update.order.room.number";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
-    private final List<Object> parameters = new ArrayList<>();
 
     /**
      * Save new order

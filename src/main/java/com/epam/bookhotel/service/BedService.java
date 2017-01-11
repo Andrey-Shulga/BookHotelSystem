@@ -6,8 +6,9 @@ import com.epam.bookhotel.entity.Bed;
 import com.epam.bookhotel.exception.DaoException;
 import com.epam.bookhotel.exception.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.epam.bookhotel.constant.Constants.BLANK_LOCALE;
 
 /**
  * Service serves operation with entity Bed
@@ -16,8 +17,6 @@ import java.util.List;
 public class BedService extends ParentService {
 
     private static final String FIND_ALL_BED = "find.all.bed";
-    private static final String BLANK_LOCALE = "";
-    private final List<Object> parameters = new ArrayList<>();
 
     /**
      * Search all exists beds

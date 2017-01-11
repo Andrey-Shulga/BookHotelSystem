@@ -11,16 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * Action show page with user's confirmation orders with the amount to pay for them.
  */
 
 public class ShowInvoiceUserAction implements Action {
 
-    private static final String USER_INVOICE_LIST = "user_invoice_list";
-    private static final String USER = "user";
-    private static final String ORDER_LIST_ATTRIBUTE = "orders";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
+    private static final String INVOICES_LIST = "user_invoice_list";
     private static final String ORDERS_STATUS_CONFIRMED = "confirmed";
 
     @Override
@@ -34,11 +33,11 @@ public class ShowInvoiceUserAction implements Action {
         OrderService orderService = new OrderService();
         try {
             final List<Order> orderList = orderService.findConfirmedOrdersByUserId(order);
-            req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
+            req.setAttribute(ORDERS, orderList);
         } catch (ServiceException e) {
-            req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.setAttribute(ORDERS + ERROR_MESSAGES_POSTFIX, e.getMessage());
         }
 
-        return USER_INVOICE_LIST;
+        return INVOICES_LIST;
     }
 }

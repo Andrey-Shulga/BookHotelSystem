@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * Jdbc DAO for entity Order.
  */

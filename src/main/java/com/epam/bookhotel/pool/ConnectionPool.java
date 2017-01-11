@@ -14,6 +14,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import static com.epam.bookhotel.constant.Constants.TIMEOUT_1_SEC_CHECK_CONNECTION;
+
 /**
  * Pool keeps connections with database.
  * While creating pool gets new connections from database, but no more definite start size in property.
@@ -23,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionPool {
 
     private static final String DB_PROPERTY_FILE_NAME = "database.properties";
-    private static final int TIMEOUT_CHECK_CONNECTION = 1;
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     private static final String JDBC_DRIVERS_KEY = "jdbc.drivers";
     private static final String JDBC_URL_KEY = "jdbc.url";
@@ -133,7 +134,7 @@ public class ConnectionPool {
             logger.debug("The connection was taken. Total connections in the pool now = {}", connections.size());
             //check if received connection is valid
             try {
-                if (!connection.isValid(TIMEOUT_CHECK_CONNECTION)) {
+                if (!connection.isValid(TIMEOUT_1_SEC_CHECK_CONNECTION)) {
                     refreshConnectionPool();
                 }
             } catch (SQLException e) {
@@ -151,7 +152,7 @@ public class ConnectionPool {
                 }
                 //check if received connection is valid
                 try {
-                    if (!connection.isValid(TIMEOUT_CHECK_CONNECTION)) refreshConnectionPool();
+                    if (!connection.isValid(TIMEOUT_1_SEC_CHECK_CONNECTION)) refreshConnectionPool();
                 } catch (SQLException e) {
                     throw new ConnectionPoolException(e);
                 }
@@ -178,7 +179,7 @@ public class ConnectionPool {
     public void putConnectionToPool(Connection returnedConnection) throws ConnectionPoolException {
 
         try {
-            if (returnedConnection.isValid(TIMEOUT_CHECK_CONNECTION)) {
+            if (returnedConnection.isValid(TIMEOUT_1_SEC_CHECK_CONNECTION)) {
                 connections.offer(returnedConnection);
                 logger.debug("Connection has been returned back to pool, now total connections in pool = {}", connections.size());
             }

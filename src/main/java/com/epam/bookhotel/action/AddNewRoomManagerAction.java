@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * Add new room to the list of hotel's rooms.
  */
@@ -29,15 +31,12 @@ import java.util.Map;
 public class AddNewRoomManagerAction implements Action {
 
     private static final Logger logger = LoggerFactory.getLogger(AddNewRoomManagerAction.class);
-    private static final String ROOM_FORM_JSP = "manager_room_list";
-    private static final String REDIRECT = "redirect:/do/?action=show-manager-room-list";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String ROOM_BED_ATTR = "bed";
-    private static final String ROOM_TYPE_ATTR = "roomType";
-    private static final String ROOM_NUMBER_ATTR = "roomNumber";
-    private static final String ROOM_PRICE_ATTR = "roomPrice";
-    private static final String ROOM_PHOTO_ATTR = "photo";
-    private static final int ZERO_SIZE = 0;
+    private static final String MANAGER_ROOM_LIST = "manager_room_list";
+    private static final String REDIRECT_ROOM_LIST = "redirect:/do/?action=show-manager-room-list";
+    private static final String ROOM_NUMBER = "roomNumber";
+    private static final String ROOM_PRICE = "roomPrice";
+    private static final String ROOM_PHOTO = "photo";
+    private static final int ZERO_FILE_SIZE = 0;
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -46,34 +45,34 @@ public class AddNewRoomManagerAction implements Action {
         try {
             //validate form's fields
             FormValidator validator = new FormValidator();
-            Map<String, List<String>> fieldErrors = validator.validate(ROOM_FORM_JSP, req);
+            Map<String, List<String>> fieldErrors = validator.validate(MANAGER_ROOM_LIST, req);
 
             //check if form's dropdown list item not selected
-            validator.checkDropDownListOnSelect(ROOM_BED_ATTR, req);
-            validator.checkDropDownListOnSelect(ROOM_TYPE_ATTR, req);
+            validator.checkDropDownListOnSelect(ROOM_BED, req);
+            validator.checkDropDownListOnSelect(ROOM_TYPE, req);
             //check if chooses file has suitable content type
-            validator.checkImageContentType(ROOM_PHOTO_ATTR, req);
+            validator.checkImageContentType(ROOM_PHOTO, req);
             //check if size of chooses file not over the limit
-            validator.checkFileMaxSize(ROOM_PHOTO_ATTR, req);
+            validator.checkFileMaxSize(ROOM_PHOTO, req);
             //if errors found return to page again with output errors
-            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT;
+            if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT_ROOM_LIST;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }
         //if form validation ok continue...
         logger.debug("Form's parameters are valid.");
 
-        String roomNumber = req.getParameter(ROOM_NUMBER_ATTR);
-        String roomBed = req.getParameter(ROOM_BED_ATTR);
-        String roomType = req.getParameter(ROOM_TYPE_ATTR);
-        String roomPrice = req.getParameter(ROOM_PRICE_ATTR);
+        String roomNumber = req.getParameter(ROOM_NUMBER);
+        String roomBed = req.getParameter(ROOM_BED);
+        String roomType = req.getParameter(ROOM_TYPE);
+        String roomPrice = req.getParameter(ROOM_PRICE);
         Double roomPriceDouble = Double.parseDouble(roomPrice);
         InputStream in = null;
         Room room;
         try {
-            Part photoPart = req.getPart(ROOM_PHOTO_ATTR);
+            Part photoPart = req.getPart(ROOM_PHOTO);
             //if choose photo for room assemble room with photo
-            if (photoPart.getSize() != ZERO_SIZE) {
+            if (photoPart.getSize() != ZERO_FILE_SIZE) {
                 in = photoPart.getInputStream();
                 String contentType = photoPart.getContentType();
                 Long contentLength = photoPart.getSize();
@@ -88,8 +87,8 @@ public class AddNewRoomManagerAction implements Action {
                 roomService.addRoom(room);
             } catch (ServiceException e) {
                 //set error to session for output on jsp
-                req.getSession().setAttribute(ROOM_FORM_JSP + ERROR_MESSAGE_SUFFIX, e.getMessage());
-                return REDIRECT;
+                req.getSession().setAttribute(MANAGER_ROOM_LIST + ERROR_MESSAGES_POSTFIX, e.getMessage());
+                return REDIRECT_ROOM_LIST;
 
             } finally {
                 if (in != null) in.close();
@@ -107,15 +106,15 @@ public class AddNewRoomManagerAction implements Action {
         }
 
         logger.debug("Add room action success.");
-        return REDIRECT;
+        return REDIRECT_ROOM_LIST;
     }
 
     private void saveInputField(HttpServletRequest req) {
 
-        String roomNumber = req.getParameter(ROOM_NUMBER_ATTR);
-        req.getSession().setAttribute(ROOM_NUMBER_ATTR, roomNumber);
-        String roomPrice = req.getParameter(ROOM_PRICE_ATTR);
-        req.getSession().setAttribute(ROOM_PRICE_ATTR, roomPrice);
+        String roomNumber = req.getParameter(ROOM_NUMBER);
+        req.getSession().setAttribute(ROOM_NUMBER, roomNumber);
+        String roomPrice = req.getParameter(ROOM_PRICE);
+        req.getSession().setAttribute(ROOM_PRICE, roomPrice);
 
     }
 }

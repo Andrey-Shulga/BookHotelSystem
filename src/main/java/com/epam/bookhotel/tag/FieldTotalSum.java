@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.epam.bookhotel.constant.Constants.ZERO;
+
 /**
  * Custom tag for calculate total sum of field values
  */
 
 public class FieldTotalSum extends TagSupport {
 
-    private static final String DB_CONNECT_ERROR_MSG = "database.connection.failure.msg";
-    private static final int ZERO = 0;
     private List orders;
 
     public List getOrders() {

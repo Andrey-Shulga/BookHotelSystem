@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.epam.bookhotel.constant.Constants.LOCALE;
+import static com.epam.bookhotel.constant.Constants.USER;
+
 /**
  * Utility for change and update user locale if user change interface language
  */
@@ -17,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 public class LocaleUpdater {
 
     private static final Logger logger = LoggerFactory.getLogger(LocaleUpdater.class);
-
-    private static final String LOCALE_ATTR_NAME = "locale";
-    private static final String USER_ATTR_NAME = "user";
 
     /**
      * Save user locale to database and session.
@@ -31,8 +31,8 @@ public class LocaleUpdater {
     public static void changeUserLocale(HttpServletRequest req, String locale) throws LocaleChangerException {
 
         boolean isCreated = false;
-        if (req.getSession(isCreated).getAttribute(USER_ATTR_NAME) != null) {
-            final User user = (User) req.getSession(isCreated).getAttribute(USER_ATTR_NAME);
+        if (req.getSession(isCreated).getAttribute(USER) != null) {
+            final User user = (User) req.getSession(isCreated).getAttribute(USER);
             user.setLocale(new UserLocale(locale));
             UserService service = new UserService();
             try {
@@ -41,7 +41,7 @@ public class LocaleUpdater {
                 throw new LocaleChangerException(e);
             }
         }
-        req.getSession(isCreated).setAttribute(LOCALE_ATTR_NAME, locale);
+        req.getSession(isCreated).setAttribute(LOCALE, locale);
 
         logger.debug("Locale changed on \"{}\"", locale);
 

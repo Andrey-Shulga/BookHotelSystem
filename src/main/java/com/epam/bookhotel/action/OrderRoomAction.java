@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * User action for booking room in hotel.
  * Save user's order in database.
@@ -29,17 +31,11 @@ public class OrderRoomAction implements Action {
     private static final Logger logger = LoggerFactory.getLogger(OrderRoomAction.class);
     private static final String ORDER_FORM = "order_form";
     private static final String REDIRECT_ORDER_FORM = "redirect:/do/?action=show-order-form";
-    private static final String REDIRECT = "redirect:/do/?action=show-user-order-list";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String USER = "user";
+    private static final String REDIRECT_ORDER_LIST = "redirect:/do/?action=show-user-order-list";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
     private static final String EMAIL = "email";
     private static final String PHONE = "phone";
-    private static final String CHECK_IN = "checkIn";
-    private static final String CHECK_OUT = "checkOut";
-    private static final String BED = "bed";
-    private static final String ROOM_TYPE = "roomType";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -50,7 +46,7 @@ public class OrderRoomAction implements Action {
             Map<String, List<String>> fieldErrors = validator.validate(ORDER_FORM, req);
 
             //check if form's dropdown list item not selected
-            validator.checkDropDownListOnSelect(BED, req);
+            validator.checkDropDownListOnSelect(ROOM_BED, req);
             validator.checkDropDownListOnSelect(ROOM_TYPE, req);
             if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT_ORDER_FORM;
 
@@ -70,7 +66,7 @@ public class OrderRoomAction implements Action {
         String checkOut = req.getParameter(CHECK_OUT);
         final Date checkInDate = DateConverter.getStrToDate(checkIn);
         final Date checkOutDate = DateConverter.getStrToDate(checkOut);
-        final Bed bed = new Bed(Integer.parseInt(req.getParameter(BED)));
+        final Bed bed = new Bed(Integer.parseInt(req.getParameter(ROOM_BED)));
         final RoomType roomType = new RoomType(req.getParameter(ROOM_TYPE));
 
         final Order order = new Order(user, firstName, lastName, email, phone, checkInDate, checkOutDate, bed, roomType);
@@ -79,12 +75,12 @@ public class OrderRoomAction implements Action {
         try {
             orderService.makeOrder(order);
         } catch (ServiceException e) {
-            req.getSession().setAttribute(ORDER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.getSession().setAttribute(ORDER_FORM + ERROR_MESSAGES_POSTFIX, e.getMessage());
             return REDIRECT_ORDER_FORM;
         }
 
         logger.debug("Make order action success.");
-        return REDIRECT;
+        return REDIRECT_ORDER_LIST;
     }
 
     private void saveInputField(HttpServletRequest req) {

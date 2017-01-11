@@ -10,7 +10,6 @@ import com.epam.bookhotel.exception.NonUniqueFieldException;
 import com.epam.bookhotel.exception.RoomExistException;
 import com.epam.bookhotel.exception.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +22,6 @@ public class RoomService extends ParentService {
     private static final String INSERT_ROOM_NO_PHOTO_KEY = "insert.room.no.photo";
     private static final String INSERT_ROOM_WITH_PHOTO_KEY = "insert.room.with.photo";
     private static final String INSERT_PHOTO_KEY = "insert.photo";
-    private final List<Object> parameters = new ArrayList<>();
 
     /**
      * Search all room types

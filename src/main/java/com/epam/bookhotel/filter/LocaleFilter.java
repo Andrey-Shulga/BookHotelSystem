@@ -13,6 +13,8 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
+import static com.epam.bookhotel.constant.Constants.LOCALE;
+
 /**
  * Change page output locale by user's locale
  */
@@ -21,7 +23,6 @@ public class LocaleFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(LocaleFilter.class);
     private static final String DEFAULT_LOCALE = "en";
-    private static final String LOCALE_ATTR_NAME = "locale";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -37,24 +38,24 @@ public class LocaleFilter implements Filter {
 
         String locale = null;
         //try to find locale in cookie and set it to session
-        Cookie localCookie = CookieHelper.findParameter(request, LOCALE_ATTR_NAME);
+        Cookie localCookie = CookieHelper.findParameter(request, LOCALE);
         if (localCookie != null) {
             locale = localCookie.getValue();
-            session.setAttribute(LOCALE_ATTR_NAME, locale);
+            session.setAttribute(LOCALE, locale);
         }
 
         //if locale not found in cookie try to read locale from session and set it in cookie
         if (locale == null) {
             logger.debug("Locale not found in cookie, try to find in session.");
-            locale = (String) request.getSession(isCreated).getAttribute(LOCALE_ATTR_NAME);
-            CookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
+            locale = (String) request.getSession(isCreated).getAttribute(LOCALE);
+            CookieHelper.setCookie(response, LOCALE, locale);
         }
 
         //if locale not found in session and cookie - get default locale and set it to session and cookie
         if (locale == null) {
             locale = DEFAULT_LOCALE;
-            CookieHelper.setCookie(response, LOCALE_ATTR_NAME, locale);
-            session.setAttribute(LOCALE_ATTR_NAME, locale);
+            CookieHelper.setCookie(response, LOCALE, locale);
+            session.setAttribute(LOCALE, locale);
             logger.debug("Locale not found in session, set default locale \"{}\"", locale);
         }
 

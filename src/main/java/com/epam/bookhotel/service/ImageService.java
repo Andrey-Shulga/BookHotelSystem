@@ -6,8 +6,7 @@ import com.epam.bookhotel.entity.Photo;
 import com.epam.bookhotel.exception.DaoException;
 import com.epam.bookhotel.exception.ServiceException;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.epam.bookhotel.constant.Constants.BLANK_LOCALE;
 
 /**
  * Service serves operation with entity Photo
@@ -16,8 +15,7 @@ import java.util.List;
 public class ImageService extends ParentService {
 
     private static final String FIND_PHOTO_BY_ID_KEY = "find.photo.by.id";
-    private static final String BLANK_LOCALE = "";
-    private final List<Object> parameters = new ArrayList<>();
+
 
     /**
      * Search photo by its id

@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * Action show page for current authorized user with its orders.
  */
 
 public class ShowOrdersUserAction implements Action {
 
-    private static final String USER = "user";
-    private static final String ORDER_LIST_ATTRIBUTE = "orders";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
     private static final String USER_ORDER_LIST = "user_order_list";
 
     @Override
@@ -30,9 +29,9 @@ public class ShowOrdersUserAction implements Action {
         OrderService orderService = new OrderService();
         try {
             final List<Order> orderList = orderService.findOrdersByUserId(order);
-            req.setAttribute(ORDER_LIST_ATTRIBUTE, orderList);
+            req.setAttribute(ORDERS, orderList);
         } catch (ServiceException e) {
-            req.setAttribute(ORDER_LIST_ATTRIBUTE + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.setAttribute(ORDERS + ERROR_MESSAGES_POSTFIX, e.getMessage());
         }
 
         return USER_ORDER_LIST;

@@ -15,6 +15,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.bookhotel.constant.Constants.ZERO;
+
 /**
  * Abstract DAO for CRUD operations
  *
@@ -23,26 +25,10 @@ import java.util.List;
 
 abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
-    static final int COLUMN_INDEX_1 = 1;
-    static final int COLUMN_INDEX_2 = 2;
-    static final int COLUMN_INDEX_3 = 3;
-    static final int COLUMN_INDEX_4 = 4;
-    static final int COLUMN_INDEX_5 = 5;
-    static final int COLUMN_INDEX_6 = 6;
-    static final int COLUMN_INDEX_7 = 7;
-    static final int COLUMN_INDEX_8 = 8;
-    static final int COLUMN_INDEX_9 = 9;
-    static final int COLUMN_INDEX_10 = 10;
-    static final int COLUMN_INDEX_11 = 11;
-    static final int COLUMN_INDEX_12 = 12;
-    static final int COLUMN_INDEX_13 = 13;
-    static final int COLUMN_INDEX_14 = 14;
-    static final int COLUMN_INDEX_15 = 15;
+    private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
     private static final String QUERY_PROPERTY_FILE = "query.properties";
     private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
-    private static final int ZERO = 0;
     private static final int INITIAL_COUNT = 1;
-    private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
     private Connection connection;
 
 

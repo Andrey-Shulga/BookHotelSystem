@@ -8,7 +8,6 @@ public class LengthValidator extends ParentValidator implements Validator {
     private Integer minLength;
     private Integer maxLength;
 
-
     public LengthValidator() {
     }
 

@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.epam.bookhotel.constant.Constants.ACTION;
+import static com.epam.bookhotel.constant.Constants.REDIRECT_PREFIX;
+
 /**
  * Main controller servlet for serving users actions
  */
@@ -26,10 +29,8 @@ import java.io.IOException;
 public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ACTION_ATTR = "action";
-    private static final String PATH_TO_JSP = "/WEB-INF/jsp/";
-    private static final String FILE_JSP = ".jsp";
+    private static final String WEB_INF_PATH_TO_JSP = "/WEB-INF/jsp/";
+    private static final String EXT_JSP = ".jsp";
     private ActionFactory actionFactory;
 
     @Override
@@ -62,7 +63,7 @@ public class FrontControllerServlet extends HttpServlet {
         if (view.startsWith(REDIRECT_PREFIX)) {
             resp.sendRedirect(view.substring(REDIRECT_PREFIX.length()));
         } else {
-            req.getRequestDispatcher(PATH_TO_JSP + view + FILE_JSP).forward(req, resp);
+            req.getRequestDispatcher(WEB_INF_PATH_TO_JSP + view + EXT_JSP).forward(req, resp);
             //delete errors from previous validation
             ValidatorHelper.deleteErrorsFromSession(req);
         }
@@ -76,7 +77,7 @@ public class FrontControllerServlet extends HttpServlet {
      * @return action
      */
     private String getActionName(HttpServletRequest req) {
-        return req.getParameter(ACTION_ATTR);
+        return req.getParameter(ACTION);
     }
 
     @Override

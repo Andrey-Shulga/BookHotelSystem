@@ -10,13 +10,14 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static com.epam.bookhotel.constant.Constants.TIMEOUT_1_SEC_CHECK_CONNECTION;
+
 /**
  * Factory for producing necessary JdbcDao
  */
 public class JdbcDaoFactory extends DaoFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcDaoFactory.class);
-    private static final int TIMEOUT_CHECK_CONNECTION = 1;
     private static ConnectionPool pool;
     private Connection connection;
 
@@ -138,7 +139,7 @@ public class JdbcDaoFactory extends DaoFactory {
     public void close() throws JdbcDaoException {
 
         try {
-            if (connection.isClosed() || !connection.isValid(TIMEOUT_CHECK_CONNECTION))
+            if (connection.isClosed() || !connection.isValid(TIMEOUT_1_SEC_CHECK_CONNECTION))
                 logger.debug("Return connection is closed or invalid, and will not be add to the pool.");
             else
                 pool.putConnectionToPool(connection);

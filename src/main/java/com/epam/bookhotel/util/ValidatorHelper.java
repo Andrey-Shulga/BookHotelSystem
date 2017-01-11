@@ -10,6 +10,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import static com.epam.bookhotel.constant.Constants.ERROR_MESSAGES_POSTFIX;
+
 /**
  * Utility for serves from validation
  */
@@ -17,7 +19,6 @@ import java.util.Map;
 public class ValidatorHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidatorHelper.class);
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
 
     /**
      * Validate form by rules
@@ -46,7 +47,8 @@ public class ValidatorHelper {
         Enumeration<String> attributeNames = request.getSession().getAttributeNames();
         while (attributeNames.hasMoreElements()) {
             String sessionAttribute = attributeNames.nextElement();
-            if (sessionAttribute.endsWith(ERROR_MESSAGE_SUFFIX)) request.getSession().removeAttribute(sessionAttribute);
+            if (sessionAttribute.endsWith(ERROR_MESSAGES_POSTFIX))
+                request.getSession().removeAttribute(sessionAttribute);
         }
     }
 
@@ -59,7 +61,7 @@ public class ValidatorHelper {
     public static void setErrorsToSession(HttpServletRequest req, Map<String, List<String>> fieldErrors) {
 
         for (Map.Entry<String, List<String>> entry : fieldErrors.entrySet()) {
-            req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGE_SUFFIX, entry.getValue());
+            req.getSession().setAttribute(entry.getKey() + ERROR_MESSAGES_POSTFIX, entry.getValue());
             for (String errorMessage : entry.getValue()) {
                 logger.debug("In filed \"{}\" found error message \"{}\"", entry.getKey(), errorMessage);
             }

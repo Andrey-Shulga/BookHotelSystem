@@ -15,6 +15,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.bookhotel.constant.Constants.ACTION;
+import static com.epam.bookhotel.constant.Constants.USER;
+
 /**
  * Filter restrict actions with application for users without special rights.
  */
@@ -22,8 +25,6 @@ import java.util.List;
 public class AccessFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(AccessFilter.class);
-    private static final String ACTION_PARAMETER_NAME = "action";
-    private static final String USER_ATTRIBUTE = "user";
     private static final String ANONIM_ACTION_FILE_NAME = "anonim-actions.properties";
     private static final String USER_ACTION_FILE_NAME = "user-actions.properties";
     private static final String MANAGER_ACTION_FILE_NAME = "manager-actions.properties";
@@ -74,9 +75,9 @@ public class AccessFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         //read action from received request
-        String actionName = req.getParameter(ACTION_PARAMETER_NAME);
+        String actionName = req.getParameter(ACTION);
 
-        final User user = (User) req.getSession().getAttribute(USER_ATTRIBUTE);
+        final User user = (User) req.getSession().getAttribute(USER);
 
         //get list with actions for user by his role
         List<String> actionList = getActionList(user);

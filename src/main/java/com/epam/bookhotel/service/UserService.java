@@ -7,7 +7,6 @@ import com.epam.bookhotel.entity.User;
 import com.epam.bookhotel.exception.*;
 import com.epam.bookhotel.util.PasswordStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,6 @@ public class UserService extends ParentService {
     private static final String REGISTER_USER_KEY = "insert.user";
     private static final String FIND_LOGIN_USER_KEY = "find.user.login";
     private static final String UPDATE_USER_LOCALE_KEY = "update.user.locale";
-    private final List<Object> parameters = new ArrayList<>();
 
     /**
      * Save new user

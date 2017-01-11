@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+import static com.epam.bookhotel.constant.Constants.*;
+
 /**
  * Action for registration user in application
  * Save user in database.
@@ -27,12 +29,9 @@ public class RegisterAction implements Action {
     private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);
     private static final String REDIRECT_REGISTER_FORM = "redirect:/do/?action=show-register-form";
     private static final String REGISTER_FORM = "register";
-    private static final String REDIRECT = "redirect:/do/?action=show-register-success";
-    private static final String ERROR_MESSAGE_SUFFIX = "ErrorMessages";
-    private static final String LOGIN_PARAMETER = "login";
-    private static final String PASSWORD_PARAMETER = "password";
-    private static final String CONFIRM_PASSWORD_PARAMETER = "confirm_password";
-    private static final String LOCALE_SESSION_ATTR_NAME = "locale";
+    private static final String REDIRECT_REGISTER_SUCCESS = "redirect:/do/?action=show-register-success";
+    private static final String CONFIRM_PASSWORD = "confirm_password";
+
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -42,17 +41,17 @@ public class RegisterAction implements Action {
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(REGISTER_FORM, req);
-            validator.checkFieldsOnEquals(PASSWORD_PARAMETER, CONFIRM_PASSWORD_PARAMETER, req);
+            validator.checkFieldsOnEquals(PASSWORD, CONFIRM_PASSWORD, req);
             if (validator.hasFieldsErrors(req, fieldErrors)) return REDIRECT_REGISTER_FORM;
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }
         logger.debug("Form's parameters are valid.");
 
-        String login = req.getParameter(LOGIN_PARAMETER);
-        String password = req.getParameter(PASSWORD_PARAMETER);
+        String login = req.getParameter(LOGIN);
+        String password = req.getParameter(PASSWORD);
         UserRole userRole = new UserRole(UserType.USER);
-        String locale = (String) req.getSession().getAttribute(LOCALE_SESSION_ATTR_NAME);
+        String locale = (String) req.getSession().getAttribute(LOCALE);
         UserLocale userLocale = new UserLocale(locale);
         final User user = new User(login, password, userRole, userLocale);
         UserService userService = new UserService();
@@ -60,17 +59,17 @@ public class RegisterAction implements Action {
             userService.register(user);
             logger.debug("{} inserted into database.", user);
         } catch (ServiceException e) {
-            req.getSession().setAttribute(REGISTER_FORM + ERROR_MESSAGE_SUFFIX, e.getMessage());
+            req.getSession().setAttribute(REGISTER_FORM + ERROR_MESSAGES_POSTFIX, e.getMessage());
             return REDIRECT_REGISTER_FORM;
         }
         logger.debug("Register action success.");
-        return REDIRECT;
+        return REDIRECT_REGISTER_SUCCESS;
     }
 
     private void saveInputField(HttpServletRequest req) {
 
-        String login = req.getParameter(LOGIN_PARAMETER);
-        req.getSession().setAttribute(LOGIN_PARAMETER, login);
+        String login = req.getParameter(LOGIN);
+        req.getSession().setAttribute(LOGIN, login);
     }
 }
 

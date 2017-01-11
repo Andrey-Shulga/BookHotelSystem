@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.epam.bookhotel.constant.Constants.COLUMN_INDEX_1;
+import static com.epam.bookhotel.constant.Constants.COLUMN_INDEX_2;
+
 /**
  * Jdbc DAO for entity RoomType.
  */
