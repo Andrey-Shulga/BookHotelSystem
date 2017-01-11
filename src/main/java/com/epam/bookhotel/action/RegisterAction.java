@@ -37,6 +37,9 @@ public class RegisterAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        String login = req.getParameter(LOGIN);
+        SessionHelper.saveParamToSession(req, LOGIN, login);
+
         //validate form's fields by rules
         try {
             FormValidator validator = new FormValidator();
@@ -48,8 +51,6 @@ public class RegisterAction implements Action {
         }
         logger.debug("Form's parameters are valid.");
 
-        String login = req.getParameter(LOGIN);
-        SessionHelper.saveParamToSession(req, LOGIN, login);
         String password = req.getParameter(PASSWORD);
         UserRole userRole = new UserRole(UserType.USER);
         String locale = (String) req.getSession().getAttribute(LOCALE);

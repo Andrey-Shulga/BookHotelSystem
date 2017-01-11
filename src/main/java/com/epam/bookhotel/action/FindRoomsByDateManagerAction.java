@@ -31,6 +31,11 @@ public class FindRoomsByDateManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        String checkIn = req.getParameter(CHECK_IN);
+        SessionHelper.saveParamToSession(req, CHECK_IN, checkIn);
+        String checkOut = req.getParameter(CHECK_OUT);
+        SessionHelper.saveParamToSession(req, CHECK_OUT, checkOut);
+
         //check form's filed on errors
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT_ORDER_LIST;
@@ -40,10 +45,6 @@ public class FindRoomsByDateManagerAction implements Action {
         logger.debug("Form's parameters are valid.");
 
         final User user = (User) req.getSession().getAttribute(USER);
-        String checkIn = req.getParameter(CHECK_IN);
-        SessionHelper.saveParamToSession(req, CHECK_IN, checkIn);
-        String checkOut = req.getParameter(CHECK_OUT);
-        SessionHelper.saveParamToSession(req, CHECK_OUT, checkOut);
 
         RoomService roomService = new RoomService();
         try {

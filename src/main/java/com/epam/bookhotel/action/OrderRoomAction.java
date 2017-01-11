@@ -41,6 +41,19 @@ public class OrderRoomAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        String firstName = req.getParameter(FIRST_NAME);
+        SessionHelper.saveParamToSession(req, FIRST_NAME, firstName);
+        String lastName = req.getParameter(LAST_NAME);
+        SessionHelper.saveParamToSession(req, LAST_NAME, lastName);
+        String email = req.getParameter(EMAIL);
+        SessionHelper.saveParamToSession(req, EMAIL, email);
+        String phone = req.getParameter(PHONE);
+        SessionHelper.saveParamToSession(req, PHONE, phone);
+        String checkIn = req.getParameter(CHECK_IN);
+        SessionHelper.saveParamToSession(req, CHECK_IN, checkIn);
+        String checkOut = req.getParameter(CHECK_OUT);
+        SessionHelper.saveParamToSession(req, CHECK_OUT, checkOut);
+
         try {
             FormValidator validator = new FormValidator();
             Map<String, List<String>> fieldErrors = validator.validate(ORDER_FORM, req);
@@ -58,18 +71,6 @@ public class OrderRoomAction implements Action {
 
         final User user = (User) req.getSession().getAttribute(USER);
 
-        String firstName = req.getParameter(FIRST_NAME);
-        SessionHelper.saveParamToSession(req, FIRST_NAME, firstName);
-        String lastName = req.getParameter(LAST_NAME);
-        SessionHelper.saveParamToSession(req, LAST_NAME, lastName);
-        String email = req.getParameter(EMAIL);
-        SessionHelper.saveParamToSession(req, EMAIL, email);
-        String phone = req.getParameter(PHONE);
-        SessionHelper.saveParamToSession(req, PHONE, phone);
-        String checkIn = req.getParameter(CHECK_IN);
-        SessionHelper.saveParamToSession(req, CHECK_IN, checkIn);
-        String checkOut = req.getParameter(CHECK_OUT);
-        SessionHelper.saveParamToSession(req, CHECK_OUT, checkOut);
         Date checkInDate = DateConverter.getStrToDate(checkIn);
         Date checkOutDate = DateConverter.getStrToDate(checkOut);
         Bed bed = new Bed(Integer.parseInt(req.getParameter(ROOM_BED)));

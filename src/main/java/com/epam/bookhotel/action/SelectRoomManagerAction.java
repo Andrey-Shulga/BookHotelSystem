@@ -34,6 +34,11 @@ public class SelectRoomManagerAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        String orderId = req.getParameter(ORDER_ID);
+        SessionHelper.saveParamToSession(req, ORDER_ID, orderId);
+        String roomId = req.getParameter(ROOM_NUMBER);
+        SessionHelper.saveParamToSession(req, ROOM_NUMBER, roomId);
+
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT_ORDER_LIST;
         } catch (ValidatorException e) {
@@ -42,10 +47,6 @@ public class SelectRoomManagerAction implements Action {
 
         logger.debug("Form's parameters are valid.");
         final User user = (User) req.getSession().getAttribute(USER);
-        String orderId = req.getParameter(ORDER_ID);
-        SessionHelper.saveParamToSession(req, ORDER_ID, orderId);
-        String roomId = req.getParameter(ROOM_NUMBER);
-        SessionHelper.saveParamToSession(req, ROOM_NUMBER, roomId);
 
         final Room room = new Room();
         room.setNumber(Integer.parseInt(roomId));
