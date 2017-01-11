@@ -60,7 +60,7 @@ public class ConnectionPool {
             if (connection != null)
                 connections.offer(connection);
         }
-        logger.debug("Initial connection pool with {} connections was created.", connections.size());
+        logger.debug("Initial connection pool with {} connections has been created.", connections.size());
     }
 
     /**
@@ -146,20 +146,20 @@ public class ConnectionPool {
                     "will be create, wait for release any connection...", poolMaxSize);
             try {
                 connection = connections.poll(pollConnectionTimeout, TimeUnit.SECONDS);
-                if (connection == null) {
-                    logger.debug("Did't wait for a free connection from pool by timeout = {} sec.", pollConnectionTimeout);
-                    throw new ConnectionPoolException("No free connections");
-                }
-                //check if received connection is valid
-                try {
-                    if (!connection.isValid(TIMEOUT_1_SEC_CHECK_CONNECTION)) refreshConnectionPool();
-                } catch (SQLException e) {
-                    throw new ConnectionPoolException(e);
-                }
             } catch (InterruptedException e) {
-
                 throw new ConnectionPoolException(e);
             }
+            if (connection == null) {
+                logger.debug("Did't wait for a free connection from pool by timeout = {} sec.", pollConnectionTimeout);
+                throw new ConnectionPoolException("No free connections");
+            }
+            //check if received connection is valid
+            try {
+                if (!connection.isValid(TIMEOUT_1_SEC_CHECK_CONNECTION)) refreshConnectionPool();
+            } catch (SQLException e) {
+                throw new ConnectionPoolException(e);
+            }
+
         }
         return connection;
     }
