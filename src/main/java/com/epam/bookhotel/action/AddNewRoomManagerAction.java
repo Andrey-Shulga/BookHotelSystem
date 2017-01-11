@@ -36,7 +36,7 @@ public class AddNewRoomManagerAction implements Action {
     private static final String ROOM_NUMBER = "roomNumber";
     private static final String ROOM_PRICE = "roomPrice";
     private static final String ROOM_PHOTO = "photo";
-    private static final int ZERO_FILE_SIZE = 0;
+
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -72,7 +72,7 @@ public class AddNewRoomManagerAction implements Action {
         try {
             Part photoPart = req.getPart(ROOM_PHOTO);
             //if choose photo for room assemble room with photo
-            if (photoPart.getSize() != ZERO_FILE_SIZE) {
+            if (photoPart.getSize() != ZERO) {
                 in = photoPart.getInputStream();
                 String contentType = photoPart.getContentType();
                 Long contentLength = photoPart.getSize();
