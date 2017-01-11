@@ -1,0 +1,222 @@
+package com.epam.bookhotel.dao.jdbc;
+
+
+import com.epam.bookhotel.dao.Dao;
+import com.epam.bookhotel.entity.BaseEntity;
+import com.epam.bookhotel.exception.JdbcDaoException;
+import com.epam.bookhotel.exception.NonUniqueFieldException;
+import com.epam.bookhotel.exception.PropertyManagerException;
+import com.epam.bookhotel.exception.UnableUpdateFieldException;
+import com.epam.bookhotel.util.PropertyManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Abstract DAO for CRUD operations
+ *
+ * @param <T> generic type for any entity
+ */
+
+abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
+
+    static final int COLUMN_INDEX_1 = 1;
+    static final int COLUMN_INDEX_2 = 2;
+    static final int COLUMN_INDEX_3 = 3;
+    static final int COLUMN_INDEX_4 = 4;
+    static final int COLUMN_INDEX_5 = 5;
+    static final int COLUMN_INDEX_6 = 6;
+    static final int COLUMN_INDEX_7 = 7;
+    static final int COLUMN_INDEX_8 = 8;
+    static final int COLUMN_INDEX_9 = 9;
+    static final int COLUMN_INDEX_10 = 10;
+    static final int COLUMN_INDEX_11 = 11;
+    static final int COLUMN_INDEX_12 = 12;
+    static final int COLUMN_INDEX_13 = 13;
+    static final int COLUMN_INDEX_14 = 14;
+    static final int COLUMN_INDEX_15 = 15;
+    private static final String QUERY_PROPERTY_FILE = "query.properties";
+    private static final String NON_UNIQUE_FIELD_ERROR_CODE = "23505";
+    private static final int ZERO = 0;
+    private static final int INITIAL_COUNT = 1;
+    private static final Logger logger = LoggerFactory.getLogger(JdbcDao.class);
+    private Connection connection;
+
+
+    JdbcDao(Connection connection) {
+        this.connection = connection;
+    }
+
+    /**
+     * Return file name of property file with queries for other JdbcDao
+     *
+     * @return the name of property file
+     */
+    static String getQueryPropertyFile() {
+        return QUERY_PROPERTY_FILE;
+    }
+
+    /**
+     * General method for operation "insert" entities to database
+     *
+     * @param entity     the entity which need inserts in database
+     * @param parameters the list of parameters for prepare PrepareStatements
+     * @param key        property key for reading insert query from property file
+     * @return inserted entity with received id
+     * @throws JdbcDaoException if any exceptions occurred with jdbc operations
+     */
+    @Override
+    public T save(T entity, List<Object> parameters, String key) throws JdbcDaoException {
+
+        try {
+            //load file with property to property manager
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
+            if (entity.getId() == null) {
+                logger.debug("{} trying to INSERT entity \"{}\" to database...", this.getClass().getSimpleName(), entity);
+                try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(key), Statement.RETURN_GENERATED_KEYS)) {
+                    //set the list of parameters to PrepareStatement
+                    setParametersToPs(parameters, ps);
+                    ps.execute();
+                    //set id received from ResultSet in entity
+                    setId(entity, ps);
+                } catch (SQLException e) {
+                    //if field's value which inserted in column which keeps only unique values exist - throw exception about it
+                    if (NON_UNIQUE_FIELD_ERROR_CODE.equals(e.getSQLState())) throw new NonUniqueFieldException(e);
+                    throw new JdbcDaoException(e);
+                }
+            }
+        } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+
+        return entity;
+    }
+
+    /**
+     * General method for operation "update" entities to database
+     *
+     * @param entity     the entity which need updates in database
+     * @param parameters the list of parameters for prepare PrepareStatements
+     * @param key        property key for reading update query from property file
+     * @return updated entity
+     * @throws JdbcDaoException if any exceptions occurred with jdbc operations
+     */
+    @Override
+    public T update(T entity, List<Object> parameters, String key) throws JdbcDaoException {
+
+        logger.debug("{} trying to UPDATE entity \"{}\" in database...", this.getClass().getSimpleName(), entity);
+        try {
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
+            try (PreparedStatement ps = connection.prepareStatement(pm.getPropertyKey(key))) {
+                setParametersToPs(parameters, ps);
+                int result = ps.executeUpdate();
+                //if ResultSet return 0 (no fields was updated) throw exception about it
+                if (result == ZERO) throw new UnableUpdateFieldException();
+                else
+                    logger.debug("{} updated success. Updates entity {}", entity.getClass().getSimpleName(), entity);
+            } catch (SQLException e) {
+                throw new JdbcDaoException(e);
+            }
+        } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+
+        return entity;
+    }
+
+    /**
+     * General method for operation "select" entities to database
+     *
+     * @param entity     the entity which need finds in database
+     * @param parameters the list of parameters for prepare PrepareStatements
+     * @param key        property key for reading update query from property file
+     * @param locale     user's locale for select only localized entities from database
+     * @return the list of found entities
+     * @throws JdbcDaoException if any exceptions occurred with jdbc operations
+     */
+    @Override
+    public List<T> findByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException {
+
+        logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
+        List<T> entities = new ArrayList<>();
+        try {
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
+            //get and format query from file for find localisation values
+            String localeQuery = getQueryByLocale(pm.getPropertyKey(key), locale);
+            try (PreparedStatement ps = connection.prepareStatement(localeQuery)) {
+                setParametersToPs(parameters, ps);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    T newEntity = setRsToField(rs, entity);
+                    entities.add(newEntity);
+                }
+            } catch (SQLException e) {
+                throw new JdbcDaoException(e);
+            }
+        } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+
+        return entities;
+    }
+
+    /**
+     * Format query by user's locale
+     *
+     * @param query  the sql query
+     * @param locale user's locale
+     * @return formatted sql query
+     */
+    private String getQueryByLocale(String query, String locale) {
+
+        return String.format(query, locale, locale);
+    }
+
+    /**
+     * Set values to PrepareStatement
+     *
+     * @param parameters values
+     * @param ps         PrepareStatement
+     * @throws SQLException if any jdbc errors occurred
+     */
+    private void setParametersToPs(List<Object> parameters, PreparedStatement ps) throws SQLException {
+
+        int count = INITIAL_COUNT;
+        for (Object parameter : parameters) {
+            ps.setObject(count, parameter);
+            count++;
+        }
+        parameters.clear();
+    }
+
+    /**
+     * Set returning from ResultSet id in entity
+     *
+     * @param entity inserted entity
+     * @param ps     PrepareStatement
+     * @throws SQLException if any jdbc errors occurred
+     */
+    void setId(T entity, PreparedStatement ps) throws SQLException {
+
+        ResultSet generatedId = ps.getGeneratedKeys();
+        generatedId.next();
+        int id = generatedId.getInt(1);
+        entity.setId(id);
+        if (entity.getId() != null)
+            logger.debug("Insert success. Entity {} received id = {}", entity.getClass().getSimpleName(), entity.getId());
+    }
+
+    /**
+     * Set values from ResultSet to entity's fields.
+     *
+     * @param rs     the ResultSet
+     * @param entity entity which need for set fields
+     * @return entity with set fields
+     * @throws SQLException if any jdbc errors occurred
+     */
+    abstract T setRsToField(ResultSet rs, T entity) throws SQLException;
+
+}

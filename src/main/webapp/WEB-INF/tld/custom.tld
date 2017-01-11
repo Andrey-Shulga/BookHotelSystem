@@ -8,7 +8,7 @@
 
     <tag>
         <name>hello</name>
-        <tag-class>com.epam.as.bookhotel.tag.HelloTag</tag-class>
+        <tag-class>com.epam.bookhotel.tag.HelloTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>role</name>
@@ -19,7 +19,7 @@
 
     <tag>
         <name>filedSum</name>
-        <tag-class>com.epam.as.bookhotel.tag.FieldTotalSum</tag-class>
+        <tag-class>com.epam.bookhotel.tag.FieldTotalSum</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>orders</name>
