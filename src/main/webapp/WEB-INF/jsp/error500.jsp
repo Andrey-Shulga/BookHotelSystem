@@ -17,10 +17,7 @@
         <b><fmt:message key="internal.error.admin.message"/></b> <br><br>
         <b>Exception:</b> ${pageContext.exception}<br>
         <b>Message: </b>${pageContext.exception.message}<br>
-        <b>Stacktrace: </b><br>
-        <c:forEach var="trace" items="${pageContext.exception.stackTrace}">
-            ${trace} <br>
-        </c:forEach>
+
 
     </jsp:body>
 </t:genericpage>

@@ -31,6 +31,9 @@ public class FrontControllerServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String WEB_INF_PATH_TO_JSP = "/WEB-INF/jsp/";
     private static final String EXT_JSP = ".jsp";
+    private static final String ERROR_STATUS_CODE_ATTRIBUTE = "javax.servlet.error.status_code";
+    private static final String EXCEPTION_CODE_ATTRIBUTE = "javax.servlet.error.exception";
+    private static final String ERROR_PAGE = "error";
     private ActionFactory actionFactory;
 
     @Override
@@ -47,6 +50,7 @@ public class FrontControllerServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        checkOnErrorCode(req, resp);
         String actionName = getActionName(req);
         try {
             Action action = actionFactory.getAction(actionName);
@@ -55,6 +59,24 @@ public class FrontControllerServlet extends HttpServlet {
             proceedTo(view, req, resp);
         } catch (ActionException | ActionFactoryException e) {
             logger.error("Exception in controller occurred", e);
+        }
+    }
+
+    /**
+     * Checks if error code was received and forward on suitable error page.
+     *
+     * @param req  http request
+     * @param resp http response
+     * @throws ServletException if the target resource throws this exception
+     * @throws IOException      if the target resource throws this exception
+     */
+    private void checkOnErrorCode(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Integer errorStatusCode = (Integer) req.getAttribute(ERROR_STATUS_CODE_ATTRIBUTE);
+        if (errorStatusCode != null) {
+            Throwable exception = (Throwable) req.getAttribute(EXCEPTION_CODE_ATTRIBUTE);
+            logger.error("Received Error with code {}, will be forwarded to proper error page.\nException: ", errorStatusCode, exception);
+            req.getRequestDispatcher(WEB_INF_PATH_TO_JSP + ERROR_PAGE + errorStatusCode + EXT_JSP).forward(req, resp);
         }
     }
 
@@ -82,11 +104,13 @@ public class FrontControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+
+        super.doGet(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         super.doPost(req, resp);
     }
 }
