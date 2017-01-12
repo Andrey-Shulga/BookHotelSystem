@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.epam.bookhotel.constant.Constants.LOCALE;
-import static com.epam.bookhotel.constant.Constants.USER;
+import static com.epam.bookhotel.constant.ConstantsHolder.LOCALE;
+import static com.epam.bookhotel.constant.ConstantsHolder.USER;
 
 /**
  * Utility for change and update user locale if user change interface language

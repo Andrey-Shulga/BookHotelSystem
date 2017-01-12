@@ -8,8 +8,6 @@ import com.epam.bookhotel.exception.ServiceException;
 
 import java.util.List;
 
-import static com.epam.bookhotel.constant.Constants.BLANK_LOCALE;
-
 /**
  * Service serves operation with entity Bed
  */
@@ -28,9 +26,10 @@ public class BedService extends ParentService {
     public List<Bed> findAllBeds(Bed bed) throws ServiceException {
 
         List<Bed> bedList;
+        final String LOCALE_NO_NEED = "";
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             BedDao bedDao = daoFactory.getBedDao();
-            bedList = bedDao.findByParameters(bed, parameters, FIND_ALL_BED, BLANK_LOCALE);
+            bedList = bedDao.findAllByParameters(bed, parameters, FIND_ALL_BED, LOCALE_NO_NEED);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static com.epam.bookhotel.constant.Constants.TIMEOUT_1_SEC_CHECK_CONNECTION;
+import static com.epam.bookhotel.constant.ConstantsHolder.TIMEOUT_1_SEC_CHECK_CONNECTION;
 
 /**
  * Factory for producing necessary JdbcDao

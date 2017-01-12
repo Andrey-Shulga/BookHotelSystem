@@ -14,10 +14,5 @@
         <b> <fmt:message key="access.error.code.label"/></b> ${pageContext.errorData.statusCode}<br>
         <hr>
 
-        <b><fmt:message key="internal.error.admin.message"/></b> <br><br>
-        <b>Exception:</b> ${pageContext.exception}<br>
-        <b>Message: </b>${pageContext.exception.message}<br>
-
-
     </jsp:body>
 </t:genericpage>

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * Action show page with user's confirmation orders with the amount to pay for them.
@@ -25,8 +25,7 @@ public class ShowInvoiceUserAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        boolean isCreated = false;
-        final User user = (User) req.getSession(isCreated).getAttribute(USER);
+        final User user = (User) req.getSession().getAttribute(USER);
         final Order order = new Order();
         order.setUser(user);
         order.setStatus(new OrderStatus(ORDERS_STATUS_CONFIRMED));

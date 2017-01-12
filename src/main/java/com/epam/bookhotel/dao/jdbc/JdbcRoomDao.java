@@ -13,7 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * Jdbc DAO for entity Room.

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * Action selects room for order by order id and room number
@@ -28,7 +28,7 @@ public class SelectRoomManagerAction implements Action {
     private static final String MANAGER_ORDER_LIST_FORM = "manager_order_list";
     private static final String REDIRECT_ORDER_LIST = "redirect:/do/?action=show-manager-order-list";
     private static final String ORDER_ID = "orderId";
-    private static final String ROOM_NUMBER = "roomId";
+    private static final String ROOM_NUMBER = "roomNumber";
     private static final String CONFIRM = "confirm";
 
     @Override
@@ -36,8 +36,8 @@ public class SelectRoomManagerAction implements Action {
 
         String orderId = req.getParameter(ORDER_ID);
         SessionHelper.saveParamToSession(req, ORDER_ID, orderId);
-        String roomId = req.getParameter(ROOM_NUMBER);
-        SessionHelper.saveParamToSession(req, ROOM_NUMBER, roomId);
+        String roomNumber = req.getParameter(ROOM_NUMBER);
+        SessionHelper.saveParamToSession(req, ROOM_NUMBER, roomNumber);
 
         try {
             if (ValidatorHelper.checkForm(req, MANAGER_ORDER_LIST_FORM)) return REDIRECT_ORDER_LIST;
@@ -49,7 +49,7 @@ public class SelectRoomManagerAction implements Action {
         final User user = (User) req.getSession().getAttribute(USER);
 
         final Room room = new Room();
-        room.setNumber(Integer.parseInt(roomId));
+        room.setNumber(Integer.parseInt(roomNumber));
         final Order order = new Order();
         order.setId(Integer.parseInt(orderId));
         order.setRoom(room);

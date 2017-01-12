@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * Add new room to the list of hotel's rooms.

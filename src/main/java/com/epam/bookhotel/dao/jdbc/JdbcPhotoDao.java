@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.List;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * Jdbc DAO for entity Photo.

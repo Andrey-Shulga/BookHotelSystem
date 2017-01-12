@@ -16,7 +16,10 @@ public interface Dao<T extends BaseEntity> {
     //Operation for update entity
     void update(T entity, List<Object> parameters, String key) throws JdbcDaoException;
 
-    //Operation for searching entities
-    List<T> findByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException;
+    //Operation for searching several entities by parameters
+    List<T> findAllByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException;
+
+    //Operation for searching entity by parameters
+    T findByParameters(T entity, List<Object> parameters, String key) throws JdbcDaoException;
 
 }

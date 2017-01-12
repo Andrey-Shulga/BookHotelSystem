@@ -13,7 +13,7 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
-import static com.epam.bookhotel.constant.Constants.LOCALE;
+import static com.epam.bookhotel.constant.ConstantsHolder.LOCALE;
 
 /**
  * Change page output locale by user's locale

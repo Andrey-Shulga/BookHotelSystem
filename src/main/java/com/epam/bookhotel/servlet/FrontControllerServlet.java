@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.epam.bookhotel.constant.Constants.ACTION;
-import static com.epam.bookhotel.constant.Constants.REDIRECT_PREFIX;
+import static com.epam.bookhotel.constant.ConstantsHolder.ACTION;
+import static com.epam.bookhotel.constant.ConstantsHolder.REDIRECT_PREFIX;
 
 /**
  * Main controller servlet for serving users actions

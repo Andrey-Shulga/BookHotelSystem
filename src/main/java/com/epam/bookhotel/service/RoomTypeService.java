@@ -29,7 +29,7 @@ public class RoomTypeService extends ParentService {
         List<RoomType> roomTypeList;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             RoomTypeDao bedDao = daoFactory.getRoomTypeDao();
-            roomTypeList = bedDao.findByParameters(roomType, parameters, FIND_ALL_ROOM_TYPES, locale);
+            roomTypeList = bedDao.findAllByParameters(roomType, parameters, FIND_ALL_ROOM_TYPES, locale);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

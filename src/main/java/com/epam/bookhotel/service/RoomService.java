@@ -69,7 +69,7 @@ public class RoomService extends ParentService {
         List<Room> roomList;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             RoomDao roomDao = daoFactory.getRoomDao();
-            roomList = roomDao.findByParameters(room, parameters, key, user.getLocale().getLocaleName());
+            roomList = roomDao.findAllByParameters(room, parameters, key, user.getLocale().getLocaleName());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -99,10 +99,12 @@ public class RoomService extends ParentService {
                 //add new room with photo
             } else {
                 daoFactory.beginTx();
+
                 PhotoDao photoDao = daoFactory.getPhotoDao();
                 newPhoto = photoDao.addPhoto(room.getPhoto(), parameters, INSERT_PHOTO_KEY);
                 parameters.add(newPhoto.getId());
                 newRoom = roomDao.save(room, parameters, INSERT_ROOM_WITH_PHOTO_KEY);
+
                 daoFactory.commit();
             }
         } catch (NonUniqueFieldException e) {

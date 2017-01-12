@@ -8,8 +8,8 @@ import com.epam.bookhotel.util.LocaleUpdater;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.epam.bookhotel.constant.Constants.LOCALE;
-import static com.epam.bookhotel.constant.Constants.REDIRECT_PREFIX;
+import static com.epam.bookhotel.constant.ConstantsHolder.LOCALE;
+import static com.epam.bookhotel.constant.ConstantsHolder.REDIRECT_PREFIX;
 
 public class ChangeLocaleAction implements Action {
 

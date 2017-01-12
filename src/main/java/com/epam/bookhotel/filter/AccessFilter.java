@@ -15,8 +15,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.bookhotel.constant.Constants.ACTION;
-import static com.epam.bookhotel.constant.Constants.USER;
+import static com.epam.bookhotel.constant.ConstantsHolder.ACTION;
+import static com.epam.bookhotel.constant.ConstantsHolder.USER;
 
 /**
  * Filter restrict actions with application for users without special rights.

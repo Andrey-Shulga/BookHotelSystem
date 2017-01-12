@@ -2,7 +2,9 @@ package com.epam.bookhotel.service;
 
 import com.epam.bookhotel.dao.DaoFactory;
 import com.epam.bookhotel.dao.OrderDao;
+import com.epam.bookhotel.dao.RoomDao;
 import com.epam.bookhotel.entity.Order;
+import com.epam.bookhotel.entity.Room;
 import com.epam.bookhotel.exception.DaoException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.exception.UnableConfirmOrderException;
@@ -16,12 +18,16 @@ import java.util.List;
  */
 public class OrderService extends ParentService {
 
+    private static final String ORDER_STATUS_UNCONFIRMED = "unconfirmed";
     private static final String FIND_ORDERS_BY_USER_ID = "find.orders.by.user.id";
     private static final String FIND_ALL_ORDERS_KEY = "find.all.orders";
     private static final String FIND_ALL_ORDERS_BY_STATUS_KEY = "find.all.orders.by.status";
     private static final String INSERT_ORDER_KEY = "insert.order";
-    private static final String UPDATE_ORDER_ROOM_NUMBER_KEY = "update.order.room.number";
     private static final String FIND_CONFIRMED_ORDERS_BY_USER_ID_KEY = "find.conf.orders.by.user.id";
+    private static final String FIND_ROOM_BY_NUMBER_KEY = "find.room.by.number";
+    private static final String FIND_ORDER_BY_ORDER_ID_KEY = "find.order.by.order.id";
+    private static final String UPDATE_ORDER_NUMBER_AND_STATUS_KEY = "update.order.number.and.status";
+    private static final String UPDATE_ORDER_FULL_COST_KEY = "update.order.full.cost";
 
     /**
      * Save new order
@@ -118,7 +124,7 @@ public class OrderService extends ParentService {
         List<Order> orderList;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             OrderDao orderDao = daoFactory.getOrderDao();
-            orderList = orderDao.findByParameters(order, parameters, key, order.getUser().getLocale().getLocaleName());
+            orderList = orderDao.findAllByParameters(order, parameters, key, order.getUser().getLocale().getLocaleName());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -126,24 +132,47 @@ public class OrderService extends ParentService {
     }
 
     /**
-     * Update order with room number for confirmation
+     * Confirm user order by room number
      *
      * @param order entity for updating
      * @throws ServiceException if any exception in service occurred
      */
     public void confirmRoomForOrder(Order order) throws ServiceException {
 
-        parameters.add(order.getRoom().getNumber());
-        parameters.add(order.getId());
-        parameters.add(order.getId());
-        parameters.add(order.getRoom().getNumber());
-        parameters.add(order.getRoom().getNumber());
-        parameters.add(order.getId());
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
+            Room room = order.getRoom();
             OrderDao orderDao = daoFactory.getOrderDao();
+            RoomDao roomDao = daoFactory.getRoomDao();
+
             daoFactory.beginTx();
-            orderDao.update(order, parameters, UPDATE_ORDER_ROOM_NUMBER_KEY);
+
+            //search room by its number
+            parameters.add(room.getNumber());
+            room = roomDao.findByParameters(room, parameters, FIND_ROOM_BY_NUMBER_KEY);
+
+            if (room == null) throw new UnableConfirmOrderException();
+
+            //search order by its id and check order status
+            parameters.add(order.getId());
+            order = orderDao.findByParameters(order, parameters, FIND_ORDER_BY_ORDER_ID_KEY);
+            if (!ORDER_STATUS_UNCONFIRMED.equals(order.getStatus().getStatus()))
+                throw new UnableConfirmOrderException();
+            order.setRoom(room);
+
+            //set order room number and status
+            parameters.add(order.getRoom().getNumber());
+            parameters.add(order.getId());
+            orderDao.update(order, parameters, UPDATE_ORDER_NUMBER_AND_STATUS_KEY);
+
+            //update order full cost for select room number on all booking days
+            parameters.add(order.getCheckOut());
+            parameters.add(order.getCheckIn());
+            parameters.add(order.getRoom().getPrice());
+            parameters.add(order.getId());
+            orderDao.update(order, parameters, UPDATE_ORDER_FULL_COST_KEY);
+
             daoFactory.commit();
+
         } catch (UnableUpdateFieldException e) {
 
             throw new UnableConfirmOrderException(e);

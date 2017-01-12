@@ -14,7 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import static com.epam.bookhotel.constant.Constants.TIMEOUT_1_SEC_CHECK_CONNECTION;
+import static com.epam.bookhotel.constant.ConstantsHolder.TIMEOUT_1_SEC_CHECK_CONNECTION;
 
 /**
  * Pool keeps connections with database.

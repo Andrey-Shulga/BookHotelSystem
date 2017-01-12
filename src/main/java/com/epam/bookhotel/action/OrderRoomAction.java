@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * User action for booking room in hotel.

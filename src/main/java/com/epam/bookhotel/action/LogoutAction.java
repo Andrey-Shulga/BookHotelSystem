@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.epam.bookhotel.constant.Constants.USER;
+import static com.epam.bookhotel.constant.ConstantsHolder.USER;
 
 /**
  * This action logout user by invalidate user's session and return it on main page.

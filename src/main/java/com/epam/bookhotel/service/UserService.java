@@ -7,8 +7,6 @@ import com.epam.bookhotel.entity.User;
 import com.epam.bookhotel.exception.*;
 import com.epam.bookhotel.util.PasswordStorage;
 
-import java.util.List;
-
 /**
  * Service serves operation with entity User
  */
@@ -65,21 +63,18 @@ public class UserService extends ParentService {
     public User login(User user) throws ServiceException {
 
         parameters.add(user.getLogin());
-        final int FOUND_USER_FIST_INDEX = 0;
         final String testPassword = user.getPassword();
-        List<User> usersList;
         User foundUser;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             UserDao userDao = daoFactory.getUserDao();
-            usersList = userDao.findByParameters(user, parameters, FIND_LOGIN_USER_KEY, user.getLocale().getLocaleName());
-            foundUser = usersList.get(FOUND_USER_FIST_INDEX);
+            foundUser = userDao.findByParameters(user, parameters, FIND_LOGIN_USER_KEY);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         final String correctHash = foundUser.getPassword();
         try {
             //check entered password with found hash password
-            if ((usersList.isEmpty()) || (!PasswordStorage.verifyPassword(testPassword, correctHash))) {
+            if ((foundUser.getId() == null) || (!PasswordStorage.verifyPassword(testPassword, correctHash))) {
                 throw new UserNotFoundException();
             }
         } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException | UserNotFoundException e) {

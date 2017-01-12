@@ -11,10 +11,18 @@ public class UnableConfirmOrderException extends ServiceException {
 
     private static final Logger logger = LoggerFactory.getLogger(UnableConfirmOrderException.class);
     private static final String CONFIRM_ORDER_ERROR_MSG = "confirm.order.error.message";
+    private static final String LOG_ERROR_MSG = "Unable confirm order.";
+
 
     public UnableConfirmOrderException(Exception e) {
 
         super(CONFIRM_ORDER_ERROR_MSG, e);
-        logger.error("Unable update filed for order confirmation.", e);
+        logger.error(LOG_ERROR_MSG, e);
+    }
+
+    public UnableConfirmOrderException() {
+
+        super(CONFIRM_ORDER_ERROR_MSG);
+        logger.error(LOG_ERROR_MSG);
     }
 }

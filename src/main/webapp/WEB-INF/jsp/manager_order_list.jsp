@@ -97,11 +97,11 @@
             <br><br>
 
             <label><b><fmt:message key="orders.manager.form.select.room.id"/></b></label>
-            <input type="text" name="roomId" id="inputRoomNumber" maxlength="4"
+            <input type="text" name="roomNumber" id="inputRoomNumber" maxlength="4"
                    onkeyup="this.value = this.value.replace(/[^0-9]/g, '');"
-                   value="${sessionScope.roomId}" minlength="1" min="1" max="2147483647" placeholder="" required>
+                   value="${sessionScope.roomNumber}" minlength="1" min="1" max="2147483647" placeholder="" required>
 
-            <t:output-errors errors="${roomIdErrorMessages}"/>
+            <t:output-errors errors="${roomNumberErrorMessages}"/>
             <br><br>
 
             <button type="submit"><fmt:message key="orders.manager.form.select.button.submit"/></button>

@@ -1,6 +1,6 @@
 package com.epam.bookhotel.constant;
 
-public final class Constants {
+public final class ConstantsHolder {
 
     public static final String ACTION = "action";
     public static final String ERROR_MESSAGES_POSTFIX = "ErrorMessages";
@@ -15,7 +15,6 @@ public final class Constants {
     public static final String ROOM_TYPE = "roomType";
     public static final String ROOMS = "rooms";
     public static final String ORDERS = "orders";
-    public static final String BLANK_LOCALE = "";
     public static final int COLUMN_INDEX_1 = 1;
     public static final int COLUMN_INDEX_2 = 2;
     public static final int COLUMN_INDEX_3 = 3;
@@ -34,7 +33,7 @@ public final class Constants {
     public static final int TIMEOUT_1_SEC_CHECK_CONNECTION = 1;
     public static final int ZERO = 0;
 
-    private Constants() {
+    private ConstantsHolder() {
     }
 
 }

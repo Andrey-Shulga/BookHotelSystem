@@ -6,10 +6,6 @@ import com.epam.bookhotel.entity.Photo;
 import com.epam.bookhotel.exception.DaoException;
 import com.epam.bookhotel.exception.ServiceException;
 
-import java.util.List;
-
-import static com.epam.bookhotel.constant.Constants.BLANK_LOCALE;
-
 /**
  * Service serves operation with entity Photo
  */
@@ -28,13 +24,10 @@ public class ImageService extends ParentService {
     public Photo findPhotoById(Photo photo) throws ServiceException {
 
         parameters.add(photo.getId());
-        final int FOUND_PHOTO_FIST_INDEX = 0;
-        List<Photo> photoList;
         Photo foundPhoto;
         try (DaoFactory daoFactory = DaoFactory.createJdbcDaoFactory()) {
             PhotoDao photoDao = daoFactory.getPhotoDao();
-            photoList = photoDao.findByParameters(photo, parameters, FIND_PHOTO_BY_ID_KEY, BLANK_LOCALE);
-            foundPhoto = photoList.get(FOUND_PHOTO_FIST_INDEX);
+            foundPhoto = photoDao.findByParameters(photo, parameters, FIND_PHOTO_BY_ID_KEY);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

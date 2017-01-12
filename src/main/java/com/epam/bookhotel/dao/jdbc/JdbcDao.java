@@ -15,7 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.bookhotel.constant.Constants.ZERO;
+import static com.epam.bookhotel.constant.ConstantsHolder.ZERO;
 
 /**
  * Abstract DAO for CRUD operations
@@ -123,9 +123,9 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
      * @throws JdbcDaoException if any exceptions occurred with jdbc operations
      */
     @Override
-    public List<T> findByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException {
+    public List<T> findAllByParameters(T entity, List<Object> parameters, String key, String locale) throws JdbcDaoException {
 
-        logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
+        logger.debug("{} trying to FIND entities \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
         try {
             PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
             query = pm.getPropertyKey(key);
@@ -147,6 +147,36 @@ abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
 
         return entities;
+    }
+
+    /**
+     * General method for operation "searching" single entity to database
+     *
+     * @param entity     the entity which need finds in database
+     * @param parameters the list of parameters for prepare PrepareStatements
+     * @param key        property key for reading update query from property file
+     * @return found entity
+     * @throws JdbcDaoException if any exceptions occurred with jdbc operations
+     */
+    @Override
+    public T findByParameters(T entity, List<Object> parameters, String key) throws JdbcDaoException {
+
+        logger.debug("{} trying to FIND entity \"{}\" in database...", this.getClass().getSimpleName(), entity.getClass().getSimpleName());
+        try {
+            PropertyManager pm = new PropertyManager(QUERY_PROPERTY_FILE);
+            query = pm.getPropertyKey(key);
+        } catch (PropertyManagerException e) {
+            throw new JdbcDaoException(e);
+        }
+        T newEntity = null;
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            setParametersToPs(parameters, ps);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) newEntity = setRsToField(rs, entity);
+        } catch (SQLException e) {
+            throw new JdbcDaoException(e);
+        }
+        return newEntity;
     }
 
     /**

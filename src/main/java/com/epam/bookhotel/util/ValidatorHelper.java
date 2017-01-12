@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.bookhotel.constant.Constants.ERROR_MESSAGES_POSTFIX;
+import static com.epam.bookhotel.constant.ConstantsHolder.ERROR_MESSAGES_POSTFIX;
 
 /**
  * Utility for serves from validation

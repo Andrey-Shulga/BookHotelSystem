@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.bookhotel.constant.Constants.*;
+import static com.epam.bookhotel.constant.ConstantsHolder.*;
 
 /**
  * Action for registration user in application
