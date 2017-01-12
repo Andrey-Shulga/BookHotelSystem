@@ -149,22 +149,21 @@ public class OrderService extends ParentService {
             //search room by its number
             parameters.add(room.getNumber());
             room = roomDao.findByParameters(room, parameters, FIND_ROOM_BY_NUMBER_KEY);
-
             if (room == null) throw new UnableConfirmOrderException();
 
             //search order by its id and check order status
             parameters.add(order.getId());
             order = orderDao.findByParameters(order, parameters, FIND_ORDER_BY_ORDER_ID_KEY);
-            if (!ORDER_STATUS_UNCONFIRMED.equals(order.getStatus().getStatus()))
+            if (order == null || !ORDER_STATUS_UNCONFIRMED.equals(order.getStatus().getStatus()))
                 throw new UnableConfirmOrderException();
             order.setRoom(room);
 
-            //set order room number and status
+            //set order's room number and status
             parameters.add(order.getRoom().getNumber());
             parameters.add(order.getId());
             orderDao.update(order, parameters, UPDATE_ORDER_NUMBER_AND_STATUS_KEY);
 
-            //update order full cost for select room number on all booking days
+            //update order full cost for selected room number on all booking days
             parameters.add(order.getCheckOut());
             parameters.add(order.getCheckIn());
             parameters.add(order.getRoom().getPrice());

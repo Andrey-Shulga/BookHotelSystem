@@ -36,7 +36,7 @@ public class ImageServlet extends HttpServlet {
             ImageService service = new ImageService();
             try {
                 Photo foundPhoto = service.findPhotoById(photo);
-                if (foundPhoto.getImageStream() != null) {
+                if (foundPhoto != null && foundPhoto.getImageStream() != null) {
                     resp.reset();
                     resp.setContentType(foundPhoto.getContentType());
                     resp.setContentLengthLong(foundPhoto.getContentLength());

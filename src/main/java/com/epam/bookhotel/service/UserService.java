@@ -71,7 +71,9 @@ public class UserService extends ParentService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        if (foundUser == null) throw new UserNotFoundException();
         final String correctHash = foundUser.getPassword();
+        System.out.println("hash" + correctHash);
         try {
             //check entered password with found hash password
             if ((foundUser.getId() == null) || (!PasswordStorage.verifyPassword(testPassword, correctHash))) {
