@@ -31,4 +31,9 @@ public class DaoException extends Exception {
 
         super();
     }
+
+    DaoException(String logErrorMsg) {
+
+        super(logErrorMsg);
+    }
 }

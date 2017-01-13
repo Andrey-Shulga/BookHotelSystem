@@ -16,17 +16,19 @@ public class JdbcDaoException extends DaoException {
     public JdbcDaoException(Exception e) {
 
         super(DB_CONNECT_ERROR_MSG, e);
-        logger.error(LOG_ERROR_MSG, e);
+
 
     }
 
     JdbcDaoException(String message, Exception e) {
 
         super(message, e);
-        logger.error(LOG_ERROR_MSG, e);
+
     }
 
-    JdbcDaoException() {
-        super();
+
+    JdbcDaoException(String logErrorMsg) {
+
+        super(logErrorMsg);
     }
 }
