@@ -10,7 +10,7 @@
 <t:genericpage title="${title}">
     <jsp:body>
 
-        <b><fmt:message key="access.error.message.label"/></b> <fmt:message key="database.connection.failure.msg"/><br>
+        <b><fmt:message key="access.error.message.label"/></b> <fmt:message key="internal.error.failure.msg"/><br>
         <b> <fmt:message key="access.error.code.label"/></b> ${pageContext.errorData.statusCode}<br>
         <hr>
 

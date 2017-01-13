@@ -2,6 +2,7 @@ package com.epam.bookhotel.dao.jdbc;
 
 import com.epam.bookhotel.dao.*;
 import com.epam.bookhotel.exception.ConnectionPoolException;
+import com.epam.bookhotel.exception.DaoException;
 import com.epam.bookhotel.exception.JdbcDaoException;
 import com.epam.bookhotel.pool.ConnectionPool;
 import org.slf4j.Logger;
@@ -21,13 +22,13 @@ public class JdbcDaoFactory extends DaoFactory {
     private static ConnectionPool pool;
     private Connection connection;
 
-    public JdbcDaoFactory() throws JdbcDaoException {
+    public JdbcDaoFactory() throws DaoException {
 
         try {
             this.connection = pool.getConnection();
 
         } catch (ConnectionPoolException e) {
-            throw new JdbcDaoException(e);
+            throw new DaoException(e);
         }
     }
 

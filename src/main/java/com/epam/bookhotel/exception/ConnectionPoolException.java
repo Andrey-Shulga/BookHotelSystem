@@ -19,12 +19,6 @@ public class ConnectionPoolException extends Exception {
         logger.error(LOG_ERROR_MSG, e);
     }
 
-    public ConnectionPoolException(String message, Exception e) {
-
-        super(message, e);
-        logger.error(LOG_ERROR_MSG, e);
-    }
-
     public ConnectionPoolException(String message) {
 
         super(message);

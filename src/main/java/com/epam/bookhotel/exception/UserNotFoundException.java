@@ -15,6 +15,6 @@ public class UserNotFoundException extends ServiceException {
     public UserNotFoundException() {
 
         super(USER_NOT_FOUND_ERROR_MSG);
-        logger.error("User not found.");
+        logger.error("User not found or password incorrect.");
     }
 }

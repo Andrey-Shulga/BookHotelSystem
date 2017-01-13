@@ -6,11 +6,10 @@ package com.epam.bookhotel.exception;
 
 public class UserExistException extends ServiceException {
 
-
     private static final String USER_EXIST_ERROR_MSG = "register.error.message.exist";
 
 
-    public UserExistException(Exception e) {
+    public UserExistException(NonUniqueFieldException e) {
 
         super(USER_EXIST_ERROR_MSG, e);
 
