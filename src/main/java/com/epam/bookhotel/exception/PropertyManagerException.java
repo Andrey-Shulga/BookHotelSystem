@@ -13,12 +13,11 @@ import java.io.IOException;
 public class PropertyManagerException extends Exception {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertyManagerException.class);
-    private static final String LOG_ERROR_MSG = "PropertyManagerException occurred";
 
     public PropertyManagerException(IOException e) {
 
         super(e);
-        logger.error(LOG_ERROR_MSG, e);
+        logger.error("PropertyManagerException occurred", e);
     }
 
 

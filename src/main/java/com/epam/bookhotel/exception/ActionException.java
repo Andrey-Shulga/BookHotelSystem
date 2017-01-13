@@ -11,11 +11,10 @@ import org.slf4j.LoggerFactory;
 public class ActionException extends Exception {
 
     private static final Logger logger = LoggerFactory.getLogger(ActionException.class);
-    private static final String LOG_ERROR_MSG = "ActionException occurred";
 
     public ActionException(Exception e) {
 
         super(e);
-        logger.error(LOG_ERROR_MSG, e);
+        logger.error("ActionException occurred", e);
     }
 }

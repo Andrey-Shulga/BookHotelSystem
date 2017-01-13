@@ -15,6 +15,6 @@ public class RoomExistException extends ServiceException {
     public RoomExistException(Exception e) {
 
         super(ROOM_EXIST_ERROR_MSG, e);
-        logger.error("Room is already exist.", e);
+        logger.error("Room is already exist.");
     }
 }

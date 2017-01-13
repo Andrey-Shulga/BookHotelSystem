@@ -42,6 +42,7 @@ public class ActionFactory {
      */
 
     public Action getAction(String actionName) throws ActionFactoryException {
+
         Action action;
         String actionClassName = actionProperties.getProperty(actionName);
         try {
