@@ -24,6 +24,6 @@ public class PropertyManagerException extends Exception {
     public PropertyManagerException(String message) {
 
         super(message);
-        logger.error(message);
+
     }
 }

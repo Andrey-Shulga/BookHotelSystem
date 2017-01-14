@@ -13,14 +13,16 @@ import java.util.Properties;
 
 public class PropertyManager {
 
-    private static final String PROPERTY_NOT_LOADED_ERROR_MESSAGE = "Properties not loaded.";
     private Properties properties;
 
     public PropertyManager(String propertyFileName) throws PropertyManagerException {
 
-        properties = new Properties();
         try (InputStream in = PropertyManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
-            properties.load(in);
+            if (in != null) {
+                properties = new Properties();
+                properties.load(in);
+            } else
+                throw new PropertyManagerException(String.format("Can't open file \"%s\" for loading properties", propertyFileName));
         } catch (IOException e) {
             throw new PropertyManagerException(e);
         }
@@ -28,11 +30,15 @@ public class PropertyManager {
 
     public String getPropertyKey(String key) throws PropertyManagerException {
 
-        if (properties == null) throw new PropertyManagerException(PROPERTY_NOT_LOADED_ERROR_MESSAGE);
-        return properties.getProperty(key);
+        String value;
+        if (properties.containsKey(key)) value = properties.getProperty(key);
+        else
+            throw new PropertyManagerException(String.format("Property key \"%s\" not found in properties", key));
+        return value;
     }
 
     public Properties getProperties() {
+
         return properties;
     }
 

@@ -24,8 +24,8 @@ import static com.epam.bookhotel.constant.ConstantsHolder.TIMEOUT_1_SEC_CHECK_CO
 
 public class ConnectionPool {
 
-    private static final String DB_PROPERTY_FILE_NAME = "database.properties";
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
+    private static final String DB_PROPERTY_FILE_NAME = "database.properties";
     private static final String JDBC_DRIVERS_KEY = "jdbc.drivers";
     private static final String JDBC_URL_KEY = "jdbc.url";
     private static final String JDBC_USERNAME_KEY = "jdbc.username";

@@ -5,8 +5,6 @@ import com.epam.bookhotel.exception.ActionFactoryException;
 import com.epam.bookhotel.exception.PropertyManagerException;
 import com.epam.bookhotel.util.PropertyManager;
 
-import java.util.Properties;
-
 /**
  * Factory for the production actions
  */
@@ -14,7 +12,7 @@ import java.util.Properties;
 public class ActionFactory {
 
     private static final String ACTION_PROPERTY_FILE_NAME = "action.properties";
-    private Properties actionProperties;
+    private PropertyManager propertyManager;
 
     /**
      * Load available actions from property file
@@ -23,13 +21,11 @@ public class ActionFactory {
      */
     public void loadActions() throws ActionFactoryException {
 
-        PropertyManager propertyManager;
         try {
             propertyManager = new PropertyManager(ACTION_PROPERTY_FILE_NAME);
         } catch (PropertyManagerException e) {
             throw new ActionFactoryException(e);
         }
-        actionProperties = propertyManager.getProperties();
 
     }
 
@@ -40,15 +36,14 @@ public class ActionFactory {
      * @return Action from property
      * @throws ActionFactoryException general exceptions throws on any caught exceptions in factory
      */
-
     public Action getAction(String actionName) throws ActionFactoryException {
 
         Action action;
-        String actionClassName = actionProperties.getProperty(actionName);
         try {
+            String actionClassName = propertyManager.getPropertyKey(actionName);
             Class actionClass = Class.forName(actionClassName);
             action = (Action) actionClass.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | PropertyManagerException e) {
             throw new ActionFactoryException(e);
         }
         return action;
