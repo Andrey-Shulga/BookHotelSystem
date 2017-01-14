@@ -3,7 +3,6 @@ package com.epam.bookhotel.action;
 import com.epam.bookhotel.entity.Order;
 import com.epam.bookhotel.entity.OrderStatus;
 import com.epam.bookhotel.entity.User;
-import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.service.OrderService;
 
@@ -23,7 +22,7 @@ public class ShowInvoiceUserAction implements Action {
     private static final String ORDERS_STATUS_CONFIRMED = "confirmed";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
 
         final User user = (User) req.getSession().getAttribute(USER);
         final Order order = new Order();

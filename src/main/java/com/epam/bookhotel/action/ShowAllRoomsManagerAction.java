@@ -33,11 +33,7 @@ public class ShowAllRoomsManagerAction implements Action {
         }
 
         ShowOrderFormAction action = new ShowOrderFormAction();
-        try {
-            action.execute(req, res);
-        } catch (ActionException e) {
-            throw new ActionException(e);
-        }
+        action.execute(req, res);
 
         return ROOM_LIST;
     }

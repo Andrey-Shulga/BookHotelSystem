@@ -2,7 +2,6 @@ package com.epam.bookhotel.action;
 
 import com.epam.bookhotel.entity.User;
 import com.epam.bookhotel.entity.UserLocale;
-import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.service.UserService;
 import com.epam.bookhotel.util.SessionHelper;
@@ -26,7 +25,7 @@ public class LoginAction implements Action {
     private static final String LOGIN_BUTTON = "loginButton";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
 
         String login = req.getParameter(LOGIN);
         SessionHelper.saveParamToSession(req, LOGIN, login);

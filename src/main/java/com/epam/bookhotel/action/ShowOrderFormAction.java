@@ -3,7 +3,6 @@ package com.epam.bookhotel.action;
 import com.epam.bookhotel.entity.Bed;
 import com.epam.bookhotel.entity.RoomType;
 import com.epam.bookhotel.entity.User;
-import com.epam.bookhotel.exception.ActionException;
 import com.epam.bookhotel.exception.ServiceException;
 import com.epam.bookhotel.service.BedService;
 import com.epam.bookhotel.service.RoomTypeService;
@@ -25,7 +24,7 @@ public class ShowOrderFormAction implements Action {
     private static final String ROOM_TYPE_LIST = "roomTypeList";
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
 
         final User user = (User) req.getSession().getAttribute(USER);
 
