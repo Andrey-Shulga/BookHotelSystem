@@ -7,13 +7,17 @@ Administrator looks application and allocates the most appropriate of the availa
 DB schema:
 http://dbdesigner.net/designer/schema/58775
 
-User cases:
+Anonymous user cases:
 1. Registration in system.
 2. Authorization in system.
-3. Make order for booking room.
-4. Review own orders.
-5. Review confirmation for his orders with total cost and room photo.
-6. Change interface language.
+3. Change interface language.
+
+User cases:
+1. Make order for booking room.
+2. Review own orders.
+3. Review confirmation for his orders with total cost and room photo.
+4. Change interface language.
+5. Logout
 
 Manager cases:
 1. Authorization in system.
@@ -24,3 +28,4 @@ Manager cases:
 6. Review all rooms in Hotel.
 7. Add new room in database with or without photo.
 8. Change interface language.
+9. Logout
