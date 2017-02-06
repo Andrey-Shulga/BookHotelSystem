@@ -20,6 +20,9 @@ public class ValidatorHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidatorHelper.class);
 
+    private ValidatorHelper() {
+    }
+
     /**
      * Validate form by rules
      *

@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieHelper {
 
+    private CookieHelper() {
+    }
+
     public static Cookie findParameter(HttpServletRequest req, String parameter) {
 
         Cookie[] cookies = req.getCookies();

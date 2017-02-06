@@ -16,6 +16,9 @@ public class DateConverter {
     private static final String DATE_PATTERN = "dd/MM/yyyy";
     private static final ThreadLocal<DateFormat> DATE_CACHE_FORMAT = new ThreadLocal<>();
 
+    private DateConverter() {
+    }
+
     /**
      * Convert received parameter from date to string type
      *

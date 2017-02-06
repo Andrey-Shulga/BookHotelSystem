@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SessionHelper {
 
+    private SessionHelper() {
+    }
+
     /**
      * Save field's value to session
      *

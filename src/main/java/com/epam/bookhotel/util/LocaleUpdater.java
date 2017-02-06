@@ -21,6 +21,9 @@ public class LocaleUpdater {
 
     private static final Logger logger = LoggerFactory.getLogger(LocaleUpdater.class);
 
+    private LocaleUpdater() {
+    }
+
     /**
      * Save user locale to database and session.
      *

@@ -27,6 +27,9 @@ public class PasswordStorage {
     private static final int PBKDF2_INDEX = 4;
     private static final String ALGORITHM_NAME = "sha1:";
 
+    private PasswordStorage() {
+    }
+
     public static String createHash(String password) throws CannotPerformOperationException {
         return createHash(password.toCharArray());
     }
