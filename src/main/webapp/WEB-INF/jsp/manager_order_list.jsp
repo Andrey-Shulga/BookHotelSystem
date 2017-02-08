@@ -124,7 +124,7 @@
 
         <form action="/do/?action=show-free-room-on-date" method="post">
             <label><b><fmt:message key="orders.manager.form.select.date.chekIn"/></b></label>
-            <input type="date" readonly id="from" name="checkIn" placeholder="" value="${sessionScope.checkIn}"
+            <input type="text" readonly id="from" name="checkIn" placeholder="" value="${sessionScope.checkIn}"
                    required autofocus>
             <small><fmt:message key="orders.manager.form.select.date.chekIn.rules"/></small>
 
@@ -132,7 +132,7 @@
             <br><br>
 
             <label><b><fmt:message key="orders.manager.form.select.date.chekOut"/></b></label>
-            <input type="date" readonly id="to" name="checkOut" value="${sessionScope.checkOut}" placeholder=""
+            <input type="text" readonly id="to" name="checkOut" value="${sessionScope.checkOut}" placeholder=""
                    required>
             <small><fmt:message key="orders.manager.form.select.date.chekOut.rules"/></small>
 
