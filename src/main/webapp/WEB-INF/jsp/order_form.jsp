@@ -53,14 +53,14 @@
             <label><b><fmt:message key="order.make.form.checkin"/></b></label>
             <small><fmt:message key="order.make.form.checkin.rule"/></small>
             <br>
-            <input type="date" readonly name="checkIn" id="from" required value="${sessionScope.checkIn}">
+            <input type="text" readonly name="checkIn" id="from" required value="${sessionScope.checkIn}">
             <t:output-errors errors="${checkInErrorMessages}"/>
             <br><br>
 
             <label><b><fmt:message key="order.make.form.checkout"/></b></label>
             <small><fmt:message key="order.make.form.checkout.rule"/></small>
             <br>
-            <input type="date" readonly name="checkOut" id="to" required value="${sessionScope.checkOut}">
+            <input type="text" readonly name="checkOut" id="to" required value="${sessionScope.checkOut}">
             <t:output-errors errors="${checkOutErrorMessages}"/>
             <br><br>
 
